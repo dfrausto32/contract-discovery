@@ -1,0 +1,87 @@
+# Construction Discovery — Search Configuration
+# Edit these values before running discovery.py
+
+geography:
+  # Primary metro or region for your search
+  primary: "Denver, Colorado"
+  # Additional regions (leave empty list if only one)
+  additional:
+    - "Colorado Springs, Colorado"
+    - "Boulder, Colorado"
+  # Used for relevance scoring — contacts in primary get a score boost
+  local_boost: true
+
+titles:
+  # Highest priority — these map to owner_priority scoring
+  owner_tier:
+    - "Owner"
+    - "Co-Owner"
+    - "Founder"
+    - "President"
+    - "Principal"
+  # High priority — decision makers
+  operator_tier:
+    - "Vice President"
+    - "Director of Operations"
+    - "General Manager"
+    - "Operations Manager"
+    - "Project Executive"
+  # Medium priority — influencers
+  manager_tier:
+    - "Project Manager"
+    - "Superintendent"
+    - "Estimator"
+    - "Business Development Manager"
+
+company_size:
+  # Employees — highest priority band
+  sweet_spot_min: 5
+  sweet_spot_max: 50
+  # Acceptable but lower score
+  acceptable_min: 2
+  acceptable_max: 200
+
+construction_subtypes:
+  # Maps to scoring weights — higher weight = higher score contribution
+  - name: "General Contractor"
+    weight: 10
+    keywords: ["general contractor", "GC", "general contracting"]
+  - name: "Subcontractor"
+    weight: 7
+    keywords: ["subcontractor", "sub-contractor", "specialty contractor"]
+  - name: "Electrical"
+    weight: 6
+    keywords: ["electrical", "electrician", "electrical contractor"]
+  - name: "Plumbing"
+    weight: 6
+    keywords: ["plumbing", "plumber", "mechanical contractor"]
+  - name: "HVAC"
+    weight: 6
+    keywords: ["HVAC", "heating and cooling", "mechanical"]
+  - name: "Concrete"
+    weight: 5
+    keywords: ["concrete", "masonry", "foundation"]
+  - name: "Framing"
+    weight: 5
+    keywords: ["framing", "carpentry", "wood framing"]
+  - name: "Roofing"
+    weight: 5
+    keywords: ["roofing", "roofer", "roof contractor"]
+  - name: "Excavation"
+    weight: 4
+    keywords: ["excavation", "grading", "earthwork", "site prep"]
+
+search:
+  # Max URLs to generate per discovery session
+  max_urls_per_session: 10
+  # LinkedIn base search URL (manual use only — no automation)
+  linkedin_people_search: "https://www.linkedin.com/search/results/people/"
+  linkedin_company_search: "https://www.linkedin.com/search/results/companies/"
+
+# Discord webhook for future automation integration
+# Set via environment variable DISCORD_WEBHOOK_URL — do not hardcode here
+notifications:
+  discord_enabled: false
+  # Weekly plan delivery day (0=Monday, 6=Sunday)
+  weekly_plan_day: 0
+  weekly_plan_time: "08:00"
