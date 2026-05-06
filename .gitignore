@@ -8,8 +8,8 @@ build/
 venv/
 env/
 
-# Database — never commit real contact data
-data/contacts.db
+# Uncomment the line below to stop tracking the database (local-only mode)
+# data/contacts.db
 
 # Environment / secrets
 .env
