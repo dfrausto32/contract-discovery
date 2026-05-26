@@ -14,9 +14,13 @@ def stage1_score(rec: dict, config: dict) -> dict:
     keyword appears; such records are dropped regardless of score.
     """
     rel = config["relevance"]
-    text = f"{rec.get('title', '')} {rec.get('description_text') or ''}".lower()
+    title = (rec.get("title") or "").lower()
+    text = f"{title} {(rec.get('description_text') or '').lower()}"
 
-    matched_exclude = [k for k in rel["exclude_keywords"] if k in text]
+    # Exclude on the title only. Junk categories (janitorial, landscaping, ...)
+    # show up in the title, but a legitimate notice may mention these words in
+    # passing in its body, so matching excludes against the body over-filters.
+    matched_exclude = [k for k in rel["exclude_keywords"] if k in title]
     if matched_exclude:
         return {"score": 0, "excluded": True, "matched": matched_exclude}
 

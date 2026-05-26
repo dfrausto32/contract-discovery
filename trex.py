@@ -152,6 +152,12 @@ def run(dry_run: bool, lookback: int, limit: int):
             continue
         counts["new"] += 1
 
+        # Fetch the full notice body up front so stage-1 keyword matching sees
+        # the description, not just the terse SAM title (titles rarely contain
+        # the domain terms, so title-only matching filters out almost everything).
+        rec["description_text"] = sam_client.fetch_description(
+            config, api_key, rec["description_link"]
+        )
         s1 = relevance.stage1_score(rec, config)
         if s1["excluded"]:
             counts["excluded"] += 1
@@ -164,10 +170,6 @@ def run(dry_run: bool, lookback: int, limit: int):
                 store.record(conn, rec, "skipped_stage1", s1["score"], None, False, None)
             continue
 
-        # Survivor: fetch full text, then run the AI stage.
-        rec["description_text"] = sam_client.fetch_description(
-            config, api_key, rec["description_link"]
-        )
         result = ai_fit.evaluate_and_write(rec, config, s1)
 
         keep = (not result["ai_generated"]) or result["ai_score"] >= ai_threshold
