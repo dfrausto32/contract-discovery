@@ -301,3 +301,71 @@ construction-discovery/
 - **Don't overthink the relevance score.** The algorithm gets you 80% of the way. Use `--relevance-override` for the gut-feel cases.
 - **Run `planner.py progress` mid-week.** It keeps you honest on the 8-contact commitment.
 - **The database compounds.** After 4–6 weeks you'll have enough pipeline to see response rate patterns by subtype and company size.
+
+---
+
+# SAM.gov TReX Opportunity Discovery
+
+A second tool in this repo (independent of the LinkedIn workflow above) that pulls
+federal contract opportunities from the **official SAM.gov Opportunities API** and
+generates a per-contract writeup of how **TReX** — BlackHorse Solutions' (a Parsons
+company) electronic-warfare / spectrum-sensing / signal-detection product — fits each
+one. It runs daily via GitHub Actions, prioritizes the most recently posted notices,
+and never repeats a contract.
+
+## How it works
+
+1. **Pull** — `sam_client.py` queries the SAM.gov Opportunities API v2 over a short
+   posted-date window (default 3 days), one request per configured NAICS code, keeping
+   only active pre-award notice types (Solicitation, Combined Synopsis, Presolicitation,
+   Sources Sought), newest first.
+2. **Dedup** — `store.py` records every evaluated notice in `data/trex_seen.db` keyed by
+   SAM notice id, so contracts are never processed or written twice.
+3. **Stage 1 (keywords)** — `relevance.py` scores each new notice from config-driven
+   NAICS + keyword signals and drops obvious noise.
+4. **Stage 2 (AI)** — `ai_fit.py` sends survivors to a pluggable AI provider (Claude by
+   default, OpenAI optional) which returns a 0–100 relevance score **and** the fit
+   writeup. Without an AI key it falls back to a deterministic template so the pipeline
+   still runs.
+5. **Write** — kept opportunities land in `opportunities/<posted-date>__<noticeId>/`
+   (`README.md` + `opportunity.json`) and `opportunities/INDEX.md` is rebuilt newest-first.
+
+## Setup
+
+1. Generate a free API key from your SAM.gov **Account Details** page.
+2. Add repository secrets: **`SAM_API_KEY`** (required) and one of
+   **`ANTHROPIC_API_KEY`** / **`OPENAI_API_KEY`** (optional — selects the AI provider via
+   `ai.provider` in `trex_config.yaml`).
+3. Record when you activated the key so expiry can be tracked:
+   `python trex.py set-key-date 2026-05-25` (commit the resulting `data/key_meta.json`).
+
+## Commands
+
+```bash
+python trex.py run                 # daily pull + doc generation (used by CI)
+python trex.py run --dry-run       # evaluate and print, write nothing
+python trex.py health              # SAM.gov key liveness + days until expiry
+python trex.py set-key-date DATE   # record key activation date
+python trex.py list                # list kept opportunities, newest first
+python trex.py stats               # evaluation counts by disposition
+```
+
+## Key health
+
+SAM.gov API keys expire ~90 days after creation and the API does not expose the expiry
+date. `trex.py health` runs a liveness probe (catching an expired/invalid key) and, using
+the activation date in `data/key_meta.json`, reports days remaining — warning when fewer
+than `key_health.warn_within_days` (default 10) are left. The daily workflow writes this
+to the **GitHub Actions job summary** on every run.
+
+## Automation
+
+`.github/workflows/trex-daily.yml` runs at 08:00 UTC daily (and on manual dispatch):
+checks key health, pulls + generates docs, then commits new opportunity folders, the
+index, and the dedup DB back to the branch.
+
+## Tuning
+
+Everything lives in `trex_config.yaml` — NAICS codes, boost/include/exclude keywords,
+score thresholds, notice types, lookback window, AI provider/model, and the key-expiry
+warning threshold.

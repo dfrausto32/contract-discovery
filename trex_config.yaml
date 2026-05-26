@@ -1,0 +1,106 @@
+# SAM.gov TReX Opportunity Discovery — configuration
+#
+# TReX is BlackHorse Solutions' (a Parsons company) electronic-warfare product:
+# automated spectrum sensing, signal detection, and ML-driven EW. The criteria
+# below decide which federal contract opportunities get surfaced and turned into
+# a "how TReX fits" writeup. Everything here is safe to tune.
+
+sam:
+  # Opportunities API v2 endpoint. Override only if GSA changes it.
+  base_url: "https://api.sam.gov/opportunities/v2/search"
+  # Endpoint used to fetch the full text body of a notice.
+  description_url: "https://api.sam.gov/opportunities/v1/noticedesc"
+  # How many days back from today to scan each run. 3 catches late-indexed posts
+  # without re-processing a large window (dedup handles overlap anyway).
+  lookback_days: 3
+  # Page size per API request (API max is 1000).
+  page_size: 100
+  # Notice types to keep (active pre-award only). Matched against SAM's `type`
+  # label on each record.
+  notice_types:
+    - "Solicitation"
+    - "Combined Synopsis/Solicitation"
+    - "Presolicitation"
+    - "Sources Sought"
+  # NAICS codes that map to TReX's domain. One query is issued per code, then
+  # results are merged and de-duplicated by notice id.
+  naics:
+    - "334220"  # Radio/TV broadcasting & wireless comms equipment mfg
+    - "334290"  # Other communications equipment mfg
+    - "334511"  # Search, detection, navigation, guidance instruments
+    - "541330"  # Engineering services
+    - "541512"  # Computer systems design
+    - "541519"  # Other computer-related services (cyber)
+    - "541715"  # R&D in physical, engineering & life sciences
+
+relevance:
+  # --- Stage 1: deterministic keyword / NAICS pre-filter ---
+  # Strong TReX-fit signals. Each distinct hit adds boost_weight.
+  boost_keywords:
+    - "electronic warfare"
+    - "electromagnetic spectrum"
+    - "emso"
+    - "spectrum sensing"
+    - "signal detection"
+    - "sigint"
+    - "signals intelligence"
+    - "electronic attack"
+    - "electronic support"
+    - "electronic protection"
+    - "cognitive ew"
+    - "cema"
+    - "direction finding"
+    - "geolocation"
+    - "software defined radio"
+    - "software-defined radio"
+    - "sdr"
+    - "radio frequency"
+    - "rf sensing"
+    - "waveform"
+    - "spectrum operations"
+  # Weaker supporting signals. Each distinct hit adds include_weight.
+  include_keywords:
+    - "machine learning"
+    - "artificial intelligence"
+    - "autonomy"
+    - "cyber"
+    - "information operations"
+    - "sensor"
+    - "detection"
+  # Any of these in the text disqualifies the opportunity outright.
+  exclude_keywords:
+    - "janitorial"
+    - "landscaping"
+    - "food service"
+    - "lawn"
+    - "uniform"
+    - "furniture"
+    - "grounds maintenance"
+  boost_weight: 25
+  include_weight: 6
+  naics_weight: 20
+  # A candidate must reach this score (0-100, capped) to advance to the AI stage.
+  stage1_threshold: 25
+
+ai:
+  # Provider: "claude" (uses ANTHROPIC_API_KEY) or "openai" (uses OPENAI_API_KEY).
+  # If the relevant key is absent, a deterministic template doc is written and
+  # ai_generated is recorded as false so the pipeline still runs end-to-end.
+  provider: "openai"
+  claude_model: "claude-opus-4-7"
+  openai_model: "gpt-5.4-mini"
+  max_tokens: 5000
+  # Keep an opportunity only when the AI relevance score is at least this.
+  score_threshold: 60
+
+output:
+  # Folder (committed to the repo) where per-contract docs are written.
+  dir: "opportunities"
+
+key_health:
+  # SAM.gov API keys expire ~90 days after creation. The expiry date is not
+  # exposed by the API, so we track when you activated the key in
+  # data/key_meta.json and warn when fewer than warn_within_days remain.
+  # Bump the date with: python trex.py set-key-date YYYY-MM-DD
+  lifetime_days: 90
+  warn_within_days: 10
