@@ -4,6 +4,11 @@ on:
   schedule:
     - cron: '0 8 * * *'   # Every day at 08:00 UTC
   workflow_dispatch:        # Manual trigger from the Actions UI
+    inputs:
+      lookback:
+        description: "Days to look back (blank = use config default). Use e.g. 30 for a one-time backfill."
+        required: false
+        default: ""
 
 permissions:
   contents: write
@@ -33,11 +38,17 @@ jobs:
           SAM_API_KEY: ${{ secrets.SAM_API_KEY }}
 
       - name: Pull opportunities and generate docs
-        run: python trex.py run
         env:
           SAM_API_KEY: ${{ secrets.SAM_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          LOOKBACK: ${{ github.event.inputs.lookback }}
+        run: |
+          if [ -n "$LOOKBACK" ]; then
+            python trex.py run --lookback "$LOOKBACK"
+          else
+            python trex.py run
+          fi
 
       - name: Commit new opportunities
         run: |
