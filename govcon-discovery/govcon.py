@@ -166,6 +166,7 @@ def run(dry_run: bool, since: str, full: bool, limit: int):
         # key/model is fixed, instead of flooding the kept set with unscored noise.
         if result["status"] == "error":
             counts["ai_error"] += 1
+            click.echo(f"  AI ERROR [{rec['notice_id']}]: {result.get('error_msg', '(no detail)')}", err=True)
             continue
 
         # status is "ok" (real score) or "no_key" (dev/no-AI fallback, kept).
