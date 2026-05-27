@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-ai_fit.py — Stage 2: AI relevance scoring + "how TReX fits" doc generation.
+ai_fit.py — Stage 2: AI relevance scoring + candidate fit doc generation.
 
-Provider-agnostic. Set `ai.provider` in trex_config.yaml to "claude"
+Provider-agnostic. Set `ai.provider` in govcon_config.yaml to "claude"
 (ANTHROPIC_API_KEY) or "openai" (OPENAI_API_KEY). If the relevant key is not
 present in the environment, a deterministic template doc is produced instead
 and ai_generated is reported as False, so the pipeline runs end-to-end before
@@ -19,23 +19,26 @@ import datetime
 import requests
 
 
-TREX_CONTEXT = """\
-TReX is an electronic-warfare product from BlackHorse Solutions, a Parsons \
-company. Its core capabilities are automated electromagnetic spectrum sensing, \
-RF signal detection and characterization, signals intelligence (SIGINT), and \
-machine-learning-driven / cognitive electronic warfare (electronic attack, \
-support, and protection). It operates across the electromagnetic spectrum \
-operations (EMSO) and cyber-electromagnetic activities (CEMA) mission space, \
-supporting DoD and Intelligence Community customers with autonomous detection, \
-identification, geolocation, and defeat of complex communications signals."""
+CANDIDATE_CONTEXT = """\
+The candidate is a software engineer specializing in backend services development \
+and deployment pipeline engineering. Core strengths include: designing and building \
+microservices and REST APIs; building and maintaining CI/CD pipelines (GitHub \
+Actions, automated testing, release automation); containerization and orchestration \
+with Docker and Kubernetes; infrastructure-as-code and cloud-native deployments on \
+AWS/Azure/GCP; and backend systems that serve production workloads at scale. \
+The candidate has hands-on experience building production backend services and \
+the full deployment infrastructure for a complex DoD software product, covering \
+everything from code to cloud. Primary interest is civilian federal agency work \
+(GSA, HHS, DOT, USDA, and similar commercial-gov customers), though defense \
+opportunities that call for the same backend/DevOps skill set are also welcome."""
 
 
 def _build_prompt(rec: dict) -> str:
     return f"""\
-{TREX_CONTEXT}
+{CANDIDATE_CONTEXT}
 
-Below is a U.S. federal contract opportunity from SAM.gov. Assess how well \
-TReX's capabilities fit this opportunity.
+Below is a U.S. federal contract opportunity. Assess how well this candidate's \
+skills and experience fit the opportunity.
 
 Opportunity:
 - Title: {rec.get('title')}
@@ -50,11 +53,13 @@ Opportunity:
 
 Respond with ONLY a JSON object, no surrounding prose, of the form:
 {{
-  "score": <integer 0-100, how strongly TReX fits this opportunity>,
+  "score": <integer 0-100, how strongly the candidate fits this opportunity; \
+weight civilian agency work slightly higher than defense, and require a genuine \
+match to backend development or DevOps/pipeline work>,
   "fit_markdown": "<a one-page markdown writeup: a short summary of the \
-opportunity, an explanation of how TReX's specific capabilities map to the \
-requirement, a suggested approach/positioning, and any risks or unknowns. \
-Be concrete and honest; if the fit is weak, say so.>"
+opportunity, an explanation of how the candidate's specific skills map to the \
+requirement, a suggested approach/positioning for a proposal, and any risks or \
+unknowns. Be concrete and honest; if the fit is weak, say so.>"
 }}"""
 
 
@@ -118,12 +123,12 @@ def _template_doc(rec: dict, stage1: dict, reason: str) -> str:
 - **Response deadline:** {rec.get('response_deadline')}
 - **SAM.gov link:** {rec.get('ui_link')}
 
-## TReX relevance (keyword pre-filter)
+## Candidate fit (keyword pre-filter)
 Stage-1 score: **{stage1.get('score')}/100**. Matched signals: {matched}.
 
-TReX delivers automated spectrum sensing, RF signal detection, SIGINT, and
-ML-driven electronic warfare. Review the matched signals above against this
-opportunity's scope to judge fit. Set an AI provider key for a full writeup.
+The candidate brings backend services development and CI/CD pipeline expertise. \
+Review the matched signals above against this opportunity's scope to judge fit. \
+Set an AI provider key for a full writeup.
 """
 
 
@@ -171,7 +176,7 @@ def evaluate_and_write(rec: dict, config: dict, stage1: dict) -> dict:
         f"- **Posted:** {rec.get('posted_date')}\n"
         f"- **Response deadline:** {rec.get('response_deadline')}\n"
         f"- **SAM.gov link:** {rec.get('ui_link')}\n"
-        f"- **TReX relevance (AI):** {score}/100\n"
+        f"- **Candidate fit (AI):** {score}/100\n"
         f"- **Generated:** {datetime.date.today().isoformat()}\n\n"
         "---\n\n"
     )
