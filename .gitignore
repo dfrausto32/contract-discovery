@@ -11,6 +11,9 @@ env/
 # Uncomment the line below to stop tracking the database (local-only mode)
 # data/contacts.db
 
+# Built dashboard site (ephemeral CI artifact — deployed to Pages, not committed)
+govcon-discovery/site/
+
 # Environment / secrets
 .env
 *.env

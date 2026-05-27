@@ -136,7 +136,7 @@ def run(dry_run: bool, since: str, full: bool, limit: int):
     stage1_threshold = config["relevance"]["stage1_threshold"]
     ai_threshold = config["ai"]["score_threshold"]
     counts = {"new": 0, "kept": 0, "skipped_stage1": 0,
-              "skipped_ai": 0, "excluded": 0, "already_seen": 0}
+              "skipped_ai": 0, "excluded": 0, "already_seen": 0, "ai_error": 0}
 
     for rec in records:
         if limit is not None and counts["new"] >= limit:
@@ -160,7 +160,16 @@ def run(dry_run: bool, since: str, full: bool, limit: int):
             continue
 
         result = ai_fit.evaluate_and_write(rec, config, s1)
-        keep = (not result["ai_generated"]) or result["ai_score"] >= ai_threshold
+
+        # An AI *error* (key present but the call failed) must not be kept or
+        # recorded — leaving it unrecorded means it's retried next run once the
+        # key/model is fixed, instead of flooding the kept set with unscored noise.
+        if result["status"] == "error":
+            counts["ai_error"] += 1
+            continue
+
+        # status is "ok" (real score) or "no_key" (dev/no-AI fallback, kept).
+        keep = result["status"] == "no_key" or result["ai_score"] >= ai_threshold
         if not keep:
             counts["skipped_ai"] += 1
             if not dry_run:
@@ -180,17 +189,23 @@ def run(dry_run: bool, since: str, full: bool, limit: int):
         _rebuild_index(conn, out_dir)
     conn.close()
 
-    # Advance sync state only on a successful, non-dry run so a failure mid-run
-    # doesn't skip a window (dedup makes re-pulling the same window harmless).
-    if not dry_run and server_time:
+    # Advance sync state only on a clean, non-dry run. If any opportunity hit an
+    # AI error we hold the timestamp so the next run re-pulls this same window and
+    # retries them (advancing would push them out of the delta window forever).
+    if not dry_run and server_time and counts["ai_error"] == 0:
         govcon_client.write_sync_state(server_time)
         click.echo(f"  sync state advanced to {server_time}")
+    elif not dry_run and counts["ai_error"]:
+        click.echo("  sync state held (AI errors this run) — this window re-pulls next run")
 
     summary = (f"new={counts['new']} kept={counts['kept']} "
                f"skipped_stage1={counts['skipped_stage1']} "
                f"skipped_ai={counts['skipped_ai']} excluded={counts['excluded']} "
-               f"already_seen={counts['already_seen']}")
+               f"ai_error={counts['ai_error']} already_seen={counts['already_seen']}")
     click.echo(f"\nDone. {summary}")
+    if counts["ai_error"]:
+        click.echo(f"  WARNING: {counts['ai_error']} opportunities hit AI errors "
+                   "(not kept, will retry next run). Check the provider key/model.")
     if dry_run:
         click.echo("(dry run — nothing written, recorded, or synced)")
     summary_md = "\n".join(f"- {part}" for part in summary.split(" "))

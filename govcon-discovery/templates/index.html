@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TReX Opportunity Dashboard</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <header>
+    <h1>TReX Opportunity Dashboard</h1>
+    <p id="subtitle" class="muted">Loading…</p>
+  </header>
+
+  <section id="summary" class="cards" aria-label="Summary"></section>
+
+  <section id="controls">
+    <input id="search" type="search" placeholder="Search title or agency…" autocomplete="off">
+    <select id="filter-type"><option value="">All notice types</option></select>
+    <select id="filter-agency"><option value="">All agencies</option></select>
+    <label class="range">Min score <span id="min-score-val">0</span>
+      <input id="min-score" type="range" min="0" max="100" value="0" step="5">
+    </label>
+    <button id="clear" type="button">Clear</button>
+    <span id="count" class="muted"></span>
+  </section>
+
+  <table id="opps">
+    <thead>
+      <tr>
+        <th data-key="posted_date">Posted</th>
+        <th data-key="title">Title</th>
+        <th data-key="agency_short">Agency</th>
+        <th data-key="notice_type">Type</th>
+        <th data-key="score">Score</th>
+        <th data-key="deadline_in_days">Deadline</th>
+        <th>SAM.gov</th>
+      </tr>
+    </thead>
+    <tbody id="rows"></tbody>
+  </table>
+
+  <p id="empty" hidden class="muted">No opportunities yet. Once the daily run keeps some, they'll appear here.</p>
+
+  <div id="modal" class="modal" hidden>
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-panel" role="dialog" aria-modal="true">
+      <button class="modal-close" data-close aria-label="Close">&times;</button>
+      <h2 id="m-title"></h2>
+      <div id="m-meta" class="meta"></div>
+      <p><a id="m-link" href="#" target="_blank" rel="noopener">Open on SAM.gov &raquo;</a></p>
+      <hr>
+      <div id="m-writeup" class="writeup"></div>
+    </div>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>

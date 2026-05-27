@@ -103,12 +103,12 @@ def _call_openai(prompt: str, config: dict, api_key: str) -> str:
     return resp.json()["choices"][0]["message"]["content"]
 
 
-def _template_doc(rec: dict, stage1: dict) -> str:
-    """Deterministic fallback used when no AI key is configured."""
+def _template_doc(rec: dict, stage1: dict, reason: str) -> str:
+    """Deterministic fallback doc. `reason` explains why no AI body is present."""
     matched = ", ".join(stage1.get("matched", [])) or "(none)"
     return f"""# {rec.get('title')}
 
-> Generated without AI (no provider key set). Keyword pre-filter only.
+> {reason} Keyword pre-filter only.
 
 - **Agency:** {rec.get('agency')}
 - **Notice type:** {rec.get('type')}
@@ -129,8 +129,13 @@ opportunity's scope to judge fit. Set an AI provider key for a full writeup.
 
 def evaluate_and_write(rec: dict, config: dict, stage1: dict) -> dict:
     """
-    Returns {ai_score, ai_generated, markdown}. Falls back to a template (and
-    ai_generated=False) when the provider key is missing or the call fails.
+    Returns {status, ai_score, ai_generated, markdown}, where status is:
+      "ok"     — the AI call succeeded; ai_score is the model's relevance score
+      "no_key" — no provider key configured; template doc, dev/no-AI mode
+      "error"  — key present but the call failed; template doc + the error
+    The caller decides what to keep based on status (see govcon.py): an "error"
+    must not be silently kept, so a misconfigured/down provider can't flood the
+    kept set the way it would if every fallback were treated as a keep.
     """
     provider = config["ai"]["provider"]
     key_env = "ANTHROPIC_API_KEY" if provider == "claude" else "OPENAI_API_KEY"
@@ -138,9 +143,10 @@ def evaluate_and_write(rec: dict, config: dict, stage1: dict) -> dict:
 
     if not api_key:
         return {
+            "status": "no_key",
             "ai_score": stage1["score"],
             "ai_generated": False,
-            "markdown": _template_doc(rec, stage1),
+            "markdown": _template_doc(rec, stage1, "Generated without AI (no provider key set)."),
         }
 
     prompt = _build_prompt(rec)
@@ -152,9 +158,9 @@ def evaluate_and_write(rec: dict, config: dict, stage1: dict) -> dict:
         score = int(parsed["score"])
         body = parsed["fit_markdown"]
     except Exception as exc:  # noqa: BLE001 — degrade gracefully, never crash the run
-        doc = _template_doc(rec, stage1)
-        doc += f"\n\n> AI generation failed: {exc}\n"
-        return {"ai_score": stage1["score"], "ai_generated": False, "markdown": doc}
+        doc = _template_doc(rec, stage1, f"AI generation failed: {exc}")
+        return {"status": "error", "ai_score": stage1["score"],
+                "ai_generated": False, "markdown": doc}
 
     header = (
         f"# {rec.get('title')}\n\n"
@@ -169,4 +175,5 @@ def evaluate_and_write(rec: dict, config: dict, stage1: dict) -> dict:
         f"- **Generated:** {datetime.date.today().isoformat()}\n\n"
         "---\n\n"
     )
-    return {"ai_score": score, "ai_generated": True, "markdown": header + body}
+    return {"status": "ok", "ai_score": score, "ai_generated": True,
+            "markdown": header + body}

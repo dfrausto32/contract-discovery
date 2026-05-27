@@ -17,6 +17,8 @@ on:
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
 
 jobs:
   discover:
@@ -62,3 +64,23 @@ jobs:
           git add govcon-discovery/opportunities govcon-discovery/data/govcon_seen.db govcon-discovery/data/govcon_sync.json
           git diff --cached --quiet || git commit -m "chore: daily GovCon TReX pull [skip ci]"
           git push
+
+      - name: Build dashboard
+        working-directory: govcon-discovery
+        run: python dashboard.py build
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: govcon-discovery/site
+
+  deploy:
+    needs: discover
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
