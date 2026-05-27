@@ -99,7 +99,7 @@ def _call_openai(prompt: str, config: dict, api_key: str) -> str:
         },
         json={
             "model": config["ai"]["openai_model"],
-            "max_tokens": config["ai"]["max_tokens"],
+            "max_completion_tokens": config["ai"]["max_tokens"],
             "messages": [{"role": "user", "content": prompt}],
         },
         timeout=120,
