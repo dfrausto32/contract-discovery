@@ -112,7 +112,7 @@ ai:
   # If the relevant key is absent, a deterministic template doc is written and
   # ai_generated is recorded as false so the pipeline still runs end-to-end.
   provider: "openai"
-  openai_model: "gpt-5.4"
+  openai_model: "gpt-4o"
   claude_model: "claude-opus-4-7"
   max_tokens: 5000
   # Keep an opportunity only when the AI relevance score is at least this.
