@@ -1,9 +1,12 @@
-name: TReX SAM.gov Discovery
+name: TReX SAM.gov Discovery (paused)
 
+# PAUSED: the daily schedule is intentionally disabled while we focus on the
+# GovCon pipeline. This workflow still runs on manual dispatch. To resume daily
+# runs, uncomment the schedule block below.
 on:
-  schedule:
-    - cron: '0 8 * * *'   # Every day at 08:00 UTC
-  workflow_dispatch:        # Manual trigger from the Actions UI
+  # schedule:
+  #   - cron: '0 8 * * *'   # Every day at 08:00 UTC
+  workflow_dispatch:
     inputs:
       lookback:
         description: "Days to look back (blank = use config default). Use e.g. 30 for a one-time backfill."
@@ -29,15 +32,15 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      # Writes a liveness + days-to-expiry line to the job summary. Continues
-      # on error so an expired key is still surfaced in the run summary.
       - name: SAM.gov key health
         continue-on-error: true
+        working-directory: trex-discovery
         run: python trex.py health
         env:
           SAM_API_KEY: ${{ secrets.SAM_API_KEY }}
 
       - name: Pull opportunities and generate docs
+        working-directory: trex-discovery
         env:
           SAM_API_KEY: ${{ secrets.SAM_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -54,6 +57,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add opportunities data/trex_seen.db data/key_meta.json
+          git add trex-discovery/opportunities trex-discovery/data/trex_seen.db trex-discovery/data/key_meta.json
           git diff --cached --quiet || git commit -m "chore: daily TReX opportunity pull [skip ci]"
           git push

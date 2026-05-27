@@ -1,3 +1,24 @@
+# Contract Discovery
+
+This repository hosts TReX opportunity-discovery tools (TReX is BlackHorse Solutions'
+electronic-warfare product, a Parsons company). Each tool lives in its own folder and
+has its own config, dedup database, and `opportunities/` output:
+
+| Folder | Source | Schedule |
+|---|---|---|
+| [`govcon-discovery/`](govcon-discovery/) | GovCon API (delta sync) | **Daily, 03:00 UTC** (active) |
+| [`trex-discovery/`](trex-discovery/) | SAM.gov API directly | Paused (manual dispatch only) |
+
+Workflows live at the repository root in `.github/workflows/` and run from the default
+branch. `govcon-daily.yml` runs the GovCon pipeline daily; `trex-daily.yml` is paused
+(its schedule is commented out) and runs only on manual dispatch. See each folder's
+files for tool-specific details (`govcon-discovery/govcon.py`, `trex-discovery/trex.py`).
+
+The legacy LinkedIn construction-contact CLI also lives at the repository root and is
+documented below.
+
+---
+
 # Construction Discovery CLI
 
 A local Python CLI tool for systematic LinkedIn contact discovery in the construction industry. Built to support a weekly commitment of 8 manual outreach contacts — no scraping, no API abuse, fully LinkedIn TOS compliant.

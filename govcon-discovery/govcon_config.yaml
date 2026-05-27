@@ -1,0 +1,106 @@
+# GovCon API TReX Opportunity Discovery — configuration
+#
+# Uses the GovCon API (https://govconapi.com) as the data source instead of
+# SAM.gov directly. The delta endpoint provides incremental sync, so each run
+# only pulls opportunities changed since the last successful run. TReX is
+# BlackHorse Solutions' (a Parsons company) electronic-warfare product. Tune
+# the criteria below to match the opportunities you want surfaced.
+
+govcon:
+  # GovCon API base URL and the delta endpoint path.
+  base_url: "https://govconapi.com/api/v1"
+  delta_path: "/opportunities/delta"
+  # Results per request. Developer/Pro plans allow up to 1000; free trial 50.
+  page_size: 1000
+  # Used ONLY on the first run (no sync state yet). The API caps `since` at 60
+  # days, so values above 60 are clamped server-side.
+  initial_lookback_days: 30
+  # Notice types to keep (active pre-award only), matched against `notice_type`.
+  notice_types:
+    - "Solicitation"
+    - "Combined Synopsis/Solicitation"
+    - "Presolicitation"
+    - "Sources Sought"
+  # NAICS codes that map to TReX's domain. The delta feed is not NAICS-filtered
+  # server-side, so this list is used for client-side relevance scoring.
+  naics:
+    - "334220"  # Radio/TV broadcasting & wireless comms equipment mfg
+    - "334290"  # Other communications equipment mfg
+    - "334511"  # Search, detection, navigation, guidance instruments
+    - "541330"  # Engineering services
+    - "541512"  # Computer systems design
+    - "541519"  # Other computer-related services (cyber)
+    - "541715"  # R&D in physical, engineering & life sciences
+
+relevance:
+  # --- Stage 1: deterministic keyword / NAICS pre-filter ---
+  # NAICS used for scoring (kept here so relevance is source-agnostic).
+  naics:
+    - "334220"
+    - "334290"
+    - "334511"
+    - "541330"
+    - "541512"
+    - "541519"
+    - "541715"
+  # Strong TReX-fit signals. Each distinct hit adds boost_weight.
+  boost_keywords:
+    - "electronic warfare"
+    - "electromagnetic spectrum"
+    - "emso"
+    - "spectrum sensing"
+    - "signal detection"
+    - "sigint"
+    - "signals intelligence"
+    - "electronic attack"
+    - "electronic support"
+    - "electronic protection"
+    - "cognitive ew"
+    - "cema"
+    - "direction finding"
+    - "geolocation"
+    - "software defined radio"
+    - "software-defined radio"
+    - "sdr"
+    - "radio frequency"
+    - "rf sensing"
+    - "waveform"
+    - "spectrum operations"
+  # Weaker supporting signals. Each distinct hit adds include_weight.
+  include_keywords:
+    - "machine learning"
+    - "artificial intelligence"
+    - "autonomy"
+    - "cyber"
+    - "information operations"
+    - "sensor"
+    - "detection"
+  # Any of these in the title disqualifies the opportunity outright.
+  exclude_keywords:
+    - "janitorial"
+    - "landscaping"
+    - "food service"
+    - "lawn"
+    - "uniform"
+    - "furniture"
+    - "grounds maintenance"
+  boost_weight: 25
+  include_weight: 6
+  naics_weight: 20
+  # A candidate must reach this score (0-100, capped) to advance to the AI stage.
+  stage1_threshold: 25
+
+ai:
+  # Provider: "openai" (uses OPENAI_API_KEY) or "claude" (uses ANTHROPIC_API_KEY).
+  # If the relevant key is absent, a deterministic template doc is written and
+  # ai_generated is recorded as false so the pipeline still runs end-to-end.
+  provider: "openai"
+  openai_model: "gpt-5.4"
+  claude_model: "claude-opus-4-7"
+  max_tokens: 5000
+  # Keep an opportunity only when the AI relevance score is at least this.
+  score_threshold: 60
+
+output:
+  # Folder (committed to the repo) where per-contract docs are written.
+  dir: "opportunities"
