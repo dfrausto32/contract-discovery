@@ -163,9 +163,8 @@ def evaluate_and_write(rec: dict, config: dict, stage1: dict) -> dict:
         score = int(parsed["score"])
         body = parsed["fit_markdown"]
     except Exception as exc:  # noqa: BLE001 — degrade gracefully, never crash the run
-        doc = _template_doc(rec, stage1, f"AI generation failed: {exc}")
         return {"status": "error", "ai_score": stage1["score"],
-                "ai_generated": False, "markdown": doc}
+                "ai_generated": False, "markdown": "", "error_msg": str(exc)}
 
     header = (
         f"# {rec.get('title')}\n\n"
