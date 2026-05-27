@@ -1,10 +1,9 @@
-# GovCon API TReX Opportunity Discovery — configuration
+# GovCon API Opportunity Discovery — configuration
 #
-# Uses the GovCon API (https://govconapi.com) as the data source instead of
-# SAM.gov directly. The delta endpoint provides incremental sync, so each run
-# only pulls opportunities changed since the last successful run. TReX is
-# BlackHorse Solutions' (a Parsons company) electronic-warfare product. Tune
-# the criteria below to match the opportunities you want surfaced.
+# Searches for federal IT/software engineering opportunities matching the profile
+# of a backend services developer and deployment pipeline engineer. Primary focus
+# is civilian federal agencies (commercial gov); defense opportunities are also
+# considered where they align with the same skill set.
 
 govcon:
   # GovCon API base URL and the delta endpoint path.
@@ -21,60 +20,75 @@ govcon:
     - "Combined Synopsis/Solicitation"
     - "Presolicitation"
     - "Sources Sought"
-  # NAICS codes that map to TReX's domain. The delta feed is not NAICS-filtered
-  # server-side, so this list is used for client-side relevance scoring.
+  # NAICS codes covering backend software development, DevOps, cloud, and IT
+  # engineering services. The delta feed is not NAICS-filtered server-side, so
+  # this list is used for client-side relevance scoring only.
   naics:
-    - "334220"  # Radio/TV broadcasting & wireless comms equipment mfg
-    - "334290"  # Other communications equipment mfg
-    - "334511"  # Search, detection, navigation, guidance instruments
+    - "541511"  # Custom computer programming services
+    - "541512"  # Computer systems design services
+    - "541519"  # Other computer-related services (DevSecOps, platform eng)
+    - "518210"  # Computing infrastructure, data processing, web hosting
     - "541330"  # Engineering services
-    - "541512"  # Computer systems design
-    - "541519"  # Other computer-related services (cyber)
     - "541715"  # R&D in physical, engineering & life sciences
 
 relevance:
   # --- Stage 1: deterministic keyword / NAICS pre-filter ---
-  # NAICS used for scoring (kept here so relevance is source-agnostic).
   naics:
-    - "334220"
-    - "334290"
-    - "334511"
-    - "541330"
+    - "541511"
     - "541512"
     - "541519"
+    - "518210"
+    - "541330"
     - "541715"
-  # Strong TReX-fit signals. Each distinct hit adds boost_weight.
+  # Strong fit signals — backend dev, DevOps, cloud-native, pipeline work.
+  # Each distinct hit adds boost_weight.
   boost_keywords:
-    - "electronic warfare"
-    - "electromagnetic spectrum"
-    - "emso"
-    - "spectrum sensing"
-    - "signal detection"
-    - "sigint"
-    - "signals intelligence"
-    - "electronic attack"
-    - "electronic support"
-    - "electronic protection"
-    - "cognitive ew"
-    - "cema"
-    - "direction finding"
-    - "geolocation"
-    - "software defined radio"
-    - "software-defined radio"
-    - "sdr"
-    - "radio frequency"
-    - "rf sensing"
-    - "waveform"
-    - "spectrum operations"
+    - "backend"
+    - "back-end"
+    - "microservices"
+    - "api development"
+    - "restful"
+    - "rest api"
+    - "devops"
+    - "devsecops"
+    - "dev/sec/ops"
+    - "ci/cd"
+    - "continuous integration"
+    - "continuous deployment"
+    - "kubernetes"
+    - "containerization"
+    - "docker"
+    - "cloud native"
+    - "cloud-native"
+    - "infrastructure as code"
+    - "it modernization"
+    - "digital transformation"
+    - "cloud migration"
+    - "software development"
+    - "software engineering"
+    - "platform engineering"
+    - "site reliability"
+    - "sre"
   # Weaker supporting signals. Each distinct hit adds include_weight.
   include_keywords:
-    - "machine learning"
-    - "artificial intelligence"
-    - "autonomy"
-    - "cyber"
-    - "information operations"
-    - "sensor"
-    - "detection"
+    - "agile"
+    - "scrum"
+    - "python"
+    - "aws"
+    - "azure"
+    - "cloud"
+    - "database"
+    - "automation"
+    - "pipeline"
+    - "deployment"
+    - "api"
+    - "web services"
+    - "full stack"
+    - "full-stack"
+    - "terraform"
+    - "ansible"
+    - "git"
+    - "software"
   # Any of these in the title disqualifies the opportunity outright.
   exclude_keywords:
     - "janitorial"
@@ -84,6 +98,9 @@ relevance:
     - "uniform"
     - "furniture"
     - "grounds maintenance"
+    - "custodial"
+    - "mowing"
+    - "pest control"
   boost_weight: 25
   include_weight: 6
   naics_weight: 20
