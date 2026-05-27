@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-govcon.py — TReX opportunity discovery sourced from the GovCon API.
+govcon.py — GovCon opportunity discovery for backend/DevOps engineer profile.
 
 Pulls opportunities incrementally via the GovCon delta endpoint (staying in
-sync without re-downloading everything), filters them to TReX's
-electronic-warfare domain in two stages (keyword/NAICS pre-filter, then AI
-relevance scoring), and writes a per-contract "how TReX fits" README into the
+sync without re-downloading everything), filters them to backend services and
+deployment pipeline work in two stages (keyword/NAICS pre-filter, then AI
+relevance scoring), and writes a per-contract candidate fit README into the
 opportunities/ folder. Contracts are never repeated and the newest postings
 are processed first.
 
@@ -64,7 +64,7 @@ def _write_opportunity(rec: dict, markdown: str, out_dir: Path) -> str:
 def _rebuild_index(conn, out_dir: Path) -> None:
     rows = store.kept_opportunities(conn)
     lines = [
-        "# TReX Opportunity Index (GovCon source)",
+        "# GovCon Opportunity Index",
         "",
         f"_Last updated {datetime.date.today().isoformat()} — {len(rows)} "
         "opportunities, newest posted first._",
@@ -92,7 +92,7 @@ def _rebuild_index(conn, out_dir: Path) -> None:
 
 @click.group()
 def cli():
-    """TReX opportunity discovery via the GovCon API."""
+    """GovCon opportunity discovery."""
     pass
 
 
@@ -209,7 +209,7 @@ def run(dry_run: bool, since: str, full: bool, limit: int):
     if dry_run:
         click.echo("(dry run — nothing written, recorded, or synced)")
     summary_md = "\n".join(f"- {part}" for part in summary.split(" "))
-    _step_summary(f"### GovCon TReX run\n\n{summary_md}")
+    _step_summary(f"### GovCon run\n\n{summary_md}")
 
 
 @cli.command("health")

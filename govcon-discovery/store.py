@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-store.py — SQLite dedup + audit store for SAM.gov TReX discovery.
+store.py — SQLite dedup + audit store for GovCon opportunity discovery.
 
 Every opportunity the pipeline evaluates is recorded here, keyed by SAM
 notice id. That guarantees a contract is never processed (or written) twice
