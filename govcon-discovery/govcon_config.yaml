@@ -105,7 +105,10 @@ relevance:
   include_weight: 6
   naics_weight: 20
   # A candidate must reach this score (0-100, capped) to advance to the AI stage.
-  stage1_threshold: 25
+  # With NAICS worth 20 and boost keywords worth 25 each, a threshold of 45
+  # requires at least one strong keyword match on top of a NAICS hit — filtering
+  # out the vast majority of generic IT contracts that only match on NAICS.
+  stage1_threshold: 45
 
 ai:
   # Provider: "openai" (uses OPENAI_API_KEY) or "claude" (uses ANTHROPIC_API_KEY).
