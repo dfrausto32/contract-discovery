@@ -89,7 +89,7 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add govcon-discovery/opportunities govcon-discovery/data/govcon_seen.db govcon-discovery/data/govcon_sync.json
           git diff --cached --quiet || git commit -m "chore: daily GovCon opportunity pull [skip ci]"
-          git pull --rebase origin contract-discovery
+          git pull --rebase -X ours origin contract-discovery
           git push
 
       - name: Generate data.json
