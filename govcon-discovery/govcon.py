@@ -142,62 +142,78 @@ def run(dry_run: bool, since: str, full: bool, limit: int):
     counts = {"new": 0, "kept": 0, "skipped_stage1": 0,
               "skipped_ai": 0, "excluded": 0, "already_seen": 0,
               "ai_error": 0, "gameplan": 0}
+    total = len(records)
+
+    click.echo(f"\n{'─'*72}")
+    click.echo(f"  {'IDX':>5}  {'S1':>3}  {'AI':>3}  {'RESULT':<10}  DATE        TITLE")
+    click.echo(f"{'─'*72}")
 
     for rec in records:
         if limit is not None and counts["new"] >= limit:
+            click.echo(f"{'─'*72}")
+            click.echo(f"  Limit of {limit} reached — stopping early.")
             break
         sol_num = rec.get("solicitation_number") or None
         if not rec["notice_id"] or store.is_seen(conn, rec["notice_id"], sol_num):
             counts["already_seen"] += 1
             continue
         counts["new"] += 1
+        idx = counts["new"]
+        title = (rec.get("title") or "(untitled)")[:55]
+        date  = rec.get("posted_date") or "—"
 
-        # GovCon includes the body inline, so stage 1 sees it directly.
+        # Stage 1: keyword / NAICS pre-filter
         s1 = relevance.stage1_score(rec, config)
         if s1["excluded"]:
             counts["excluded"] += 1
+            click.echo(f"  {idx:>5}  {s1['score']:>3}   —   {'EXCLUDED':<10}  {date}  {title}")
             if not dry_run:
                 store.record(conn, rec, "excluded", s1["score"], None, False, None)
             continue
         if s1["score"] < stage1_threshold:
             counts["skipped_stage1"] += 1
+            click.echo(f"  {idx:>5}  {s1['score']:>3}   —   {'s1-skip':<10}  {date}  {title}")
             if not dry_run:
                 store.record(conn, rec, "skipped_stage1", s1["score"], None, False, None)
             continue
 
+        # Stage 2: AI scoring
         result = ai_fit.evaluate_and_write(rec, config, s1)
 
-        # An AI *error* (key present but the call failed) must not be kept or
-        # recorded — leaving it unrecorded means it's retried next run once the
-        # key/model is fixed, instead of flooding the kept set with unscored noise.
         if result["status"] == "error":
             counts["ai_error"] += 1
-            click.echo(f"  AI ERROR [{rec['notice_id']}]: {result.get('error_msg', '(no detail)')}", err=True)
+            click.echo(f"  {idx:>5}  {s1['score']:>3}   !   {'AI-ERROR':<10}  {date}  {title}")
+            click.echo(f"         └─ {result.get('error_msg', '(no detail)')}", err=True)
             continue
 
-        # status is "ok" (real score) or "no_key" (dev/no-AI fallback, kept).
-        keep = result["status"] == "no_key" or result["ai_score"] >= ai_threshold
+        ai_score = result["ai_score"]
+        ai_tag   = "[AI]" if result["ai_generated"] else "[KW]"
+        keep = result["status"] == "no_key" or ai_score >= ai_threshold
+
         if not keep:
             counts["skipped_ai"] += 1
+            click.echo(f"  {idx:>5}  {s1['score']:>3}  {ai_score:>3}  {'ai-skip':<10}  {date}  {title}  {ai_tag}")
             if not dry_run:
                 store.record(conn, rec, "skipped_ai", s1["score"],
-                             result["ai_score"], result["ai_generated"], None)
+                             ai_score, result["ai_generated"], None)
             continue
 
         counts["kept"] += 1
-        click.echo(f"  KEEP [{result['ai_score']}] {rec['posted_date']} "
-                   f"{rec['title'][:70]}")
-
         gameplan = None
-        if result["ai_generated"] and result["ai_score"] >= gameplan_threshold:
+        if result["ai_generated"] and ai_score >= gameplan_threshold:
             gameplan = ai_fit.generate_gameplan(rec, config, result["markdown"])
             if gameplan:
                 counts["gameplan"] += 1
 
+        gp_tag = "  ★ GAME PLAN" if gameplan else ""
+        click.echo(f"  {idx:>5}  {s1['score']:>3}  {ai_score:>3}  {'KEEP ✓':<10}  {date}  {title}  {ai_tag}{gp_tag}")
+
         if not dry_run:
             path = _write_opportunity(rec, result["markdown"], out_dir, gameplan)
-            store.record(conn, rec, "kept", s1["score"], result["ai_score"],
+            store.record(conn, rec, "kept", s1["score"], ai_score,
                          result["ai_generated"], path)
+
+    click.echo(f"{'─'*72}\n")
 
     if not dry_run and counts["kept"] > 0:
         _rebuild_index(conn, out_dir)
@@ -217,6 +233,14 @@ def run(dry_run: bool, since: str, full: bool, limit: int):
                f"skipped_ai={counts['skipped_ai']} excluded={counts['excluded']} "
                f"ai_error={counts['ai_error']} already_seen={counts['already_seen']} "
                f"gameplan={counts['gameplan']}")
+
+    click.echo(f"Results (of {total} type-filtered records):")
+    click.echo(f"  already seen   : {counts['already_seen']}")
+    click.echo(f"  excluded       : {counts['excluded']}")
+    click.echo(f"  stage1 skip    : {counts['skipped_stage1']}")
+    click.echo(f"  AI skip        : {counts['skipped_ai']}")
+    click.echo(f"  AI error       : {counts['ai_error']}")
+    click.echo(f"  KEPT           : {counts['kept']}  (game plans: {counts['gameplan']})")
     click.echo(f"\nDone. {summary}")
     if counts["ai_error"]:
         click.echo(f"  WARNING: {counts['ai_error']} opportunities hit AI errors "

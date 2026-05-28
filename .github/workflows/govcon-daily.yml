@@ -73,7 +73,15 @@ jobs:
           if [ -n "$SINCE" ]; then ARGS="$ARGS --since $SINCE"; fi
           if [ "$FULL" = "true" ]; then ARGS="$ARGS --full"; fi
           if [ -n "$LIMIT" ]; then ARGS="$ARGS --limit $LIMIT"; fi
-          python govcon.py run $ARGS
+          python govcon.py run $ARGS 2>&1 | tee govcon-run.log
+
+      - name: Upload run log artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: govcon-run-log-${{ github.run_number }}
+          path: govcon-discovery/govcon-run.log
+          retention-days: 30
 
       - name: Commit new opportunities
         run: |
