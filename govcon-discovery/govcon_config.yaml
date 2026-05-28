@@ -1,9 +1,10 @@
 # GovCon API Opportunity Discovery — configuration
 #
-# Searches for federal IT/software engineering opportunities matching the profile
-# of a backend services developer and deployment pipeline engineer. Primary focus
-# is civilian federal agencies (commercial gov); defense opportunities are also
-# considered where they align with the same skill set.
+# Searches for federal IT/software engineering opportunities. The candidate
+# profile covers backend services, DevOps/CI-CD, cybersecurity/ZeroTrust,
+# data engineering/ETL, IT consulting/advisory, and custom solution development.
+# Civilian agency work is weighted slightly higher; defense work is included
+# when it calls for the same technical skill set.
 
 govcon:
   # GovCon API base URL and the delta endpoint path.
@@ -13,23 +14,24 @@ govcon:
   page_size: 1000
   # Used ONLY on the first run (no sync state yet). The API caps `since` at 60
   # days, so values above 60 are clamped server-side.
-  initial_lookback_days: 30
+  initial_lookback_days: 60
   # Notice types to keep (active pre-award only), matched against `notice_type`.
   notice_types:
     - "Solicitation"
     - "Combined Synopsis/Solicitation"
     - "Presolicitation"
     - "Sources Sought"
-  # NAICS codes covering backend software development, DevOps, cloud, and IT
-  # engineering services. The delta feed is not NAICS-filtered server-side, so
-  # this list is used for client-side relevance scoring only.
+  # NAICS codes. The delta feed is not NAICS-filtered server-side; this list
+  # is used for client-side relevance scoring only.
   naics:
     - "541511"  # Custom computer programming services
     - "541512"  # Computer systems design services
     - "541519"  # Other computer-related services (DevSecOps, platform eng)
     - "518210"  # Computing infrastructure, data processing, web hosting
     - "541330"  # Engineering services
+    - "541690"  # Other scientific and technical consulting
     - "541715"  # R&D in physical, engineering & life sciences
+    - "541990"  # All other professional, scientific, and technical services
 
 relevance:
   # --- Stage 1: deterministic keyword / NAICS pre-filter ---
@@ -39,10 +41,12 @@ relevance:
     - "541519"
     - "518210"
     - "541330"
+    - "541690"
     - "541715"
-  # Strong fit signals — backend dev, DevOps, cloud-native, pipeline work.
-  # Each distinct hit adds boost_weight.
+    - "541990"
+  # Strong fit signals — each distinct hit adds boost_weight.
   boost_keywords:
+    # Backend / API / DevOps
     - "backend"
     - "back-end"
     - "microservices"
@@ -69,6 +73,39 @@ relevance:
     - "platform engineering"
     - "site reliability"
     - "sre"
+    # Cybersecurity / ZeroTrust
+    - "cybersecurity"
+    - "cyber security"
+    - "zero trust"
+    - "zerotrust"
+    - "fedramp"
+    - "information security"
+    - "identity and access management"
+    - "iam"
+    - "vulnerability management"
+    - "security operations"
+    - "siem"
+    - "rmf"
+    - "ato"
+    # Data engineering / ETL
+    - "data engineering"
+    - "data pipeline"
+    - "etl"
+    - "data lake"
+    - "data warehouse"
+    - "data integration"
+    - "analytics platform"
+    - "business intelligence"
+    # IT consulting / advisory / custom solutions
+    - "system integration"
+    - "enterprise architecture"
+    - "solution architecture"
+    - "technical advisory"
+    - "application development"
+    - "custom development"
+    - "managed services"
+    - "it operations"
+    - "it support services"
   # Weaker supporting signals. Each distinct hit adds include_weight.
   include_keywords:
     - "agile"
@@ -76,6 +113,7 @@ relevance:
     - "python"
     - "aws"
     - "azure"
+    - "gcp"
     - "cloud"
     - "database"
     - "automation"
@@ -89,6 +127,19 @@ relevance:
     - "ansible"
     - "git"
     - "software"
+    - "security"
+    - "compliance"
+    - "monitoring"
+    - "observability"
+    - "linux"
+    - "javascript"
+    - "node.js"
+    - "web application"
+    - "technical support"
+    - "it consulting"
+    - "data analysis"
+    - "reporting"
+    - "dashboard"
   # Any of these in the title disqualifies the opportunity outright.
   exclude_keywords:
     - "janitorial"
@@ -101,13 +152,16 @@ relevance:
     - "custodial"
     - "mowing"
     - "pest control"
+    - "medical equipment"
+    - "construction"
+    - "hvac"
+    - "plumbing"
+    - "electrical contractor"
   boost_weight: 25
   include_weight: 6
   naics_weight: 20
-  # A candidate must reach this score (0-100, capped) to advance to the AI stage.
-  # With NAICS worth 20 and boost keywords worth 25 each, a threshold of 45
-  # requires at least one strong keyword match on top of a NAICS hit — filtering
-  # out the vast majority of generic IT contracts that only match on NAICS.
+  # A candidate must reach this score to advance to the AI stage.
+  # Threshold of 45 = NAICS hit (20) + one strong keyword (25).
   stage1_threshold: 45
 
 ai:
@@ -118,8 +172,9 @@ ai:
   openai_model: "gpt-5.4"
   claude_model: "claude-opus-4-7"
   max_tokens: 5000
-  # Keep an opportunity only when the AI relevance score is at least this.
-  score_threshold: 60
+  # Keep an opportunity when the AI relevance score is at or above this.
+  # Lowered to 55 to surface adjacent / adaptable fits.
+  score_threshold: 55
   # Generate a game plan (gameplan.md) for kept opportunities at or above this score.
   gameplan_threshold: 80
 

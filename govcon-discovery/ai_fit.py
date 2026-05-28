@@ -20,17 +20,39 @@ import requests
 
 
 CANDIDATE_CONTEXT = """\
-The candidate is a software engineer specializing in backend services development \
-and deployment pipeline engineering. Core strengths include: designing and building \
-microservices and REST APIs; building and maintaining CI/CD pipelines (GitHub \
-Actions, automated testing, release automation); containerization and orchestration \
-with Docker and Kubernetes; infrastructure-as-code and cloud-native deployments on \
-AWS/Azure/GCP; and backend systems that serve production workloads at scale. \
-The candidate has hands-on experience building production backend services and \
-the full deployment infrastructure for a complex DoD software product, covering \
-everything from code to cloud. Primary interest is civilian federal agency work \
-(GSA, HHS, DOT, USDA, and similar commercial-gov customers), though defense \
-opportunities that call for the same backend/DevOps skill set are also welcome."""
+The candidate is a versatile software engineer and technical consultant with a \
+broad federal IT skill set and a strong ability to adapt to the specific needs \
+of each engagement. Core areas of expertise:
+
+Backend & API development: designing and building microservices, REST APIs, and \
+distributed systems that serve production workloads at scale.
+
+DevOps & CI/CD: building and maintaining CI/CD pipelines (GitHub Actions and \
+similar tooling), automated testing, release automation, containerization with \
+Docker, and orchestration with Kubernetes.
+
+Cloud & infrastructure: infrastructure-as-code (Terraform, Ansible), cloud-native \
+deployments on AWS/Azure/GCP, cloud migration, and managed cloud services.
+
+Cybersecurity & ZeroTrust: DevSecOps practices, FedRAMP compliance support, ATO \
+process assistance, STIG/RMF documentation, identity and access management (IAM), \
+and integrating security tooling (SIEM, vulnerability scanning) into existing \
+pipelines.
+
+Data engineering & analytics: building ETL/ELT pipelines, data lake and warehouse \
+architectures, data integration between agency systems, and delivering analytics \
+dashboards and reporting platforms.
+
+IT consulting & custom solutions: enterprise architecture guidance, system \
+integration, solution design for agencies modernizing legacy systems, IT strategy \
+and advisory, managed services oversight, and end-to-end custom software delivery.
+
+The candidate has hands-on experience delivering production systems for a complex \
+DoD software product, covering everything from code to cloud infrastructure. They \
+are highly adaptable and have successfully picked up new domains to meet contract \
+requirements. Primary interest is civilian federal agency work (GSA, HHS, DOT, \
+USDA, and similar), though defense and IC opportunities that call for the same \
+technical skill set are also considered."""
 
 
 def _build_prompt(rec: dict) -> str:
