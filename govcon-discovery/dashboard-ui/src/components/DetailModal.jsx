@@ -295,6 +295,25 @@ export default function DetailModal({ opportunity: o, onClose }) {
               // NO WRITEUP AVAILABLE
             </div>
           )}
+
+          {/* Game plan section — only rendered when present */}
+          {o.gameplan_html && (
+            <>
+              <div style={{
+                height: 1,
+                background: 'linear-gradient(90deg, var(--yellow) 0%, transparent 100%)',
+                boxShadow: '0 0 8px rgba(252,227,0,0.2)',
+                margin: '1.4rem 0 1.1rem',
+              }} />
+              <div className="cp-label" style={{ fontSize: 11, marginBottom: 12 }}>
+                ACTION PLAN
+              </div>
+              <div
+                className="writeup-content"
+                dangerouslySetInnerHTML={{ __html: o.gameplan_html }}
+              />
+            </>
+          )}
         </div>
       </div>
     </div>

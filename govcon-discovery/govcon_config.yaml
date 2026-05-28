@@ -120,6 +120,8 @@ ai:
   max_tokens: 5000
   # Keep an opportunity only when the AI relevance score is at least this.
   score_threshold: 60
+  # Generate a game plan (gameplan.md) for kept opportunities at or above this score.
+  gameplan_threshold: 80
 
 output:
   # Folder (committed to the repo) where per-contract docs are written.

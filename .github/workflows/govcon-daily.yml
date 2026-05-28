@@ -3,6 +3,17 @@ name: GovCon Opportunity Discovery
 on:
   schedule:
     - cron: '0 3 * * *'   # 03:00 UTC daily, after GovCon's 02:00 UTC data refresh
+  push:
+    branches: [contract-discovery]
+    paths:
+      - 'govcon-discovery/govcon.py'
+      - 'govcon-discovery/govcon_client.py'
+      - 'govcon-discovery/store.py'
+      - 'govcon-discovery/ai_fit.py'
+      - 'govcon-discovery/relevance.py'
+      - 'govcon-discovery/govcon_config.yaml'
+      - 'requirements.txt'
+      - '.github/workflows/govcon-daily.yml'
   workflow_dispatch:
     inputs:
       since:

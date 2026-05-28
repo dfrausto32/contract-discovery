@@ -31,30 +31,43 @@ def get_db(path: Path = DB_PATH) -> sqlite3.Connection:
 def init_db(conn: sqlite3.Connection) -> None:
     conn.execute("""
         CREATE TABLE IF NOT EXISTS seen (
-            notice_id     TEXT PRIMARY KEY,
-            title         TEXT,
-            posted_date   TEXT,
-            notice_type   TEXT,
-            naics         TEXT,
-            agency        TEXT,
-            ui_link       TEXT,
-            response_deadline TEXT,
-            stage1_score  INTEGER,
-            ai_score      INTEGER,
-            disposition   TEXT NOT NULL,
-            ai_generated  INTEGER NOT NULL DEFAULT 0,
-            output_path   TEXT,
-            first_seen    TEXT NOT NULL
+            notice_id          TEXT PRIMARY KEY,
+            title              TEXT,
+            posted_date        TEXT,
+            notice_type        TEXT,
+            naics              TEXT,
+            agency             TEXT,
+            ui_link            TEXT,
+            response_deadline  TEXT,
+            solicitation_number TEXT,
+            stage1_score       INTEGER,
+            ai_score           INTEGER,
+            disposition        TEXT NOT NULL,
+            ai_generated       INTEGER NOT NULL DEFAULT 0,
+            output_path        TEXT,
+            first_seen         TEXT NOT NULL
         )
     """)
+    # Migration: add solicitation_number to existing databases that predate this column.
+    try:
+        conn.execute("ALTER TABLE seen ADD COLUMN solicitation_number TEXT")
+    except Exception:
+        pass  # column already exists
     conn.commit()
 
 
-def is_seen(conn: sqlite3.Connection, notice_id: str) -> bool:
-    row = conn.execute(
+def is_seen(conn: sqlite3.Connection, notice_id: str,
+            solicitation_number: str | None = None) -> bool:
+    if conn.execute(
         "SELECT 1 FROM seen WHERE notice_id = ?", (notice_id,)
-    ).fetchone()
-    return row is not None
+    ).fetchone():
+        return True
+    if solicitation_number:
+        if conn.execute(
+            "SELECT 1 FROM seen WHERE solicitation_number = ?", (solicitation_number,)
+        ).fetchone():
+            return True
+    return False
 
 
 def record(conn: sqlite3.Connection, rec: dict, disposition: str,
@@ -63,12 +76,14 @@ def record(conn: sqlite3.Connection, rec: dict, disposition: str,
     conn.execute("""
         INSERT OR REPLACE INTO seen
             (notice_id, title, posted_date, notice_type, naics, agency,
-             ui_link, response_deadline, stage1_score, ai_score, disposition,
+             ui_link, response_deadline, solicitation_number,
+             stage1_score, ai_score, disposition,
              ai_generated, output_path, first_seen)
-        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
     """, (
         rec["notice_id"], rec["title"], rec["posted_date"], rec["type"],
         rec["naics"], rec["agency"], rec["ui_link"], rec["response_deadline"],
+        rec.get("solicitation_number") or None,
         stage1_score, ai_score, disposition,
         1 if ai_generated else 0, output_path,
         datetime.date.today().isoformat(),

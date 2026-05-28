@@ -181,3 +181,76 @@ def evaluate_and_write(rec: dict, config: dict, stage1: dict) -> dict:
     )
     return {"status": "ok", "ai_score": score, "ai_generated": True,
             "markdown": header + body}
+
+
+def _build_gameplan_prompt(rec: dict, fit_markdown: str) -> str:
+    return f"""\
+{CANDIDATE_CONTEXT}
+
+Below is a high-scoring federal contract opportunity and an AI-generated fit writeup.
+Produce a structured, actionable game plan for pursuing this opportunity.
+
+Opportunity:
+- Title: {rec.get('title')}
+- Agency: {rec.get('agency')}
+- Notice type: {rec.get('type')}
+- NAICS: {rec.get('naics')}
+- Solicitation #: {rec.get('solicitation_number')}
+- Posted: {rec.get('posted_date')}
+- Response deadline: {rec.get('response_deadline')}
+- Link: {rec.get('ui_link')}
+- Description: {(rec.get('description_text') or '(no description text retrieved)')[:4000]}
+
+Fit writeup:
+{fit_markdown[:2000]}
+
+Respond with ONLY a markdown document (no surrounding prose, no JSON) with these exact sections:
+
+## Go / No-Go
+2–3 bullet quick-read on whether to pursue and the decisive factors.
+
+## Immediate Actions (First 48–72 Hours)
+Concrete steps: register interest on SAM.gov, download solicitation attachments, \
+identify the contracting officer, send a capability statement, check for any \
+pre-solicitation Q&A windows.
+
+## Preliminary Work
+Preparation that can begin now regardless of the final solicitation: \
+capability statement sections directly relevant to this scope, past performance \
+narratives to draft, teaming partner research, CAGE/UEI verification, any \
+required certifications or contract vehicles (GWAC, IDIQ, 8(a), etc.).
+
+## Documents to Obtain
+List attachments, SOWs, PWS, or other files that should be downloaded from the \
+SAM.gov link, plus any standard forms (SF-1449, SF-33, etc.) inferred from the \
+notice type and description.
+
+## Key Dates & Timeline
+Response deadline, any pre-solicitation windows, Q&A periods, or other dates \
+mentioned in the description. Flag if the deadline is within 14 days.
+
+## Risks & Unknowns
+Set-aside restrictions, incumbent signals, competition level indicators, scope \
+gaps versus the candidate's profile, and anything requiring clarification."""
+
+
+def generate_gameplan(rec: dict, config: dict, fit_markdown: str) -> str | None:
+    """Generate a game-plan markdown document for a high-scoring opportunity.
+
+    Returns the markdown string on success, None on any failure (missing key,
+    API error, etc.). Game plan is always optional — never blocks a keep.
+    """
+    provider = config["ai"]["provider"]
+    key_env = "ANTHROPIC_API_KEY" if provider == "claude" else "OPENAI_API_KEY"
+    api_key = os.environ.get(key_env)
+    if not api_key:
+        return None
+
+    prompt = _build_gameplan_prompt(rec, fit_markdown)
+    try:
+        raw = (_call_claude if provider == "claude" else _call_openai)(
+            prompt, config, api_key
+        )
+        return raw.strip()
+    except Exception:  # noqa: BLE001
+        return None

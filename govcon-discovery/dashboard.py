@@ -74,6 +74,16 @@ def _days_until(deadline: str):
     return (d - datetime.date.today()).days
 
 
+def read_gameplan(output_path: str) -> str:
+    """Return the game-plan body as HTML, or empty string if none exists."""
+    if not output_path:
+        return ""
+    gp = HERE / output_path / "gameplan.md"
+    if not gp.exists():
+        return ""
+    return md.markdown(gp.read_text().strip(), extensions=["extra", "sane_lists"])
+
+
 def read_writeup(output_path: str) -> str:
     """Return the AI/template write-up body of an opportunity as HTML."""
     if not output_path:
@@ -110,6 +120,7 @@ def build_records(conn) -> list[dict]:
             "score_band": score_band(row["ai_score"]),
             "ai_generated": bool(row["ai_generated"]),
             "writeup_html": read_writeup(row["output_path"]),
+            "gameplan_html": read_gameplan(row["output_path"]),
             "folder": Path(row["output_path"]).name if row["output_path"] else "",
         })
     return records

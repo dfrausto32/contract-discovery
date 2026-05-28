@@ -53,11 +53,14 @@ def _step_summary(line: str) -> None:
             f.write(line + "\n")
 
 
-def _write_opportunity(rec: dict, markdown: str, out_dir: Path) -> str:
+def _write_opportunity(rec: dict, markdown: str, out_dir: Path,
+                        gameplan: str | None = None) -> str:
     folder = out_dir / f"{rec['posted_date']}__{_slug(rec['notice_id'])}"
     folder.mkdir(parents=True, exist_ok=True)
     (folder / "README.md").write_text(markdown)
     (folder / "opportunity.json").write_text(json.dumps(rec, indent=2, default=str))
+    if gameplan:
+        (folder / "gameplan.md").write_text(gameplan)
     return str(folder.relative_to(out_dir.parent))
 
 
@@ -135,13 +138,16 @@ def run(dry_run: bool, since: str, full: bool, limit: int):
 
     stage1_threshold = config["relevance"]["stage1_threshold"]
     ai_threshold = config["ai"]["score_threshold"]
+    gameplan_threshold = config["ai"].get("gameplan_threshold", 80)
     counts = {"new": 0, "kept": 0, "skipped_stage1": 0,
-              "skipped_ai": 0, "excluded": 0, "already_seen": 0, "ai_error": 0}
+              "skipped_ai": 0, "excluded": 0, "already_seen": 0,
+              "ai_error": 0, "gameplan": 0}
 
     for rec in records:
         if limit is not None and counts["new"] >= limit:
             break
-        if not rec["notice_id"] or store.is_seen(conn, rec["notice_id"]):
+        sol_num = rec.get("solicitation_number") or None
+        if not rec["notice_id"] or store.is_seen(conn, rec["notice_id"], sol_num):
             counts["already_seen"] += 1
             continue
         counts["new"] += 1
@@ -181,8 +187,15 @@ def run(dry_run: bool, since: str, full: bool, limit: int):
         counts["kept"] += 1
         click.echo(f"  KEEP [{result['ai_score']}] {rec['posted_date']} "
                    f"{rec['title'][:70]}")
+
+        gameplan = None
+        if result["ai_generated"] and result["ai_score"] >= gameplan_threshold:
+            gameplan = ai_fit.generate_gameplan(rec, config, result["markdown"])
+            if gameplan:
+                counts["gameplan"] += 1
+
         if not dry_run:
-            path = _write_opportunity(rec, result["markdown"], out_dir)
+            path = _write_opportunity(rec, result["markdown"], out_dir, gameplan)
             store.record(conn, rec, "kept", s1["score"], result["ai_score"],
                          result["ai_generated"], path)
 
@@ -202,7 +215,8 @@ def run(dry_run: bool, since: str, full: bool, limit: int):
     summary = (f"new={counts['new']} kept={counts['kept']} "
                f"skipped_stage1={counts['skipped_stage1']} "
                f"skipped_ai={counts['skipped_ai']} excluded={counts['excluded']} "
-               f"ai_error={counts['ai_error']} already_seen={counts['already_seen']}")
+               f"ai_error={counts['ai_error']} already_seen={counts['already_seen']} "
+               f"gameplan={counts['gameplan']}")
     click.echo(f"\nDone. {summary}")
     if counts["ai_error"]:
         click.echo(f"  WARNING: {counts['ai_error']} opportunities hit AI errors "
