@@ -25,6 +25,10 @@ on:
         type: boolean
         required: false
         default: false
+      limit:
+        description: "Max opportunities to evaluate this run (blank = no limit). Use 150-200 for backfill batches."
+        required: false
+        default: ""
 
 permissions:
   contents: write
@@ -63,10 +67,12 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           SINCE: ${{ github.event.inputs.since }}
           FULL: ${{ github.event.inputs.full }}
+          LIMIT: ${{ github.event.inputs.limit }}
         run: |
           ARGS=""
           if [ -n "$SINCE" ]; then ARGS="$ARGS --since $SINCE"; fi
           if [ "$FULL" = "true" ]; then ARGS="$ARGS --full"; fi
+          if [ -n "$LIMIT" ]; then ARGS="$ARGS --limit $LIMIT"; fi
           python govcon.py run $ARGS
 
       - name: Commit new opportunities
