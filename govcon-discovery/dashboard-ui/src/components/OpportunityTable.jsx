@@ -5,6 +5,7 @@ const COLS = [
   { key: 'title',           label: 'TITLE',     sortable: true  },
   { key: 'agency_short',    label: 'AGENCY',    sortable: true  },
   { key: 'notice_type',     label: 'TYPE',      sortable: true  },
+  { key: 'barrier_order',   label: 'ENTRY',     sortable: true  },
   { key: 'score',           label: 'SCORE',     sortable: true  },
   { key: 'deadline_in_days',label: 'DEADLINE',  sortable: true  },
   { key: null,              label: 'LINK',      sortable: false },
@@ -75,7 +76,7 @@ export default function OpportunityTable({ rows, total, state, onSort, onSelect 
         overflow: 'hidden',
       }}>
         <div style={{ overflowX: 'auto' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 740 }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 820 }}>
             <thead>
               <tr>
                 {COLS.map(col => (
@@ -113,7 +114,7 @@ export default function OpportunityTable({ rows, total, state, onSort, onSelect 
                 ))
               ) : (
                 <tr>
-                  <td colSpan={7} style={{ padding: '3rem 1rem', textAlign: 'center' }}>
+                  <td colSpan={8} style={{ padding: '3rem 1rem', textAlign: 'center' }}>
                     <div style={{
                       display: 'flex',
                       flexDirection: 'column',

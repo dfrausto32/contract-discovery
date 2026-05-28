@@ -1,3 +1,12 @@
+import { BARRIER_LABELS } from '../hooks/useFilter.js';
+
+const BARRIER_OPTIONS = [
+  { value: 'EASY ENTRY',   label: 'EASY ENTRY',   color: '#39FF14', desc: 'Capabilities statement only' },
+  { value: 'EARLY STAGE',  label: 'EARLY STAGE',  color: '#00E5FF', desc: 'Pre-RFP engagement window' },
+  { value: 'FAST TRACK',   label: 'FAST TRACK',   color: '#FCE300', desc: 'Combined notice, faster timeline' },
+  { value: 'FULL PROPOSAL',label: 'FULL PROPOSAL', color: '#FF6B00', desc: 'Full proposal required' },
+];
+
 function FilterSection({ label, children }) {
   return (
     <div style={{ marginBottom: '1.1rem' }}>
@@ -91,6 +100,64 @@ export default function Sidebar({ opportunities, state, actions, isFiltered, act
           <option value="">ALL AGENCIES</option>
           {agencies.map(a => <option key={a} value={a}>{a}</option>)}
         </select>
+      </FilterSection>
+
+      {/* Entry Barrier */}
+      <FilterSection label="ENTRY BARRIER">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+          {BARRIER_OPTIONS.map(opt => {
+            const active = state.barrier === opt.value;
+            return (
+              <button
+                key={opt.value}
+                onClick={() => actions.setBarrier(active ? '' : opt.value)}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 8,
+                  background: active ? `${opt.color}12` : 'none',
+                  border: `1px solid ${active ? opt.color : 'rgba(255,255,255,0.06)'}`,
+                  cursor: 'pointer',
+                  padding: '5px 8px',
+                  textAlign: 'left',
+                  clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 0 100%)',
+                  transition: 'all 0.1s ease',
+                  boxShadow: active ? `0 0 8px ${opt.color}30` : 'none',
+                }}
+                onMouseEnter={e => { if (!active) e.currentTarget.style.borderColor = `${opt.color}60`; }}
+                onMouseLeave={e => { if (!active) e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)'; }}
+              >
+                <div style={{
+                  width: 6,
+                  height: 6,
+                  background: opt.color,
+                  flexShrink: 0,
+                  boxShadow: active ? `0 0 6px ${opt.color}` : 'none',
+                }} />
+                <div>
+                  <div style={{
+                    fontFamily: "'Rajdhani', sans-serif",
+                    fontWeight: 700,
+                    fontSize: 10,
+                    letterSpacing: '0.08em',
+                    color: active ? opt.color : 'var(--text-muted)',
+                    textShadow: active ? `0 0 6px ${opt.color}60` : 'none',
+                  }}>
+                    {opt.label}
+                  </div>
+                  <div style={{
+                    fontFamily: "'Share Tech Mono', monospace",
+                    fontSize: 9,
+                    color: 'var(--text-subtle)',
+                    letterSpacing: '0.04em',
+                  }}>
+                    {opt.desc}
+                  </div>
+                </div>
+              </button>
+            );
+          })}
+        </div>
       </FilterSection>
 
       {/* Min Score */}

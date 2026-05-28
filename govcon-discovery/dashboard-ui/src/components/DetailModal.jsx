@@ -1,10 +1,29 @@
 import { useEffect } from 'react';
 
 const TYPE_BADGE = {
-  'Solicitation':                  { bg: '#00E5FF', text: '#000' },
-  'Combined Synopsis/Solicitation':{ bg: '#FCE300', text: '#000' },
-  'Presolicitation':               { bg: '#FF6B00', text: '#000' },
-  'Sources Sought':                { bg: '#FF0055', text: '#fff' },
+  'Solicitation': {
+    bg: '#00E5FF', text: '#000',
+    tip: 'Solicitation (RFP/RFQ) — Formal request for proposals. Full proposal required. Most competitive pursuit.',
+  },
+  'Combined Synopsis/Solicitation': {
+    bg: '#FCE300', text: '#000',
+    tip: 'Combined Synopsis/Solicitation — Combines the market notice and RFP in one posting. Full proposal required but faster timeline.',
+  },
+  'Presolicitation': {
+    bg: '#FF6B00', text: '#000',
+    tip: 'Presolicitation — Early notice before the formal RFP. Good window to introduce yourself to the CO and shape requirements.',
+  },
+  'Sources Sought': {
+    bg: '#A855F7', text: '#fff',
+    tip: "Sources Sought — Market research only. No contract is awarded. Submit a capabilities statement to get on the agency's radar. Lowest commitment.",
+  },
+};
+
+const BARRIER = {
+  'Sources Sought':                 { label: 'EASY ENTRY',    color: '#39FF14' },
+  'Presolicitation':                { label: 'EARLY STAGE',   color: '#00E5FF' },
+  'Combined Synopsis/Solicitation': { label: 'FAST TRACK',    color: '#FCE300' },
+  'Solicitation':                   { label: 'FULL PROPOSAL', color: '#FF6B00' },
 };
 
 function scoreColor(s) {
@@ -67,14 +86,16 @@ export default function DetailModal({ opportunity: o, onClose }) {
 
   if (!o) return null;
 
-  const badge   = TYPE_BADGE[o.notice_type] ?? { bg: 'var(--surface-3)', text: 'var(--text-muted)' };
+  const badge   = TYPE_BADGE[o.notice_type] ?? { bg: 'var(--surface-3)', text: 'var(--text-muted)', tip: '' };
+  const barrier = BARRIER[o.notice_type];
   const sc      = scoreColor(o.score);
   const naics   = (o.naics ?? []).join(', ') || '—';
   const dlDays  = o.deadline_in_days;
   const dlColor = deadlineColor(dlDays);
+  const expired = dlDays != null && dlDays < 0;
 
   const deadlineVal = o.response_deadline
-    ? `${o.response_deadline}${dlDays != null ? `  (${dlDays < 0 ? `${Math.abs(dlDays)}D AGO` : `${dlDays}D`})` : ''}`
+    ? `${o.response_deadline}${dlDays != null ? `  (${dlDays < 0 ? `${Math.abs(dlDays)}D AGO — EXPIRED` : `${dlDays}D`})` : ''}`
     : '—';
 
   return (
@@ -163,17 +184,33 @@ export default function DetailModal({ opportunity: o, onClose }) {
           {/* Badges row */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
             {o.notice_type && (
+              <span
+                title={badge.tip}
+                style={{
+                  fontFamily: "'Rajdhani', sans-serif",
+                  fontWeight: 700,
+                  fontSize: 9,
+                  letterSpacing: '0.1em',
+                  padding: '2px 8px',
+                  background: badge.bg,
+                  color: badge.text,
+                  clipPath: 'polygon(0 0, calc(100% - 5px) 0, 100% 5px, 100% 100%, 0 100%)',
+                  cursor: 'help',
+                }}
+              >
+                {o.notice_type.toUpperCase()}
+              </span>
+            )}
+            {barrier && (
               <span style={{
                 fontFamily: "'Rajdhani', sans-serif",
                 fontWeight: 700,
                 fontSize: 9,
-                letterSpacing: '0.1em',
-                padding: '2px 8px',
-                background: badge.bg,
-                color: badge.text,
-                clipPath: 'polygon(0 0, calc(100% - 5px) 0, 100% 5px, 100% 100%, 0 100%)',
+                letterSpacing: '0.08em',
+                color: barrier.color,
+                textShadow: `0 0 6px ${barrier.color}50`,
               }}>
-                {o.notice_type.toUpperCase()}
+                ▸ {barrier.label}
               </span>
             )}
             {o.score != null && (
@@ -184,6 +221,18 @@ export default function DetailModal({ opportunity: o, onClose }) {
                 textShadow: `0 0 8px ${sc}80`,
               }}>
                 ◈ {o.score}/100 {o.ai_generated ? '[AI]' : '[KW]'}
+              </span>
+            )}
+            {expired && (
+              <span style={{
+                fontFamily: "'Share Tech Mono', monospace",
+                fontSize: 9,
+                letterSpacing: '0.08em',
+                color: '#c0504d',
+                border: '1px solid #c0504d60',
+                padding: '1px 6px',
+              }}>
+                EXPIRED
               </span>
             )}
           </div>

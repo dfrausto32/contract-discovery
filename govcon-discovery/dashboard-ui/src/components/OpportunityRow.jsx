@@ -1,8 +1,29 @@
+// notice_type → badge color + tooltip description
 const TYPE_BADGE = {
-  'Solicitation':                  { bg: '#00E5FF', text: '#000' },
-  'Combined Synopsis/Solicitation':{ bg: '#FCE300', text: '#000' },
-  'Presolicitation':               { bg: '#FF6B00', text: '#000' },
-  'Sources Sought':                { bg: '#FF0055', text: '#fff' },
+  'Solicitation': {
+    bg: '#00E5FF', text: '#000',
+    tip: 'Solicitation (RFP/RFQ) — Formal request for proposals. Full proposal required. Most competitive pursuit.',
+  },
+  'Combined Synopsis/Solicitation': {
+    bg: '#FCE300', text: '#000',
+    tip: 'Combined Synopsis/Solicitation — Combines the market notice and RFP in one posting. Full proposal required but faster timeline.',
+  },
+  'Presolicitation': {
+    bg: '#FF6B00', text: '#000',
+    tip: 'Presolicitation — Early notice before the formal RFP. Good window to introduce yourself to the CO and shape requirements.',
+  },
+  'Sources Sought': {
+    bg: '#A855F7', text: '#fff',
+    tip: 'Sources Sought — Market research only. No contract is awarded. Submit a capabilities statement to get on the agency\'s radar. Lowest commitment.',
+  },
+};
+
+// notice_type → barrier-to-entry indicator
+const BARRIER = {
+  'Sources Sought':                 { label: 'EASY ENTRY',    color: '#39FF14' },
+  'Presolicitation':                { label: 'EARLY STAGE',   color: '#00E5FF' },
+  'Combined Synopsis/Solicitation': { label: 'FAST TRACK',    color: '#FCE300' },
+  'Solicitation':                   { label: 'FULL PROPOSAL', color: '#FF6B00' },
 };
 
 function scoreColor(s) {
@@ -36,13 +57,19 @@ const TD = {
 };
 
 export default function OpportunityRow({ opportunity: o, onSelect }) {
-  const badge   = TYPE_BADGE[o.notice_type] ?? { bg: 'var(--surface-3)', text: 'var(--text-muted)' };
+  const badge   = TYPE_BADGE[o.notice_type] ?? { bg: 'var(--surface-3)', text: 'var(--text-muted)', tip: '' };
+  const barrier = BARRIER[o.notice_type];
   const sc      = scoreColor(o.score);
   const band    = scoreBand(o.score);
   const dlColor = deadlineColor(o.deadline_in_days);
+  const expired = o.deadline_in_days != null && o.deadline_in_days < 0;
 
   return (
-    <tr className={`opp-row ${band}`} onClick={() => onSelect(o)}>
+    <tr
+      className={`opp-row ${band}${expired ? ' opp-expired' : ''}`}
+      onClick={() => onSelect(o)}
+      style={expired ? { opacity: 0.55 } : undefined}
+    >
       {/* Posted */}
       <td style={TD}>
         <span style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: 11, color: 'var(--text-muted)', whiteSpace: 'nowrap' }}>
@@ -51,7 +78,7 @@ export default function OpportunityRow({ opportunity: o, onSelect }) {
       </td>
 
       {/* Title */}
-      <td style={{ ...TD, maxWidth: 300 }}>
+      <td style={{ ...TD, maxWidth: 280 }}>
         <span title={o.title} style={{
           fontFamily: "'Rajdhani', sans-serif",
           fontWeight: 500,
@@ -60,14 +87,26 @@ export default function OpportunityRow({ opportunity: o, onSelect }) {
           overflow: 'hidden',
           textOverflow: 'ellipsis',
           whiteSpace: 'nowrap',
-          color: 'var(--text)',
+          color: expired ? '#c0504d' : 'var(--text)',
+          textDecoration: expired ? 'line-through' : 'none',
+          textDecorationColor: '#c0504d80',
         }}>
           {o.title ?? '—'}
         </span>
+        {expired && (
+          <span style={{
+            fontFamily: "'Share Tech Mono', monospace",
+            fontSize: 9,
+            letterSpacing: '0.06em',
+            color: '#c0504d',
+          }}>
+            EXPIRED
+          </span>
+        )}
       </td>
 
       {/* Agency */}
-      <td style={{ ...TD, maxWidth: 150 }}>
+      <td style={{ ...TD, maxWidth: 140 }}>
         <span title={o.agency_full} style={{
           fontFamily: "'Rajdhani', sans-serif",
           fontSize: 12,
@@ -85,19 +124,40 @@ export default function OpportunityRow({ opportunity: o, onSelect }) {
       {/* Type */}
       <td style={TD}>
         {o.notice_type ? (
+          <span
+            title={badge.tip}
+            style={{
+              fontFamily: "'Rajdhani', sans-serif",
+              fontWeight: 700,
+              fontSize: 10,
+              letterSpacing: '0.06em',
+              padding: '2px 7px',
+              background: badge.bg,
+              color: badge.text,
+              clipPath: 'polygon(0 0, calc(100% - 5px) 0, 100% 5px, 100% 100%, 0 100%)',
+              whiteSpace: 'nowrap',
+              display: 'inline-block',
+              cursor: 'help',
+            }}
+          >
+            {o.notice_type.toUpperCase()}
+          </span>
+        ) : <span style={{ color: 'var(--text-subtle)' }}>—</span>}
+      </td>
+
+      {/* Entry barrier */}
+      <td style={TD}>
+        {barrier ? (
           <span style={{
             fontFamily: "'Rajdhani', sans-serif",
             fontWeight: 700,
-            fontSize: 10,
-            letterSpacing: '0.06em',
-            padding: '2px 7px',
-            background: badge.bg,
-            color: badge.text,
-            clipPath: 'polygon(0 0, calc(100% - 5px) 0, 100% 5px, 100% 100%, 0 100%)',
+            fontSize: 9,
+            letterSpacing: '0.07em',
+            color: barrier.color,
+            textShadow: `0 0 6px ${barrier.color}50`,
             whiteSpace: 'nowrap',
-            display: 'inline-block',
           }}>
-            {o.notice_type.toUpperCase()}
+            ▸ {barrier.label}
           </span>
         ) : <span style={{ color: 'var(--text-subtle)' }}>—</span>}
       </td>
@@ -135,8 +195,8 @@ export default function OpportunityRow({ opportunity: o, onSelect }) {
             <span style={{
               fontFamily: "'Share Tech Mono', monospace",
               fontSize: 11,
-              color: dlColor ?? 'var(--text-muted)',
-              textShadow: dlColor ? `0 0 6px ${dlColor}60` : 'none',
+              color: expired ? '#c0504d' : (dlColor ?? 'var(--text-muted)'),
+              textShadow: !expired && dlColor ? `0 0 6px ${dlColor}60` : 'none',
             }}>
               {o.response_deadline}
             </span>
@@ -145,10 +205,9 @@ export default function OpportunityRow({ opportunity: o, onSelect }) {
                 fontFamily: "'Share Tech Mono', monospace",
                 fontSize: 9,
                 letterSpacing: '0.06em',
-                color: dlColor ?? 'var(--text-subtle)',
-                textShadow: dlColor ? `0 0 4px ${dlColor}80` : 'none',
+                color: expired ? '#c0504d' : (dlColor ?? 'var(--text-subtle)'),
               }}>
-                {o.deadline_in_days < 0
+                {expired
                   ? `${Math.abs(o.deadline_in_days)}D AGO`
                   : `${o.deadline_in_days}D`}
               </span>
