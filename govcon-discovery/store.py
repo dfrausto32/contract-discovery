@@ -56,18 +56,31 @@ def init_db(conn: sqlite3.Connection) -> None:
     conn.commit()
 
 
-def is_seen(conn: sqlite3.Connection, notice_id: str,
-            solicitation_number: str | None = None) -> bool:
-    if conn.execute(
+def is_seen(conn: sqlite3.Connection, notice_id: str) -> bool:
+    """Return True if this exact notice_id has already been evaluated."""
+    return conn.execute(
         "SELECT 1 FROM seen WHERE notice_id = ?", (notice_id,)
-    ).fetchone():
-        return True
-    if solicitation_number:
-        if conn.execute(
-            "SELECT 1 FROM seen WHERE solicitation_number = ?", (solicitation_number,)
-        ).fetchone():
-            return True
-    return False
+    ).fetchone() is not None
+
+
+def get_by_solicitation_number(conn: sqlite3.Connection,
+                                sol_num: str) -> sqlite3.Row | None:
+    """Return the most recent record for a solicitation number, or None.
+
+    Used to detect amendments: a new notice_id arriving with a sol# we've
+    already evaluated. Returns the full row so the caller can check its
+    disposition and output_path before deciding how to handle the amendment.
+    """
+    return conn.execute(
+        "SELECT * FROM seen WHERE solicitation_number = ? ORDER BY first_seen DESC LIMIT 1",
+        (sol_num,)
+    ).fetchone()
+
+
+def delete_record(conn: sqlite3.Connection, notice_id: str) -> None:
+    """Remove a record by notice_id so an amendment can replace it cleanly."""
+    conn.execute("DELETE FROM seen WHERE notice_id = ?", (notice_id,))
+    conn.commit()
 
 
 def record(conn: sqlite3.Connection, rec: dict, disposition: str,

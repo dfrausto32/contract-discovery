@@ -54,8 +54,13 @@ def _step_summary(line: str) -> None:
 
 
 def _write_opportunity(rec: dict, markdown: str, out_dir: Path,
-                        gameplan: str | None = None) -> str:
-    folder = out_dir / f"{rec['posted_date']}__{_slug(rec['notice_id'])}"
+                        gameplan: str | None = None,
+                        existing_path: str | None = None) -> str:
+    if existing_path:
+        # Amendment overwriting a kept opp — reuse the existing folder.
+        folder = Path(__file__).parent / existing_path
+    else:
+        folder = out_dir / f"{rec['posted_date']}__{_slug(rec['notice_id'])}"
     folder.mkdir(parents=True, exist_ok=True)
     (folder / "README.md").write_text(markdown)
     (folder / "opportunity.json").write_text(json.dumps(rec, indent=2, default=str))
@@ -141,7 +146,7 @@ def run(dry_run: bool, since: str, full: bool, limit: int):
     gameplan_threshold = config["ai"].get("gameplan_threshold", 80)
     counts = {"new": 0, "kept": 0, "skipped_stage1": 0,
               "skipped_ai": 0, "excluded": 0, "already_seen": 0,
-              "ai_error": 0, "gameplan": 0}
+              "ai_error": 0, "gameplan": 0, "amendment": 0}
     total = len(records)
 
     click.echo(f"\n{'─'*72}")
@@ -153,27 +158,44 @@ def run(dry_run: bool, since: str, full: bool, limit: int):
             click.echo(f"{'─'*72}")
             click.echo(f"  Limit of {limit} reached — stopping early.")
             break
-        sol_num = rec.get("solicitation_number") or None
-        if not rec["notice_id"] or store.is_seen(conn, rec["notice_id"], sol_num):
+
+        if not rec["notice_id"]:
+            continue
+
+        # Skip if this exact notice_id was already processed.
+        if store.is_seen(conn, rec["notice_id"]):
             counts["already_seen"] += 1
             continue
+
+        # Detect amendments: same sol#, different notice_id.
+        sol_num  = rec.get("solicitation_number") or None
+        existing = store.get_by_solicitation_number(conn, sol_num) if sol_num else None
+        is_amendment = existing is not None
+
         counts["new"] += 1
-        idx = counts["new"]
+        if is_amendment:
+            counts["amendment"] += 1
+        idx   = counts["new"]
         title = (rec.get("title") or "(untitled)")[:55]
         date  = rec.get("posted_date") or "—"
+        amend_tag = " [AMEND]" if is_amendment else ""
 
         # Stage 1: keyword / NAICS pre-filter
         s1 = relevance.stage1_score(rec, config)
         if s1["excluded"]:
             counts["excluded"] += 1
-            click.echo(f"  {idx:>5}  {s1['score']:>3}   —   {'EXCLUDED':<10}  {date}  {title}")
+            click.echo(f"  {idx:>5}  {s1['score']:>3}   —   {'EXCLUDED':<10}  {date}  {title}{amend_tag}")
             if not dry_run:
+                if is_amendment:
+                    store.delete_record(conn, existing["notice_id"])
                 store.record(conn, rec, "excluded", s1["score"], None, False, None)
             continue
         if s1["score"] < stage1_threshold:
             counts["skipped_stage1"] += 1
-            click.echo(f"  {idx:>5}  {s1['score']:>3}   —   {'s1-skip':<10}  {date}  {title}")
+            click.echo(f"  {idx:>5}  {s1['score']:>3}   —   {'s1-skip':<10}  {date}  {title}{amend_tag}")
             if not dry_run:
+                if is_amendment:
+                    store.delete_record(conn, existing["notice_id"])
                 store.record(conn, rec, "skipped_stage1", s1["score"], None, False, None)
             continue
 
@@ -182,7 +204,7 @@ def run(dry_run: bool, since: str, full: bool, limit: int):
 
         if result["status"] == "error":
             counts["ai_error"] += 1
-            click.echo(f"  {idx:>5}  {s1['score']:>3}   !   {'AI-ERROR':<10}  {date}  {title}")
+            click.echo(f"  {idx:>5}  {s1['score']:>3}   !   {'AI-ERROR':<10}  {date}  {title}{amend_tag}")
             click.echo(f"         └─ {result.get('error_msg', '(no detail)')}", err=True)
             continue
 
@@ -192,8 +214,10 @@ def run(dry_run: bool, since: str, full: bool, limit: int):
 
         if not keep:
             counts["skipped_ai"] += 1
-            click.echo(f"  {idx:>5}  {s1['score']:>3}  {ai_score:>3}  {'ai-skip':<10}  {date}  {title}  {ai_tag}")
+            click.echo(f"  {idx:>5}  {s1['score']:>3}  {ai_score:>3}  {'ai-skip':<10}  {date}  {title}  {ai_tag}{amend_tag}")
             if not dry_run:
+                if is_amendment:
+                    store.delete_record(conn, existing["notice_id"])
                 store.record(conn, rec, "skipped_ai", s1["score"],
                              ai_score, result["ai_generated"], None)
             continue
@@ -206,10 +230,20 @@ def run(dry_run: bool, since: str, full: bool, limit: int):
                 counts["gameplan"] += 1
 
         gp_tag = "  ★ GAME PLAN" if gameplan else ""
-        click.echo(f"  {idx:>5}  {s1['score']:>3}  {ai_score:>3}  {'KEEP ✓':<10}  {date}  {title}  {ai_tag}{gp_tag}")
+        click.echo(f"  {idx:>5}  {s1['score']:>3}  {ai_score:>3}  {'KEEP ✓':<10}  {date}  {title}  {ai_tag}{amend_tag}{gp_tag}")
 
         if not dry_run:
-            path = _write_opportunity(rec, result["markdown"], out_dir, gameplan)
+            # Amendments to kept opps reuse the existing folder so the
+            # dashboard path stays stable. Amendments to skipped opps get a
+            # new folder since there was no prior output to overwrite.
+            existing_path = (
+                existing["output_path"]
+                if is_amendment and existing and existing["disposition"] == "kept"
+                else None
+            )
+            if is_amendment:
+                store.delete_record(conn, existing["notice_id"])
+            path = _write_opportunity(rec, result["markdown"], out_dir, gameplan, existing_path)
             store.record(conn, rec, "kept", s1["score"], ai_score,
                          result["ai_generated"], path)
 
@@ -229,6 +263,7 @@ def run(dry_run: bool, since: str, full: bool, limit: int):
         click.echo("  sync state held (AI errors this run) — this window re-pulls next run")
 
     summary = (f"new={counts['new']} kept={counts['kept']} "
+               f"amendment={counts['amendment']} "
                f"skipped_stage1={counts['skipped_stage1']} "
                f"skipped_ai={counts['skipped_ai']} excluded={counts['excluded']} "
                f"ai_error={counts['ai_error']} already_seen={counts['already_seen']} "
@@ -240,6 +275,7 @@ def run(dry_run: bool, since: str, full: bool, limit: int):
     click.echo(f"  stage1 skip    : {counts['skipped_stage1']}")
     click.echo(f"  AI skip        : {counts['skipped_ai']}")
     click.echo(f"  AI error       : {counts['ai_error']}")
+    click.echo(f"  amendments     : {counts['amendment']}")
     click.echo(f"  KEPT           : {counts['kept']}  (game plans: {counts['gameplan']})")
     click.echo(f"\nDone. {summary}")
     if counts["ai_error"]:
