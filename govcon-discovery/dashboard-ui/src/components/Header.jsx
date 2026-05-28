@@ -1,7 +1,8 @@
 export default function Header({ summary, loaded }) {
-  const total     = summary.total_kept      ?? 0;
-  const evaluated = summary.evaluated_total ?? 0;
-  const updated   = summary.last_updated    ?? '—';
+  const total       = summary.total_kept      ?? 0;
+  const evaluated   = summary.evaluated_total ?? 0;
+  const updated     = summary.last_updated    ?? '—';
+  const reviewCount = summary.review_count    ?? 0;
 
   return (
     <header style={{
@@ -46,12 +47,24 @@ export default function Header({ summary, loaded }) {
         </div>
         {loaded && (
           <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 10,
             fontFamily: "'Share Tech Mono', monospace",
             fontSize: 10,
             color: 'var(--text-muted)',
             letterSpacing: '0.06em',
           }}>
-            // {total} OPP · EVALUATED {evaluated.toLocaleString()} · {updated}
+            <span>// {total} OPP · EVALUATED {evaluated.toLocaleString()} · {updated}</span>
+            {reviewCount > 0 && (
+              <span style={{
+                color: '#FF9500',
+                textShadow: '0 0 6px rgba(255,149,0,0.7)',
+                letterSpacing: '0.08em',
+              }}>
+                ⚑ {reviewCount} PENDING REVIEW
+              </span>
+            )}
           </div>
         )}
       </div>

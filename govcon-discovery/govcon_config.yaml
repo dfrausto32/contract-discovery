@@ -175,6 +175,9 @@ ai:
   # Keep an opportunity when the AI relevance score is at or above this.
   # Lowered to 55 to surface adjacent / adaptable fits.
   score_threshold: 55
+  # Opportunities scoring in [review_min, score_threshold) go to the review queue
+  # instead of being silently dropped. Scored writeups are written to disk.
+  review_min: 35
   # Generate a game plan (gameplan.md) for kept opportunities at or above this score.
   gameplan_threshold: 80
 

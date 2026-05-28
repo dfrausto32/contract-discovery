@@ -235,6 +235,44 @@ export default function DetailModal({ opportunity: o, onClose }) {
                 EXPIRED
               </span>
             )}
+            {o.in_review && !o.human_verdict && (
+              <span style={{
+                fontFamily: "'Share Tech Mono', monospace",
+                fontSize: 9,
+                letterSpacing: '0.08em',
+                color: '#FF9500',
+                textShadow: '0 0 6px rgba(255,149,0,0.6)',
+                border: '1px solid rgba(255,149,0,0.4)',
+                padding: '1px 6px',
+              }}>
+                ⚑ REVIEW PENDING
+              </span>
+            )}
+            {o.human_verdict === 'yes' && (
+              <span style={{
+                fontFamily: "'Share Tech Mono', monospace",
+                fontSize: 9,
+                letterSpacing: '0.08em',
+                color: '#39FF14',
+                textShadow: '0 0 6px rgba(57,255,20,0.6)',
+                border: '1px solid rgba(57,255,20,0.4)',
+                padding: '1px 6px',
+              }}>
+                ✓ PURSUED
+              </span>
+            )}
+            {o.human_verdict === 'no' && (
+              <span style={{
+                fontFamily: "'Share Tech Mono', monospace",
+                fontSize: 9,
+                letterSpacing: '0.08em',
+                color: 'var(--text-muted)',
+                border: '1px solid var(--border-dim)',
+                padding: '1px 6px',
+              }}>
+                ✗ PASSED
+              </span>
+            )}
           </div>
         </div>
 

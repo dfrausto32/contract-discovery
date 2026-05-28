@@ -143,11 +143,15 @@ def run(dry_run: bool, since: str, full: bool, limit: int):
 
     stage1_threshold = config["relevance"]["stage1_threshold"]
     ai_threshold = config["ai"]["score_threshold"]
+    review_min = config["ai"].get("review_min", 35)
     gameplan_threshold = config["ai"].get("gameplan_threshold", 80)
-    counts = {"new": 0, "kept": 0, "skipped_stage1": 0,
+    counts = {"new": 0, "kept": 0, "review": 0, "skipped_stage1": 0,
               "skipped_ai": 0, "excluded": 0, "already_seen": 0,
               "ai_error": 0, "gameplan": 0, "amendment": 0}
     total = len(records)
+
+    # Load human verdicts to inject as few-shot examples into AI scoring.
+    feedback_examples = store.get_feedback_examples(conn)
 
     click.echo(f"\n{'─'*72}")
     click.echo(f"  {'IDX':>5}  {'S1':>3}  {'AI':>3}  {'RESULT':<10}  DATE        TITLE")
@@ -200,7 +204,7 @@ def run(dry_run: bool, since: str, full: bool, limit: int):
             continue
 
         # Stage 2: AI scoring
-        result = ai_fit.evaluate_and_write(rec, config, s1)
+        result = ai_fit.evaluate_and_write(rec, config, s1, feedback_examples)
 
         if result["status"] == "error":
             counts["ai_error"] += 1
@@ -210,9 +214,11 @@ def run(dry_run: bool, since: str, full: bool, limit: int):
 
         ai_score = result["ai_score"]
         ai_tag   = "[AI]" if result["ai_generated"] else "[KW]"
-        keep = result["status"] == "no_key" or ai_score >= ai_threshold
+        keep     = result["status"] == "no_key" or ai_score >= ai_threshold
+        in_review = (result["status"] != "no_key"
+                     and review_min <= ai_score < ai_threshold)
 
-        if not keep:
+        if not keep and not in_review:
             counts["skipped_ai"] += 1
             click.echo(f"  {idx:>5}  {s1['score']:>3}  {ai_score:>3}  {'ai-skip':<10}  {date}  {title}  {ai_tag}{amend_tag}")
             if not dry_run:
@@ -220,6 +226,26 @@ def run(dry_run: bool, since: str, full: bool, limit: int):
                     store.delete_record(conn, existing["notice_id"])
                 store.record(conn, rec, "skipped_ai", s1["score"],
                              ai_score, result["ai_generated"], None)
+            continue
+
+        if in_review:
+            counts["review"] += 1
+            click.echo(f"  {idx:>5}  {s1['score']:>3}  {ai_score:>3}  {'REVIEW ⚑':<10}  {date}  {title}  {ai_tag}{amend_tag}")
+            if not dry_run:
+                existing_path = (
+                    existing["output_path"]
+                    if is_amendment and existing and existing["disposition"] in ("kept", "review")
+                    else None
+                )
+                if is_amendment:
+                    store.delete_record(conn, existing["notice_id"])
+                path = _write_opportunity(rec, result["markdown"], out_dir, None, existing_path)
+                store.record(conn, rec, "review", s1["score"],
+                             ai_score, result["ai_generated"], path)
+                store.set_verdict(conn, rec["notice_id"], None)
+                conn.execute("UPDATE seen SET review_flagged=1 WHERE notice_id=?",
+                             (rec["notice_id"],))
+                conn.commit()
             continue
 
         counts["kept"] += 1
@@ -238,7 +264,7 @@ def run(dry_run: bool, since: str, full: bool, limit: int):
             # new folder since there was no prior output to overwrite.
             existing_path = (
                 existing["output_path"]
-                if is_amendment and existing and existing["disposition"] == "kept"
+                if is_amendment and existing and existing["disposition"] in ("kept", "review")
                 else None
             )
             if is_amendment:
@@ -263,6 +289,7 @@ def run(dry_run: bool, since: str, full: bool, limit: int):
         click.echo("  sync state held (AI errors this run) — this window re-pulls next run")
 
     summary = (f"new={counts['new']} kept={counts['kept']} "
+               f"review={counts['review']} "
                f"amendment={counts['amendment']} "
                f"skipped_stage1={counts['skipped_stage1']} "
                f"skipped_ai={counts['skipped_ai']} excluded={counts['excluded']} "
@@ -276,6 +303,7 @@ def run(dry_run: bool, since: str, full: bool, limit: int):
     click.echo(f"  AI skip        : {counts['skipped_ai']}")
     click.echo(f"  AI error       : {counts['ai_error']}")
     click.echo(f"  amendments     : {counts['amendment']}")
+    click.echo(f"  REVIEW ⚑      : {counts['review']}  (run: python govcon.py review)")
     click.echo(f"  KEPT           : {counts['kept']}  (game plans: {counts['gameplan']})")
     click.echo(f"\nDone. {summary}")
     if counts["ai_error"]:
@@ -339,6 +367,88 @@ def stats():
     click.echo(f"Evaluated: {total}")
     for disp, n in sorted(counts.items(), key=lambda x: -x[1]):
         click.echo(f"  {disp:<16}: {n}")
+
+
+@cli.command("review")
+@click.option("--limit", default=None, type=int, help="Stop after reviewing this many.")
+def review(limit: int):
+    """Interactively review borderline opportunities in the review queue."""
+    conn = store.get_db(DB_PATH)
+    store.init_db(conn)
+    queue = store.get_review_queue(conn)
+    conn.close()
+
+    if not queue:
+        click.echo("Review queue is empty. Run `python govcon.py run` to populate it.")
+        return
+
+    total_pending = len(queue)
+    click.echo(f"\n{'─'*72}")
+    click.echo(f"  REVIEW QUEUE — {total_pending} pending")
+    click.echo(f"{'─'*72}\n")
+
+    reviewed = kept = skipped_count = 0
+    for row in queue:
+        if limit is not None and reviewed >= limit:
+            break
+
+        click.echo(f"  [{reviewed + 1}/{total_pending}]")
+        click.echo(f"  Title  : {row['title']}")
+        click.echo(f"  Agency : {row['agency']}")
+        click.echo(f"  Scores : stage1={row['stage1_score']}  ai={row['ai_score']}")
+        click.echo(f"  NAICS  : {row['naics']}")
+        click.echo(f"  Deadline: {row['response_deadline'] or '—'}")
+        click.echo(f"  Link   : {row['ui_link'] or '—'}")
+
+        if row["output_path"]:
+            readme = Path(__file__).parent / row["output_path"] / "README.md"
+            if readme.exists():
+                lines = readme.read_text().splitlines()
+                # Skip the metadata header (lines up to and including the '---' separator)
+                sep = next((i for i, l in enumerate(lines) if l.strip() == "---"), -1)
+                body_lines = lines[sep + 1:sep + 22] if sep >= 0 else lines[:22]
+                body_lines = [l for l in body_lines if l.strip()][:15]
+                if body_lines:
+                    click.echo()
+                    for l in body_lines:
+                        click.echo(f"    {l}")
+
+        click.echo()
+        choice = click.prompt(
+            "  Keep? [y]es / [n]o / [s]kip / [q]uit",
+            default="s",
+            show_default=False,
+        ).strip().lower()
+
+        if choice == "q":
+            break
+        if choice == "s":
+            click.echo("  — skipped\n")
+            reviewed += 1
+            continue
+
+        if choice in ("y", "n"):
+            verdict = "yes" if choice == "y" else "no"
+            notes_raw = click.prompt("  Short note (optional, Enter to skip)", default="", show_default=False).strip()
+            notes = notes_raw or None
+            conn = store.get_db(DB_PATH)
+            store.set_verdict(conn, row["notice_id"], verdict, notes)
+            conn.close()
+            reviewed += 1
+            if verdict == "yes":
+                kept += 1
+                click.echo("  ✓ KEPT\n")
+            else:
+                skipped_count += 1
+                click.echo("  ✗ PASSED\n")
+        else:
+            click.echo("  — skipped (unrecognised input)\n")
+            reviewed += 1
+
+    remaining = total_pending - reviewed
+    click.echo(f"{'─'*72}")
+    click.echo(f"  Reviewed {reviewed}  ·  kept {kept}  ·  passed {skipped_count}  ·  {remaining} remaining in queue")
+    click.echo(f"{'─'*72}\n")
 
 
 if __name__ == "__main__":

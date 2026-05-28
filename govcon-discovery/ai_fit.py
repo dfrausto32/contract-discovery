@@ -55,10 +55,35 @@ USDA, and similar), though defense and IC opportunities that call for the same \
 technical skill set are also considered."""
 
 
-def _build_prompt(rec: dict) -> str:
+def _build_calibration_block(examples: list[dict]) -> str:
+    """Format human verdicts as a few-shot calibration section."""
+    if not examples:
+        return ""
+    yes_ex = [e for e in examples if e.get("human_verdict") == "yes"]
+    no_ex  = [e for e in examples if e.get("human_verdict") == "no"]
+
+    def fmt(e: dict) -> str:
+        line = f'- "{e.get("title", "")}" | {(e.get("agency") or "").split(".")[0]} | score={e.get("ai_score")} | NAICS={e.get("naics")}'
+        if e.get("human_notes"):
+            line += f'\n  Notes: {e["human_notes"]}'
+        return line
+
+    block = "\n## CALIBRATION — PAST VERDICTS\n"
+    block += "The hiring manager has reviewed these past opportunities. Use them to calibrate your score:\n\n"
+    if yes_ex:
+        block += "PURSUED (manager said YES):\n"
+        block += "\n".join(fmt(e) for e in yes_ex) + "\n\n"
+    if no_ex:
+        block += "PASSED (manager said NO):\n"
+        block += "\n".join(fmt(e) for e in no_ex) + "\n\n"
+    return block
+
+
+def _build_prompt(rec: dict, feedback_examples: list[dict] | None = None) -> str:
+    calibration = _build_calibration_block(feedback_examples or [])
     return f"""\
 {CANDIDATE_CONTEXT}
-
+{calibration}
 Below is a U.S. federal contract opportunity. Assess how well this candidate's \
 skills and experience fit the opportunity.
 
@@ -154,7 +179,8 @@ Set an AI provider key for a full writeup.
 """
 
 
-def evaluate_and_write(rec: dict, config: dict, stage1: dict) -> dict:
+def evaluate_and_write(rec: dict, config: dict, stage1: dict,
+                       feedback_examples: list[dict] | None = None) -> dict:
     """
     Returns {status, ai_score, ai_generated, markdown}, where status is:
       "ok"     — the AI call succeeded; ai_score is the model's relevance score
@@ -176,7 +202,7 @@ def evaluate_and_write(rec: dict, config: dict, stage1: dict) -> dict:
             "markdown": _template_doc(rec, stage1, "Generated without AI (no provider key set)."),
         }
 
-    prompt = _build_prompt(rec)
+    prompt = _build_prompt(rec, feedback_examples)
     try:
         raw = (_call_claude if provider == "claude" else _call_openai)(
             prompt, config, api_key

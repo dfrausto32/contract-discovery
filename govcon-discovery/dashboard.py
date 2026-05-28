@@ -100,29 +100,40 @@ def read_writeup(output_path: str) -> str:
     return md.markdown(body.strip(), extensions=["extra", "sane_lists"])
 
 
+def _row_to_record(row, in_review: bool = False) -> dict:
+    agency = short_agency(row["agency"])
+    return {
+        "notice_id": row["notice_id"],
+        "title": row["title"] or "(untitled)",
+        "posted_date": row["posted_date"],
+        "response_deadline": row["response_deadline"],
+        "deadline_in_days": _days_until(row["response_deadline"]),
+        "notice_type": row["notice_type"] or "",
+        "naics": clean_naics(row["naics"]),
+        "agency_short": agency["short"],
+        "agency_full": agency["full"],
+        "agency_group": agency["group_key"],
+        "ui_link": row["ui_link"],
+        "score": row["ai_score"],
+        "score_band": score_band(row["ai_score"]),
+        "ai_generated": bool(row["ai_generated"]),
+        "writeup_html": read_writeup(row["output_path"]),
+        "gameplan_html": read_gameplan(row["output_path"]),
+        "folder": Path(row["output_path"]).name if row["output_path"] else "",
+        "in_review": in_review,
+        "review_flagged": bool(row["review_flagged"]) if "review_flagged" in row.keys() else False,
+        "human_verdict": row["human_verdict"] if "human_verdict" in row.keys() else None,
+    }
+
+
 def build_records(conn) -> list[dict]:
-    records = []
-    for row in store.kept_opportunities(conn):
-        agency = short_agency(row["agency"])
-        records.append({
-            "notice_id": row["notice_id"],
-            "title": row["title"] or "(untitled)",
-            "posted_date": row["posted_date"],
-            "response_deadline": row["response_deadline"],
-            "deadline_in_days": _days_until(row["response_deadline"]),
-            "notice_type": row["notice_type"] or "",
-            "naics": clean_naics(row["naics"]),
-            "agency_short": agency["short"],
-            "agency_full": agency["full"],
-            "agency_group": agency["group_key"],
-            "ui_link": row["ui_link"],
-            "score": row["ai_score"],
-            "score_band": score_band(row["ai_score"]),
-            "ai_generated": bool(row["ai_generated"]),
-            "writeup_html": read_writeup(row["output_path"]),
-            "gameplan_html": read_gameplan(row["output_path"]),
-            "folder": Path(row["output_path"]).name if row["output_path"] else "",
-        })
+    records = [_row_to_record(row) for row in store.kept_opportunities(conn)]
+    # Include review-queue opps so the dashboard can surface them with REVIEW badges.
+    review_rows = conn.execute("""
+        SELECT * FROM seen WHERE disposition = 'review'
+        ORDER BY posted_date DESC, first_seen DESC
+    """).fetchall()
+    records += [_row_to_record(row, in_review=True) for row in review_rows]
     return records
 
 
@@ -142,15 +153,17 @@ def build_summary(records: list[dict], conn) -> dict:
         for h in DEADLINE_HORIZONS
     }
     dispositions = store.disposition_counts(conn)
+    kept_records = [r for r in records if not r["in_review"]]
+    review_pending = sum(1 for r in records if r["in_review"] and not r["human_verdict"])
     return {
-        "total_kept": len(records),
+        "total_kept": len(kept_records),
+        "review_count": review_pending,
         "last_updated": datetime.date.today().isoformat(),
         "evaluated_total": sum(dispositions.values()),
-        "by_notice_type": _counter([r["notice_type"] for r in records]),
-        "by_score_band": _counter([r["score_band"] for r in records]),
+        "by_notice_type": _counter([r["notice_type"] for r in kept_records]),
+        "by_score_band": _counter([r["score_band"] for r in kept_records]),
         "top_agencies": [{"name": n, "count": c} for n, c in top],
         "deadlines_within": deadlines,
-        # If any AI-scored docs exist, scores are real; otherwise keyword fallback.
         "any_ai": any(r["ai_generated"] for r in records),
     }
 

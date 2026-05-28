@@ -64,11 +64,15 @@ export default function OpportunityRow({ opportunity: o, onSelect }) {
   const dlColor = deadlineColor(o.deadline_in_days);
   const expired = o.deadline_in_days != null && o.deadline_in_days < 0;
 
+  let rowStyle;
+  if (expired) rowStyle = { opacity: 0.55 };
+  else if (o.in_review) rowStyle = { borderLeft: '2px solid #FF9500' };
+
   return (
     <tr
       className={`opp-row ${band}${expired ? ' opp-expired' : ''}`}
       onClick={() => onSelect(o)}
-      style={expired ? { opacity: 0.55 } : undefined}
+      style={rowStyle}
     >
       {/* Posted */}
       <td className="col-hide-mobile" style={TD}>

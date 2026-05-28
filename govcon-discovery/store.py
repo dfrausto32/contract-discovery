@@ -8,7 +8,8 @@ and that we never re-spend AI tokens on something already seen.
 
 Dispositions:
   kept            — passed both stages; a doc was written
-  skipped_ai      — passed stage 1 but AI relevance below threshold
+  review          — passed stage 1 + AI, score in [review_min, score_threshold); awaiting human verdict
+  skipped_ai      — passed stage 1 but AI relevance below review_min
   skipped_stage1  — keyword/NAICS score below threshold
   excluded        — matched an exclude keyword
 """
@@ -45,14 +46,23 @@ def init_db(conn: sqlite3.Connection) -> None:
             disposition        TEXT NOT NULL,
             ai_generated       INTEGER NOT NULL DEFAULT 0,
             output_path        TEXT,
-            first_seen         TEXT NOT NULL
+            first_seen         TEXT NOT NULL,
+            human_verdict      TEXT,
+            human_notes        TEXT,
+            review_flagged     INTEGER NOT NULL DEFAULT 0
         )
     """)
-    # Migration: add solicitation_number to existing databases that predate this column.
-    try:
-        conn.execute("ALTER TABLE seen ADD COLUMN solicitation_number TEXT")
-    except Exception:
-        pass  # column already exists
+    # Migrations: add columns to existing databases that predate them.
+    for col, ddl in [
+        ("solicitation_number", "TEXT"),
+        ("human_verdict",       "TEXT"),
+        ("human_notes",         "TEXT"),
+        ("review_flagged",      "INTEGER NOT NULL DEFAULT 0"),
+    ]:
+        try:
+            conn.execute(f"ALTER TABLE seen ADD COLUMN {col} {ddl}")
+        except Exception:
+            pass  # column already exists
     conn.commit()
 
 
@@ -110,6 +120,45 @@ def kept_opportunities(conn: sqlite3.Connection) -> list[sqlite3.Row]:
         SELECT * FROM seen WHERE disposition = 'kept'
         ORDER BY posted_date DESC, first_seen DESC
     """).fetchall()
+
+
+def set_verdict(conn: sqlite3.Connection, notice_id: str,
+                verdict: str | None, notes: str | None = None) -> None:
+    """Record a human yes/no verdict on an opportunity."""
+    conn.execute(
+        "UPDATE seen SET human_verdict = ?, human_notes = ? WHERE notice_id = ?",
+        (verdict, notes, notice_id),
+    )
+    conn.commit()
+
+
+def get_review_queue(conn: sqlite3.Connection) -> list[sqlite3.Row]:
+    """Return unreviewed review-queue opps, newest-posted first."""
+    return conn.execute("""
+        SELECT * FROM seen
+        WHERE review_flagged = 1 AND human_verdict IS NULL
+        ORDER BY posted_date DESC, first_seen DESC
+    """).fetchall()
+
+
+def get_feedback_examples(conn: sqlite3.Connection,
+                          limit: int = 10) -> list[dict]:
+    """Return recent human verdicts for few-shot AI calibration.
+
+    Returns up to `limit` rows balanced between yes/no verdicts.
+    """
+    half = limit // 2
+    yes_rows = conn.execute("""
+        SELECT title, agency, ai_score, naics, human_verdict, human_notes
+        FROM seen WHERE human_verdict = 'yes'
+        ORDER BY first_seen DESC LIMIT ?
+    """, (half,)).fetchall()
+    no_rows = conn.execute("""
+        SELECT title, agency, ai_score, naics, human_verdict, human_notes
+        FROM seen WHERE human_verdict = 'no'
+        ORDER BY first_seen DESC LIMIT ?
+    """, (half,)).fetchall()
+    return [dict(r) for r in yes_rows] + [dict(r) for r in no_rows]
 
 
 def disposition_counts(conn: sqlite3.Connection) -> dict:
