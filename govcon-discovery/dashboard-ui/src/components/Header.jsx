@@ -1,0 +1,84 @@
+export default function Header({ summary, loaded }) {
+  const total     = summary.total_kept      ?? 0;
+  const evaluated = summary.evaluated_total ?? 0;
+  const updated   = summary.last_updated    ?? '—';
+
+  return (
+    <header style={{
+      height: 'var(--header-h)',
+      flexShrink: 0,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      padding: '0 1.25rem',
+      background: 'var(--surface)',
+      borderBottom: '1px solid var(--yellow)',
+      boxShadow: '0 1px 16px rgba(252, 227, 0, 0.12)',
+      position: 'relative',
+      zIndex: 20,
+    }}>
+      {/* Left */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
+          <span style={{
+            color: 'var(--yellow)',
+            fontSize: 18,
+            lineHeight: 1,
+            textShadow: '0 0 10px rgba(252,227,0,0.7)',
+            userSelect: 'none',
+          }}>◈</span>
+          <span
+            className="glitch-title"
+            style={{
+              fontFamily: "'Rajdhani', sans-serif",
+              fontWeight: 700,
+              fontSize: 18,
+              letterSpacing: '0.12em',
+              color: 'var(--yellow)',
+              textShadow: '0 0 8px rgba(252,227,0,0.5)',
+              textTransform: 'uppercase',
+              cursor: 'default',
+              userSelect: 'none',
+            }}
+          >
+            GOVCON INTEL FEED
+          </span>
+        </div>
+        {loaded && (
+          <div style={{
+            fontFamily: "'Share Tech Mono', monospace",
+            fontSize: 10,
+            color: 'var(--text-muted)',
+            letterSpacing: '0.06em',
+          }}>
+            // {total} OPP · EVALUATED {evaluated.toLocaleString()} · {updated}
+          </div>
+        )}
+      </div>
+
+      {/* Right: LIVE badge */}
+      {loaded && (
+        <div style={{
+          fontFamily: "'Rajdhani', sans-serif",
+          fontWeight: 600,
+          fontSize: 11,
+          letterSpacing: '0.14em',
+          color: 'var(--yellow)',
+          display: 'flex',
+          alignItems: 'center',
+          gap: 6,
+          animation: 'flicker 6s ease-in-out infinite',
+          userSelect: 'none',
+        }}>
+          <span style={{ color: 'var(--text-muted)' }}>[</span>
+          <span style={{
+            fontSize: 9,
+            textShadow: '0 0 6px rgba(252,227,0,0.9)',
+          }}>◉</span>
+          LIVE
+          <span style={{ color: 'var(--text-muted)' }}>]</span>
+        </div>
+      )}
+    </header>
+  );
+}

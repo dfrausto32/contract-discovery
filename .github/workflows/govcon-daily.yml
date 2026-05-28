@@ -67,9 +67,20 @@ jobs:
           git pull --rebase origin contract-discovery
           git push
 
-      - name: Build dashboard
+      - name: Generate data.json
         working-directory: govcon-discovery
         run: python dashboard.py build
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: govcon-discovery/dashboard-ui/package-lock.json
+
+      - name: Build React dashboard
+        working-directory: govcon-discovery/dashboard-ui
+        run: npm ci && npm run build
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

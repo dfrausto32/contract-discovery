@@ -1,22 +1,16 @@
 #!/usr/bin/env python3
 """
-dashboard.py — Build a static HTML dashboard of kept GovCon opportunities for
-GitHub Pages.
+dashboard.py — Generate data.json for the React dashboard (dashboard-ui/).
 
-Reads the kept rows from the dedup DB (data/govcon_seen.db) and each
-opportunity's README.md write-up, then emits a self-contained static site into
-site/ (index.html + app.js + style.css copied from templates/, plus a generated
-data.json). The site is deployed by the GitHub Action via actions/deploy-pages;
-it is never committed (see .gitignore).
-
-All front-end paths are relative so the site works on a project Pages URL
-(https://<user>.github.io/<repo>/).
+Reads kept rows from data/govcon_seen.db and each opportunity's README.md,
+then writes data.json into dashboard-ui/public/ where the Vite build picks it
+up. The React app (dashboard-ui/) is built separately by `npm run build` which
+outputs the compiled site into site/ for GitHub Pages deployment.
 """
 
 import ast
 import re
 import json
-import shutil
 import datetime
 from pathlib import Path
 
@@ -28,8 +22,7 @@ import store
 
 HERE = Path(__file__).parent
 DB_PATH = HERE / "data" / "govcon_seen.db"   # NOT store.DB_PATH (that's trex_seen.db)
-TEMPLATES_DIR = HERE / "templates"
-DEFAULT_SITE_DIR = HERE / "site"
+DATA_JSON_PATH = HERE / "dashboard-ui" / "public" / "data.json"
 DEADLINE_HORIZONS = (7, 14, 30)
 
 
@@ -151,12 +144,9 @@ def build_summary(records: list[dict], conn) -> dict:
     }
 
 
-def write_site(records: list[dict], summary: dict, site_dir: Path) -> None:
-    site_dir.mkdir(parents=True, exist_ok=True)
-    for asset in ("index.html", "app.js", "style.css"):
-        shutil.copyfile(TEMPLATES_DIR / asset, site_dir / asset)
-    (site_dir / ".nojekyll").write_text("")
-    (site_dir / "data.json").write_text(
+def write_data_json(records: list[dict], summary: dict, dest: Path) -> None:
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    dest.write_text(
         json.dumps({"summary": summary, "opportunities": records},
                    ensure_ascii=False, indent=None)
     )
@@ -169,17 +159,17 @@ def cli():
 
 
 @cli.command("build")
-@click.option("--out", default=None, help="Output site directory (default: ./site).")
+@click.option("--out", default=None, help="Override output path for data.json.")
 def build(out):
-    """Generate the static dashboard site from the dedup DB + opportunity docs."""
-    site_dir = Path(out) if out else DEFAULT_SITE_DIR
+    """Write data.json into dashboard-ui/public/ for the React build to consume."""
+    dest = Path(out) if out else DATA_JSON_PATH
     conn = store.get_db(DB_PATH)
     store.init_db(conn)
     records = build_records(conn)
     summary = build_summary(records, conn)
     conn.close()
-    write_site(records, summary, site_dir)
-    click.echo(f"Built dashboard: {len(records)} opportunities -> {site_dir}")
+    write_data_json(records, summary, dest)
+    click.echo(f"Wrote data.json: {len(records)} opportunities -> {dest}")
 
 
 if __name__ == "__main__":
