@@ -77,7 +77,7 @@ export default function SummaryCards({ summary }) {
   const pct       = evaluated > 0 ? Math.min(100, (total / evaluated) * 100) : 0;
 
   return (
-    <div style={{
+    <div className="summary-grid" style={{
       display: 'grid',
       gridTemplateColumns: 'repeat(auto-fit, minmax(185px, 1fr))',
       gap: '0.6rem',

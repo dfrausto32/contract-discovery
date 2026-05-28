@@ -1,14 +1,14 @@
 import OpportunityRow from './OpportunityRow.jsx';
 
 const COLS = [
-  { key: 'posted_date',     label: 'POSTED',    sortable: true  },
-  { key: 'title',           label: 'TITLE',     sortable: true  },
-  { key: 'agency_short',    label: 'AGENCY',    sortable: true  },
-  { key: 'notice_type',     label: 'TYPE',      sortable: true  },
-  { key: 'barrier_order',   label: 'ENTRY',     sortable: true  },
-  { key: 'score',           label: 'SCORE',     sortable: true  },
-  { key: 'deadline_in_days',label: 'DEADLINE',  sortable: true  },
-  { key: null,              label: 'LINK',      sortable: false },
+  { key: 'posted_date',     label: 'POSTED',    sortable: true,  mobile: false },
+  { key: 'title',           label: 'TITLE',     sortable: true,  mobile: true  },
+  { key: 'agency_short',    label: 'AGENCY',    sortable: true,  mobile: false },
+  { key: 'notice_type',     label: 'TYPE',      sortable: true,  mobile: true  },
+  { key: 'barrier_order',   label: 'ENTRY',     sortable: true,  mobile: false },
+  { key: 'score',           label: 'SCORE',     sortable: true,  mobile: true  },
+  { key: 'deadline_in_days',label: 'DEADLINE',  sortable: true,  mobile: true  },
+  { key: null,              label: 'LINK',      sortable: false, mobile: true  },
 ];
 
 const TH_BASE = {
@@ -76,13 +76,14 @@ export default function OpportunityTable({ rows, total, state, onSort, onSelect 
         overflow: 'hidden',
       }}>
         <div style={{ overflowX: 'auto' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 820 }}>
+          <table className="opp-table" style={{ width: '100%', borderCollapse: 'collapse', minWidth: 820 }}>
             <thead>
               <tr>
                 {COLS.map(col => (
                   <th
                     key={col.label}
                     onClick={() => col.sortable && onSort(col.key)}
+                    className={col.mobile === false ? 'col-hide-mobile' : undefined}
                     style={{
                       ...TH_BASE,
                       color: state.sortKey === col.key ? 'var(--yellow)' : 'var(--text-muted)',

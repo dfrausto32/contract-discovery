@@ -71,7 +71,7 @@ export default function OpportunityRow({ opportunity: o, onSelect }) {
       style={expired ? { opacity: 0.55 } : undefined}
     >
       {/* Posted */}
-      <td style={TD}>
+      <td className="col-hide-mobile" style={TD}>
         <span style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: 11, color: 'var(--text-muted)', whiteSpace: 'nowrap' }}>
           {o.posted_date ?? '—'}
         </span>
@@ -106,7 +106,7 @@ export default function OpportunityRow({ opportunity: o, onSelect }) {
       </td>
 
       {/* Agency */}
-      <td style={{ ...TD, maxWidth: 140 }}>
+      <td className="col-hide-mobile" style={{ ...TD, maxWidth: 140 }}>
         <span title={o.agency_full} style={{
           fontFamily: "'Rajdhani', sans-serif",
           fontSize: 12,
@@ -146,7 +146,7 @@ export default function OpportunityRow({ opportunity: o, onSelect }) {
       </td>
 
       {/* Entry barrier */}
-      <td style={TD}>
+      <td className="col-hide-mobile" style={TD}>
         {barrier ? (
           <span style={{
             fontFamily: "'Rajdhani', sans-serif",

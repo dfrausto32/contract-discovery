@@ -16,7 +16,7 @@ function FilterSection({ label, children }) {
   );
 }
 
-export default function Sidebar({ opportunities, state, actions, isFiltered, activeCount }) {
+export default function Sidebar({ opportunities, state, actions, isFiltered, activeCount, onClose }) {
   const types    = [...new Set((opportunities ?? []).map(o => o.notice_type).filter(Boolean))].sort();
   const agencies = [...new Set((opportunities ?? []).map(o => o.agency_group).filter(Boolean))].sort();
 
@@ -44,7 +44,8 @@ export default function Sidebar({ opportunities, state, actions, isFiltered, act
             </span>
           )}
         </div>
-        {isFiltered && (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          {isFiltered && (
           <button
             onClick={actions.reset}
             style={{
@@ -64,7 +65,24 @@ export default function Sidebar({ opportunities, state, actions, isFiltered, act
           >
             [×] RESET
           </button>
-        )}
+          )}
+          {onClose && (
+            <button
+              onClick={onClose}
+              style={{
+                background: 'none', border: 'none', cursor: 'pointer',
+                fontFamily: "'Rajdhani', sans-serif", fontWeight: 700,
+                fontSize: 11, letterSpacing: '0.08em',
+                color: 'var(--text-muted)', padding: 0,
+                transition: 'color 0.1s ease',
+              }}
+              onMouseEnter={e => e.currentTarget.style.color = 'var(--yellow)'}
+              onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}
+            >
+              [×]
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Search */}

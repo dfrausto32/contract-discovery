@@ -395,3 +395,64 @@ input[type="range"]::-moz-range-thumb {
 .glitch-title:hover {
   animation: glitch 0.4s steps(1) forwards;
 }
+
+/* ── Mobile ─────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  /* Unlock natural page scroll */
+  html, body, #root { height: auto; overflow: visible; }
+  body { overflow-y: auto; overflow-x: hidden; }
+
+  /* Sidebar drawer transition */
+  .sidebar-mobile {
+    position: fixed;
+    top: var(--header-h);
+    left: 0;
+    bottom: 0;
+    width: min(280px, 85vw);
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    z-index: 30;
+    transform: translateX(-100%);
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .sidebar-mobile.sidebar-open {
+    transform: translateX(0);
+    box-shadow: 4px 0 32px rgba(0, 0, 0, 0.6);
+  }
+
+  /* Hide table columns that don't fit */
+  .col-hide-mobile { display: none !important; }
+
+  /* Tighter table cells */
+  .opp-table { min-width: 0 !important; }
+
+  /* Smaller hex score */
+  .hex-score {
+    width: 28px !important;
+    height: 28px !important;
+    font-size: 9px !important;
+  }
+
+  /* Full-width modal on small screens */
+  .modal-panel {
+    width: 100% !important;
+    border-left: none !important;
+    border-top: 1px solid var(--yellow);
+  }
+
+  /* Summary cards: horizontal scroll strip */
+  .summary-grid {
+    display: flex !important;
+    overflow-x: auto !important;
+    gap: 8px !important;
+    padding: 0.75rem !important;
+    scrollbar-width: none;
+  }
+  .summary-grid::-webkit-scrollbar { display: none; }
+  .summary-grid > * {
+    flex-shrink: 0 !important;
+    width: 175px !important;
+  }
+}
