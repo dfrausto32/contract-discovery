@@ -21,6 +21,8 @@ import os
 import json
 import datetime
 import re
+import threading
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
 import yaml
@@ -141,37 +143,43 @@ def run(dry_run: bool, since: str, full: bool, limit: int):
     conn = store.get_db(DB_PATH)
     store.init_db(conn)
 
-    stage1_threshold = config["relevance"]["stage1_threshold"]
-    ai_threshold = config["ai"]["score_threshold"]
-    review_min = config["ai"].get("review_min", 35)
+    stage1_threshold  = config["relevance"]["stage1_threshold"]
+    ai_threshold      = config["ai"]["score_threshold"]
+    review_min        = config["ai"].get("review_min", 35)
+    auto_keep_stage1  = config["ai"].get("auto_keep_stage1", 65)
     gameplan_threshold = config["ai"].get("gameplan_threshold", 80)
+    max_workers       = config["ai"].get("max_workers", 5)
     counts = {"new": 0, "kept": 0, "review": 0, "skipped_stage1": 0,
               "skipped_ai": 0, "excluded": 0, "already_seen": 0,
               "ai_error": 0, "gameplan": 0, "amendment": 0}
     total = len(records)
+    kept_titles   = []
+    review_titles = []
 
     # Load human verdicts to inject as few-shot examples into AI scoring.
     feedback_examples = store.get_feedback_examples(conn)
 
+    # ── PASS 1: Stage 1 (fast, sequential) ──────────────────────────────────
+    # Dedup + amendment detection + keyword/NAICS filter.
+    # Collect passing records for parallel AI evaluation in Pass 2.
     click.echo(f"\n{'─'*72}")
-    click.echo(f"  {'IDX':>5}  {'S1':>3}  {'AI':>3}  {'RESULT':<10}  DATE        TITLE")
+    click.echo(f"  PASS 1 — stage 1 filter")
     click.echo(f"{'─'*72}")
+
+    stage1_passes = []   # list of (rec, s1, is_amendment, existing) tuples
 
     for rec in records:
         if limit is not None and counts["new"] >= limit:
-            click.echo(f"{'─'*72}")
             click.echo(f"  Limit of {limit} reached — stopping early.")
             break
 
         if not rec["notice_id"]:
             continue
 
-        # Skip if this exact notice_id was already processed.
         if store.is_seen(conn, rec["notice_id"]):
             counts["already_seen"] += 1
             continue
 
-        # Detect amendments: same sol#, different notice_id.
         sol_num  = rec.get("solicitation_number") or None
         existing = store.get_by_solicitation_number(conn, sol_num) if sol_num else None
         is_amendment = existing is not None
@@ -184,11 +192,10 @@ def run(dry_run: bool, since: str, full: bool, limit: int):
         date  = rec.get("posted_date") or "—"
         amend_tag = " [AMEND]" if is_amendment else ""
 
-        # Stage 1: keyword / NAICS pre-filter
         s1 = relevance.stage1_score(rec, config)
         if s1["excluded"]:
             counts["excluded"] += 1
-            click.echo(f"  {idx:>5}  {s1['score']:>3}   —   {'EXCLUDED':<10}  {date}  {title}{amend_tag}")
+            click.echo(f"  {idx:>5}  {s1['score']:>3}   EXCLUDED    {date}  {title}{amend_tag}")
             if not dry_run:
                 if is_amendment:
                     store.delete_record(conn, existing["notice_id"])
@@ -196,92 +203,134 @@ def run(dry_run: bool, since: str, full: bool, limit: int):
             continue
         if s1["score"] < stage1_threshold:
             counts["skipped_stage1"] += 1
-            click.echo(f"  {idx:>5}  {s1['score']:>3}   —   {'s1-skip':<10}  {date}  {title}{amend_tag}")
+            click.echo(f"  {idx:>5}  {s1['score']:>3}   s1-skip     {date}  {title}{amend_tag}")
             if not dry_run:
                 if is_amendment:
                     store.delete_record(conn, existing["notice_id"])
                 store.record(conn, rec, "skipped_stage1", s1["score"], None, False, None)
             continue
 
-        # Stage 2: AI scoring
-        result = ai_fit.evaluate_and_write(rec, config, s1, feedback_examples)
+        click.echo(f"  {idx:>5}  {s1['score']:>3}   → AI queue  {date}  {title}{amend_tag}")
+        stage1_passes.append((rec, s1, is_amendment, existing))
 
-        if result["status"] == "error":
-            counts["ai_error"] += 1
-            click.echo(f"  {idx:>5}  {s1['score']:>3}   !   {'AI-ERROR':<10}  {date}  {title}{amend_tag}")
-            click.echo(f"         └─ {result.get('error_msg', '(no detail)')}", err=True)
-            continue
+    click.echo(f"{'─'*72}")
+    click.echo(f"  Pass 1 done: {len(stage1_passes)} sent to AI ({max_workers} parallel workers)\n")
 
-        ai_score = result["ai_score"]
-        ai_tag   = "[AI]" if result["ai_generated"] else "[KW]"
-        keep     = result["status"] == "no_key" or ai_score >= ai_threshold
-        in_review = (result["status"] != "no_key"
-                     and review_min <= ai_score < ai_threshold)
+    # ── PASS 2: AI scoring (parallel) ────────────────────────────────────────
+    if not stage1_passes:
+        click.echo("  No stage-1 passes — skipping AI.\n")
+    else:
+        click.echo(f"{'─'*72}")
+        click.echo(f"  {'IDX':>5}  {'S1':>3}  {'AI':>3}  {'RESULT':<10}  DATE        TITLE")
+        click.echo(f"{'─'*72}")
 
-        if not keep and not in_review:
-            counts["skipped_ai"] += 1
-            click.echo(f"  {idx:>5}  {s1['score']:>3}  {ai_score:>3}  {'ai-skip':<10}  {date}  {title}  {ai_tag}{amend_tag}")
-            if not dry_run:
-                if is_amendment:
-                    store.delete_record(conn, existing["notice_id"])
-                store.record(conn, rec, "skipped_ai", s1["score"],
-                             ai_score, result["ai_generated"], None)
-            continue
+        log_lock = threading.Lock()
 
-        if in_review:
-            counts["review"] += 1
-            click.echo(f"  {idx:>5}  {s1['score']:>3}  {ai_score:>3}  {'REVIEW ⚑':<10}  {date}  {title}  {ai_tag}{amend_tag}")
-            if not dry_run:
-                existing_path = (
-                    existing["output_path"]
-                    if is_amendment and existing and existing["disposition"] in ("kept", "review")
-                    else None
-                )
-                if is_amendment:
-                    store.delete_record(conn, existing["notice_id"])
-                path = _write_opportunity(rec, result["markdown"], out_dir, None, existing_path)
-                store.record(conn, rec, "review", s1["score"],
-                             ai_score, result["ai_generated"], path)
-                store.set_verdict(conn, rec["notice_id"], None)
-                conn.execute("UPDATE seen SET review_flagged=1 WHERE notice_id=?",
-                             (rec["notice_id"],))
-                conn.commit()
-            continue
+        def _ai_worker(item):
+            rec, s1, is_amendment, existing = item
+            return item, ai_fit.evaluate_and_write(rec, config, s1, feedback_examples)
 
-        counts["kept"] += 1
-        gameplan = None
-        if result["ai_generated"] and ai_score >= gameplan_threshold:
-            gameplan = ai_fit.generate_gameplan(rec, config, result["markdown"])
-            if gameplan:
-                counts["gameplan"] += 1
+        with ThreadPoolExecutor(max_workers=max_workers) as pool:
+            futures = {pool.submit(_ai_worker, item): item for item in stage1_passes}
+            ai_idx = 0
+            for future in as_completed(futures):
+                ai_idx += 1
+                try:
+                    (rec, s1, is_amendment, existing), result = future.result()
+                except Exception as exc:
+                    item = futures[future]
+                    rec = item[0]
+                    counts["ai_error"] += 1
+                    with log_lock:
+                        click.echo(f"  {'?':>5}     !   {'AI-ERROR':<10}  {rec.get('title','')[:50]}  {exc}", err=True)
+                    continue
 
-        gp_tag = "  ★ GAME PLAN" if gameplan else ""
-        click.echo(f"  {idx:>5}  {s1['score']:>3}  {ai_score:>3}  {'KEEP ✓':<10}  {date}  {title}  {ai_tag}{amend_tag}{gp_tag}")
+                title = (rec.get("title") or "(untitled)")[:55]
+                date  = rec.get("posted_date") or "—"
+                amend_tag = " [AMEND]" if is_amendment else ""
 
-        if not dry_run:
-            # Amendments to kept opps reuse the existing folder so the
-            # dashboard path stays stable. Amendments to skipped opps get a
-            # new folder since there was no prior output to overwrite.
-            existing_path = (
-                existing["output_path"]
-                if is_amendment and existing and existing["disposition"] in ("kept", "review")
-                else None
-            )
-            if is_amendment:
-                store.delete_record(conn, existing["notice_id"])
-            path = _write_opportunity(rec, result["markdown"], out_dir, gameplan, existing_path)
-            store.record(conn, rec, "kept", s1["score"], ai_score,
-                         result["ai_generated"], path)
+                if result["status"] == "error":
+                    counts["ai_error"] += 1
+                    with log_lock:
+                        click.echo(f"  {ai_idx:>5}  {s1['score']:>3}   !   {'AI-ERROR':<10}  {date}  {title}{amend_tag}")
+                        click.echo(f"         └─ {result.get('error_msg', '(no detail)')}", err=True)
+                    continue
 
-    click.echo(f"{'─'*72}\n")
+                ai_score = result["ai_score"]
+                ai_tag   = "[AI]" if result["ai_generated"] else "[KW]"
+                no_key   = result["status"] == "no_key"
+
+                # High stage1 → auto-proceed path (no review queue regardless of AI score).
+                # Low-medium stage1 → review queue when AI score is borderline.
+                strong_s1 = s1["score"] >= auto_keep_stage1
+                keep      = no_key or ai_score >= ai_threshold
+                in_review = (not no_key and not strong_s1
+                             and review_min <= ai_score < ai_threshold)
+
+                if not keep and not in_review:
+                    counts["skipped_ai"] += 1
+                    with log_lock:
+                        click.echo(f"  {ai_idx:>5}  {s1['score']:>3}  {ai_score:>3}  {'ai-skip':<10}  {date}  {title}  {ai_tag}{amend_tag}")
+                    if not dry_run:
+                        if is_amendment:
+                            store.delete_record(conn, existing["notice_id"])
+                        store.record(conn, rec, "skipped_ai", s1["score"],
+                                     ai_score, result["ai_generated"], None)
+                    continue
+
+                if in_review:
+                    counts["review"] += 1
+                    review_titles.append(rec.get("title") or "(untitled)")
+                    with log_lock:
+                        click.echo(f"  {ai_idx:>5}  {s1['score']:>3}  {ai_score:>3}  {'REVIEW ⚑':<10}  {date}  {title}  {ai_tag}{amend_tag}")
+                    if not dry_run:
+                        existing_path = (
+                            existing["output_path"]
+                            if is_amendment and existing and existing["disposition"] in ("kept", "review")
+                            else None
+                        )
+                        if is_amendment:
+                            store.delete_record(conn, existing["notice_id"])
+                        path = _write_opportunity(rec, result["markdown"], out_dir, None, existing_path)
+                        store.record(conn, rec, "review", s1["score"],
+                                     ai_score, result["ai_generated"], path)
+                        store.set_verdict(conn, rec["notice_id"], None)
+                        conn.execute("UPDATE seen SET review_flagged=1 WHERE notice_id=?",
+                                     (rec["notice_id"],))
+                        conn.commit()
+                    continue
+
+                # Keep path
+                counts["kept"] += 1
+                kept_titles.append(rec.get("title") or "(untitled)")
+                gameplan = None
+                if result["ai_generated"] and ai_score >= gameplan_threshold:
+                    gameplan = ai_fit.generate_gameplan(rec, config, result["markdown"])
+                    if gameplan:
+                        counts["gameplan"] += 1
+
+                gp_tag = "  ★ GAME PLAN" if gameplan else ""
+                with log_lock:
+                    click.echo(f"  {ai_idx:>5}  {s1['score']:>3}  {ai_score:>3}  {'KEEP ✓':<10}  {date}  {title}  {ai_tag}{amend_tag}{gp_tag}")
+
+                if not dry_run:
+                    existing_path = (
+                        existing["output_path"]
+                        if is_amendment and existing and existing["disposition"] in ("kept", "review")
+                        else None
+                    )
+                    if is_amendment:
+                        store.delete_record(conn, existing["notice_id"])
+                    path = _write_opportunity(rec, result["markdown"], out_dir, gameplan, existing_path)
+                    store.record(conn, rec, "kept", s1["score"], ai_score,
+                                 result["ai_generated"], path)
+
+        click.echo(f"{'─'*72}\n")
 
     if not dry_run and counts["kept"] > 0:
         _rebuild_index(conn, out_dir)
     conn.close()
 
-    # Advance sync state only on a clean, non-dry run. If any opportunity hit an
-    # AI error we hold the timestamp so the next run re-pulls this same window and
-    # retries them (advancing would push them out of the delta window forever).
     if not dry_run and server_time and counts["ai_error"] == 0:
         govcon_client.write_sync_state(server_time)
         click.echo(f"  sync state advanced to {server_time}")
@@ -313,6 +362,15 @@ def run(dry_run: bool, since: str, full: bool, limit: int):
         click.echo("(dry run — nothing written, recorded, or synced)")
     summary_md = "\n".join(f"- {part}" for part in summary.split(" "))
     _step_summary(f"### GovCon run\n\n{summary_md}")
+
+    # Discord notification (no-op if webhook URL not set).
+    discord_url = os.environ.get("DISCORD_WEBHOOK_URL")
+    if discord_url and not dry_run:
+        try:
+            import discord_notify
+            discord_notify.post_run_summary(counts, kept_titles, review_titles, discord_url)
+        except Exception:
+            pass  # never let a notification failure affect the run result
 
 
 @cli.command("health")
@@ -449,6 +507,20 @@ def review(limit: int):
     click.echo(f"{'─'*72}")
     click.echo(f"  Reviewed {reviewed}  ·  kept {kept}  ·  passed {skipped_count}  ·  {remaining} remaining in queue")
     click.echo(f"{'─'*72}\n")
+
+
+@cli.command("record-verdict")
+@click.option("--notice-id", required=True, help="The notice_id to update.")
+@click.option("--verdict", required=True, type=click.Choice(["yes", "no"]),
+              help="The human verdict.")
+@click.option("--notes", default=None, help="Optional short note.")
+def record_verdict(notice_id: str, verdict: str, notes: str):
+    """Record a human yes/no verdict (called by the govcon-verdict GitHub Action)."""
+    conn = store.get_db(DB_PATH)
+    store.init_db(conn)
+    store.set_verdict(conn, notice_id, verdict, notes)
+    conn.close()
+    click.echo(f"Verdict '{verdict}' recorded for {notice_id}")
 
 
 if __name__ == "__main__":

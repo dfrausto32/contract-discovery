@@ -4,6 +4,7 @@ import SummaryCards from './components/SummaryCards.jsx';
 import Sidebar from './components/Sidebar.jsx';
 import OpportunityTable from './components/OpportunityTable.jsx';
 import DetailModal from './components/DetailModal.jsx';
+import TokenModal from './components/TokenModal.jsx';
 import { useFilter } from './hooks/useFilter.js';
 
 function useIsMobile() {
@@ -73,8 +74,9 @@ export default function App() {
   const [data,        setData]        = useState(null);
   const [loading,     setLoading]     = useState(true);
   const [error,       setError]       = useState(null);
-  const [selectedOpp, setSelectedOpp] = useState(null);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [selectedOpp,    setSelectedOpp]    = useState(null);
+  const [sidebarOpen,    setSidebarOpen]    = useState(false);
+  const [showTokenModal, setShowTokenModal] = useState(false);
   const isMobile = useIsMobile();
 
   useEffect(() => {
@@ -103,7 +105,7 @@ export default function App() {
       flexDirection: 'column',
       overflow: isMobile ? 'visible' : 'hidden',
     }}>
-      <Header summary={summary} loaded />
+      <Header summary={summary} loaded onSettings={() => setShowTokenModal(true)} />
 
       {/* Summary strip */}
       <div style={{ flexShrink: 0, borderBottom: '1px solid var(--border-dim)' }}>
@@ -212,6 +214,10 @@ export default function App() {
 
       {selectedOpp && (
         <DetailModal opportunity={selectedOpp} onClose={() => setSelectedOpp(null)} />
+      )}
+
+      {showTokenModal && (
+        <TokenModal onClose={() => setShowTokenModal(false)} />
       )}
     </div>
   );

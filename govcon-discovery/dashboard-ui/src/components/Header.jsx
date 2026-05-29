@@ -1,4 +1,4 @@
-export default function Header({ summary, loaded }) {
+export default function Header({ summary, loaded, onSettings }) {
   const total       = summary.total_kept      ?? 0;
   const evaluated   = summary.evaluated_total ?? 0;
   const updated     = summary.last_updated    ?? '—';
@@ -69,29 +69,47 @@ export default function Header({ summary, loaded }) {
         )}
       </div>
 
-      {/* Right: LIVE badge */}
-      {loaded && (
-        <div style={{
-          fontFamily: "'Rajdhani', sans-serif",
-          fontWeight: 600,
-          fontSize: 11,
-          letterSpacing: '0.14em',
-          color: 'var(--yellow)',
-          display: 'flex',
-          alignItems: 'center',
-          gap: 6,
-          animation: 'flicker 6s ease-in-out infinite',
-          userSelect: 'none',
-        }}>
-          <span style={{ color: 'var(--text-muted)' }}>[</span>
-          <span style={{
-            fontSize: 9,
-            textShadow: '0 0 6px rgba(252,227,0,0.9)',
-          }}>◉</span>
-          LIVE
-          <span style={{ color: 'var(--text-muted)' }}>]</span>
-        </div>
-      )}
+      {/* Right: settings + LIVE badge */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        {loaded && (
+          <button
+            onClick={onSettings}
+            title="GitHub token settings"
+            style={{
+              background: 'none', border: 'none', cursor: 'pointer',
+              color: 'var(--text-subtle)', fontSize: 14,
+              lineHeight: 1, padding: 2,
+              transition: 'color 0.1s ease',
+            }}
+            onMouseEnter={e => e.currentTarget.style.color = 'var(--yellow)'}
+            onMouseLeave={e => e.currentTarget.style.color = 'var(--text-subtle)'}
+          >
+            ⚙
+          </button>
+        )}
+        {loaded && (
+          <div style={{
+            fontFamily: "'Rajdhani', sans-serif",
+            fontWeight: 600,
+            fontSize: 11,
+            letterSpacing: '0.14em',
+            color: 'var(--yellow)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 6,
+            animation: 'flicker 6s ease-in-out infinite',
+            userSelect: 'none',
+          }}>
+            <span style={{ color: 'var(--text-muted)' }}>[</span>
+            <span style={{
+              fontSize: 9,
+              textShadow: '0 0 6px rgba(252,227,0,0.9)',
+            }}>◉</span>
+            LIVE
+            <span style={{ color: 'var(--text-muted)' }}>]</span>
+          </div>
+        )}
+      </div>
     </header>
   );
 }

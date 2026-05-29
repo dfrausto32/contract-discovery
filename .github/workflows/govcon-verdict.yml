@@ -1,0 +1,103 @@
+name: Record Opportunity Verdict
+
+on:
+  workflow_dispatch:
+    inputs:
+      notice_id:
+        description: "The notice_id to record a verdict for."
+        required: true
+      verdict:
+        description: "yes or no"
+        required: true
+        type: choice
+        options: [yes, no]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  verdict:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          ref: contract-discovery
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Record verdict in DB
+        working-directory: govcon-discovery
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          python govcon.py record-verdict \
+            --notice-id "${{ github.event.inputs.notice_id }}" \
+            --verdict   "${{ github.event.inputs.verdict }}"
+          # Optional Discord ping on verdict
+          python - <<'EOF'
+          import os, sqlite3
+          from pathlib import Path
+          notice_id = "${{ github.event.inputs.notice_id }}"
+          verdict   = "${{ github.event.inputs.verdict }}"
+          webhook   = os.environ.get("DISCORD_WEBHOOK_URL", "")
+          if not webhook:
+              exit(0)
+          conn = sqlite3.connect("data/govcon_seen.db")
+          conn.row_factory = sqlite3.Row
+          row = conn.execute("SELECT title FROM seen WHERE notice_id=?", (notice_id,)).fetchone()
+          conn.close()
+          title = row["title"] if row else notice_id
+          import discord_notify
+          discord_notify.post_verdict_recorded(notice_id, title, verdict, webhook)
+          EOF
+
+      - name: Commit DB change
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add govcon-discovery/data/govcon_seen.db
+          git diff --cached --quiet || git commit -m "verdict: ${{ github.event.inputs.verdict }} on ${{ github.event.inputs.notice_id }} [skip ci]"
+          git pull --rebase -X ours origin contract-discovery
+          git push origin contract-discovery
+
+      - name: Generate data.json
+        working-directory: govcon-discovery
+        run: python dashboard.py build
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: govcon-discovery/dashboard-ui/package-lock.json
+
+      - name: Build React dashboard
+        working-directory: govcon-discovery/dashboard-ui
+        run: npm ci && npm run build
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: govcon-discovery/site
+
+  deploy:
+    needs: verdict
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

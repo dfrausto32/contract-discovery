@@ -1,4 +1,6 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import VerdictButtons from './VerdictButtons.jsx';
+import TokenModal from './TokenModal.jsx';
 
 const TYPE_BADGE = {
   'Solicitation': {
@@ -78,6 +80,8 @@ function MetaTile({ label, value, color, mono }) {
 }
 
 export default function DetailModal({ opportunity: o, onClose }) {
+  const [showTokenModal, setShowTokenModal] = useState(false);
+
   useEffect(() => {
     const h = e => { if (e.key === 'Escape') onClose(); };
     document.addEventListener('keydown', h);
@@ -99,6 +103,7 @@ export default function DetailModal({ opportunity: o, onClose }) {
     : '—';
 
   return (
+    <>
     <div
       className="modal-backdrop"
       style={{
@@ -401,8 +406,36 @@ export default function DetailModal({ opportunity: o, onClose }) {
               />
             </>
           )}
+
+          {/* Verdict buttons — shown for review-queue items without a verdict yet */}
+          {o.in_review && !o.human_verdict && (
+            <>
+              <div style={{
+                height: 1,
+                background: 'linear-gradient(90deg, #FF9500 0%, transparent 100%)',
+                boxShadow: '0 0 8px rgba(255,149,0,0.15)',
+                margin: '1.4rem 0 1.1rem',
+              }} />
+              <div style={{
+                fontFamily: "'Rajdhani', sans-serif",
+                fontWeight: 700, fontSize: 11,
+                letterSpacing: '0.1em',
+                color: '#FF9500',
+                marginBottom: 14,
+              }}>
+                // AWAITING DECISION
+              </div>
+              <VerdictButtons
+                noticeId={o.notice_id}
+                onNeedToken={() => setShowTokenModal(true)}
+              />
+            </>
+          )}
         </div>
       </div>
     </div>
+
+    {showTokenModal && <TokenModal onClose={() => setShowTokenModal(false)} />}
+    </>
   );
 }

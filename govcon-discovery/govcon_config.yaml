@@ -178,8 +178,14 @@ ai:
   # Opportunities scoring in [review_min, score_threshold) go to the review queue
   # instead of being silently dropped. Scored writeups are written to disk.
   review_min: 35
+  # If stage1 score >= auto_keep_stage1, the opp bypasses the review queue — it
+  # follows the normal keep/skip path regardless of AI score. Strong keyword signal
+  # means we trust the AI decision directly.
+  auto_keep_stage1: 65
   # Generate a game plan (gameplan.md) for kept opportunities at or above this score.
   gameplan_threshold: 80
+  # Number of parallel AI scoring threads.
+  max_workers: 5
 
 output:
   # Folder (committed to the repo) where per-contract docs are written.
