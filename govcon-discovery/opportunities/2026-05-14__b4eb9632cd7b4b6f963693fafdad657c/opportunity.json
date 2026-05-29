@@ -1,0 +1,16 @@
+{
+  "notice_id": "b4eb9632cd7b4b6f963693fafdad657c",
+  "title": "RFI - Investment & Receivership Asset Management (IRAM)",
+  "solicitation_number": "FDIC-RFI-IRAM",
+  "agency": "FEDERAL DEPOSIT INSURANCE CORPORATION.FEDERAL DEPOSIT INSURANCE CORPORATION._",
+  "posted_date": "2026-05-14",
+  "type": "Sources Sought",
+  "set_aside": "NONE",
+  "naics": "['513210']",
+  "response_deadline": "2026-06-15",
+  "ui_link": "https://sam.gov/workspace/contract/opp/b4eb9632cd7b4b6f963693fafdad657c/view",
+  "description_text": "See attachment for the full scope of this Request for Information. Please be clear in identifying your response to each question in the attachment. Division of Finance (DOF) \u2013 Treasury Operations DOF Treasury Operations manages two fixed\u2011income portfolios, the Deposit Insurance Fund (DIF) and the National Liquidation Fund (NLF), funded through assessments and interest earned on U.S. government obligations and agency (GSE) debt securities. Investments are governed by FDIC corporate investment policies under section 13(a) of the Federal Deposit Insurance Act and are executed via Treasury\u2019s Bureau of the Fiscal Service (FedInvest) in Government Account Series (GAS) securities (e.g., bills, notes, bonds, TIPS, STRIPS, floating\u2011rate notes), with robust analytics needed for GSE debt (credit, prepayment, callability, liquidity). DOF seeks information on fixed\u2011income investment platforms (front\u2011to\u2011back office) to replace its current system (PORTIA) and to support U.S. Treasury obligations managed via FedInvest, emphasizing modeling, scenario analysis, analytics, reporting, data integration, and operational capabilities suitable for a mission\u2011focused public\u2011sector investor. Division of Resolutions & Receiverships (DRR) DRR is responsible for resolving failing institutions and administering receiverships, which includes the intake, valuation, servicing, management, marketing, and disposition of a wide range of asset types (e.g., loans, securities, real estate, receivables, collateral, and other financial assets). These activities require strong governance, data integrity, valuation transparency, operational controls, and auditability to support FDIC\u2019s statutory least\u2011cost resolution mandate and regulatory standards. DRR is seeking an integrated Asset Management, Servicing, and Sales platform that supports the full lifecycle of receivership assets, from pre\u2011closing data ingestion and valuation through ongoing management, servicing, reporting, and final disposition. Required capabilities include robust asset profile fields, accounting, analytics, dashboards, security, workflow management, and audit trails.",
+  "contacts": [
+    "sfiscus@fdic.gov"
+  ]
+}
