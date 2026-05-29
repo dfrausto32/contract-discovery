@@ -1,0 +1,16 @@
+{
+  "notice_id": "da0221c0e79f40d280a030e05269eb2b",
+  "title": "RFQ 75F40126Q00091 Dual Dissolution",
+  "solicitation_number": "75F40126Q00091",
+  "agency": "HEALTH AND HUMAN SERVICES, DEPARTMENT OF.FOOD AND DRUG ADMINISTRATION.FDA OFFICE OF ACQ  GRANT SVCS",
+  "posted_date": "2026-04-20",
+  "type": "Combined Synopsis/Solicitation",
+  "set_aside": "NONE",
+  "naics": "['334516']",
+  "response_deadline": "2026-05-08",
+  "ui_link": "https://sam.gov/workspace/contract/opp/da0221c0e79f40d280a030e05269eb2b/view",
+  "description_text": "The FDA San Juan Medical Products Laboratory (SJNLMP) requires the replacement of its obsolete dissolution bath systems used for routine sample analysis. The replacement system must maintain compliance with cGMP/cGLP, ISO/IEC 17025:2017, ISO 9001:2008, and 21 CFR Part 11 standards for analytical equipment under existing accreditation. The laboratory analyzes medical product samples using established protocols from USP, FDA internal programs, the Department of Defense Shelf-Life Extension Program (DOD SLEP), and the Federal Contract Compliance (FCC) program. To maintain modern analytical capabilities, SJNLMP requires a bathless dual dissolution system with an integrated autosampler, PC workstation, controller software, and serialized instrument components, as the previous system has been discontinued by the manufacturer.",
+  "contacts": [
+    "erika.crawford@fda.hhs.gov"
+  ]
+}

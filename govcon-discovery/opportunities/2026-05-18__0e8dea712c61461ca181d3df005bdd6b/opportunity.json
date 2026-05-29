@@ -1,0 +1,16 @@
+{
+  "notice_id": "d62bbea8d735442a94a49c8b242b4d00",
+  "title": "Mission-Wide Learning Management System (LMS)",
+  "solicitation_number": "RFI-ATISLMS-2026-01",
+  "agency": "DEPT OF DEFENSE.DEPT OF THE ARMY.AMC.ACC.ACC-CTRS.ACC RI.W6QK ACC-RI",
+  "posted_date": "2026-04-27",
+  "type": "Sources Sought",
+  "set_aside": null,
+  "naics": "[]",
+  "response_deadline": "2026-05-12",
+  "ui_link": "https://sam.gov/workspace/contract/opp/d62bbea8d735442a94a49c8b242b4d00/view",
+  "description_text": "The Product Manager Army Training Information System (ATIS) requires a comprehensive Learning Management System (LMS) to deliver, track, and manage all mandatory, mission-essential, and professional development training for approximately 1.5 million personnel to include users from all Army Components, Civilians, and contractors. Additionally, there are separate and distinct educational needs for the 88+ Centers of Excellence and Schools that must be integrated into the LMS. The LMS must be able to support instructor-led, traditional classroom training and education, as well as asynchronous independent learning The LMS must be able to support a centrally accessible course catalog as well as sub-organizations or tenant level management. Each sub-organization requires its own designated administrators who require data isolation to allow for content, users, course catalogs, and reporting management. Suborganization administrators should not have access to the personnel data or training records of other sub-organizations. The LMS must simultaneously support central control allowing for Headquarters- type training to be accessible outside of the sub-organizations and retain visibility and governance across all sub\u2011organizations. Additionally, scalability is a required functionality for the LMS. Please see attachment for complete details.",
+  "contacts": [
+    "marisol.m.trevino.civ@army.mil"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "notice_id": "5c6a433f8f6c4965a787ef4a01191d72",
+  "title": "Virtual-Integrated Twin for Autonomous Lifesaving (VITAL)",
+  "solicitation_number": "DARPA-PS-26-26",
+  "agency": "DEPT OF DEFENSE.DEFENSE ADVANCED RESEARCH PROJECTS AGENCY  (DARPA).DEF ADVANCED RESEARCH PROJECTS AGCY",
+  "posted_date": "2026-04-09",
+  "type": "Solicitation",
+  "set_aside": null,
+  "naics": "['541714']",
+  "response_deadline": "2026-06-25",
+  "ui_link": "https://sam.gov/workspace/contract/opp/5c6a433f8f6c4965a787ef4a01191d72/view",
+  "description_text": "The Defense Advanced Research Projects Agency (DARPA) is soliciting innovative approaches to address challenges in developing continuously updating digital twin models of the cardiovascular system that combine patient data with biological physics to simulate in real time possible interventions and to predict their outcomes before actual intervention on a patient. The VITAL program will establish a foundation for causal, prediction-driven decision support in medicine, enabling clinicians and future autonomous systems to evaluate treatment options before they are applied. By defining when mechanistic digital twins, reduced-order models, and data-driven inference are reliable and actionable, VITAL will shift medical care from reactive assessment to anticipatory intervention. This capability has the potential to improve outcomes across acute, chronic, and emergent clinical settings.",
+  "contacts": [
+    "VITAL@darpa.mil"
+  ]
+}

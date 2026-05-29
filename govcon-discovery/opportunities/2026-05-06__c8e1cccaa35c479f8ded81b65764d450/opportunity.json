@@ -1,0 +1,16 @@
+{
+  "notice_id": "8a62f956cded4fd1a16e3975bb648efb",
+  "title": "Silicon and Silicon/Germanium Epitaxial Wafers",
+  "solicitation_number": "1333ND26QNB030152",
+  "agency": "COMMERCE, DEPARTMENT OF.NATIONAL INSTITUTE OF STANDARDS AND TECHNOLOGY.DEPT OF COMMERCE NIST",
+  "posted_date": "2026-04-30",
+  "type": "Solicitation",
+  "set_aside": "SBA",
+  "naics": "['334413']",
+  "response_deadline": "2026-05-12",
+  "ui_link": "https://sam.gov/workspace/contract/opp/8a62f956cded4fd1a16e3975bb648efb/view",
+  "description_text": "This solicitation is being amended to answer public questions raised and to update a minimum specification. Question 1: For line items 1-7, could you please confirm the substrate diameter? Answer 1: The substrate diameter is 100 mm. Question 2: What is the preferred method of growth (1) CVD (Chemical Vapor Deposition) or (2) MBE (Molecular Beam Epitaxy). Answer 2: (B) The government is not specifying the production method and any production method that yields wafers meeting all specifications including thickness, composition, and coherency would be acceptable. Vendors may elect to use different growth methods for different film stacks (e.g. MBE for thin stacks, and CVD for thick films). Minimum specification addition: For SiGe films, the composition tolerance is 5 atomic percent. For example Si0.70Ge0.30 means Si0.70\u00b10.05Ge0.30\u00b10.05, and a film with a composition of Si0.67Ge0.33 would be within specification for a nominal Si0.70Ge0.30 requirement. No additional changes have been made. Please see attached document.",
+  "contacts": [
+    "erik.frycklund@nist.gov"
+  ]
+}

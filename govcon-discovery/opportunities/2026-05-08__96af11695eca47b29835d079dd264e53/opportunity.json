@@ -1,0 +1,16 @@
+{
+  "notice_id": "af4f86d28f55429facfcda1229a241a6",
+  "title": "Vindicator Intrusion Detection System Installation Services",
+  "solicitation_number": "FA481926Q0011",
+  "agency": "DEPT OF DEFENSE.DEPT OF THE AIR FORCE.AIR EDUCATION AND TRAINING COMMAND.FA4419   97 CONF  CC",
+  "posted_date": "2026-04-02",
+  "type": "Solicitation",
+  "set_aside": "SBA",
+  "naics": "['561621']",
+  "response_deadline": "2026-04-15",
+  "ui_link": "https://sam.gov/workspace/contract/opp/af4f86d28f55429facfcda1229a241a6/view",
+  "description_text": "A purchase request was submitted for the design, procurement, and installation of an Intrusion Detection System (IDS) in Bldg 503. The Air Combat Training Center (ACTC) has a need for a new physical IDS. The current system is approaching the end of life, having been installed in 2005, with parts no longer commercially available. This necessitates a full replacement of all sensors, installation of new cabling, installation of new access panels, and removal of all old items of the current IDS. The installation shall be done in parallel with the current system to not interfere with daily operations or create a fault. The Contractor shall provide all necessary equipment and infrastructure upgrades to support system operations and shall integrate the new components into the existing Electronic Security System (ESS) on Tyndall AFB. The Contractor shall provide all ancillary equipment, materials and/or supplies needed for the installation and associated infrastructure. The contractor shall remove all abandoned or unused conductors the maximum extent possible. **Brand Name restriction to Honeywell Vindicator hardware.**",
+  "contacts": [
+    "angel.clarke@us.af.mil"
+  ]
+}

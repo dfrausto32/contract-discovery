@@ -1,0 +1,16 @@
+{
+  "notice_id": "b91c5a7712944fbf93ee71bf24675892",
+  "title": "Environmental System Maintenance Repair",
+  "solicitation_number": "PANRSA-26-P-0000-034216",
+  "agency": "DEPT OF DEFENSE.DEPT OF THE ARMY.AMC.ACC.ACC-CTRS.ACC RSA.W6QK ACC-RSA",
+  "posted_date": "2026-05-12",
+  "type": "Solicitation",
+  "set_aside": null,
+  "naics": "['811210']",
+  "response_deadline": "2026-05-26",
+  "ui_link": "https://sam.gov/workspace/contract/opp/b91c5a7712944fbf93ee71bf24675892/view",
+  "description_text": "Maintenance and repair of its laboratory environment systems located at its TMDE Support Center, Tobyhanna Army Depot, 11 Hap Arnold Blvd, Tobyhanna, PA 18466. Under this agreement the Contractor shall furnish all labor, diagnostic software, hardware, documentation, schematics and equipment required to provide evaluation, maintenance and repair to laboratory environmental systems required to maintenance temperature and humidity environments required for calibration and repair of sensitive scientific equipment. The required services shall be provided by the original equipment provider which installed the systems during previous renovations. Performance Requirements: Remove existing Temp/Humidity Controller for each of the Three (3) labs and replace with PLC Controller PLC controller to be housed in a ndw 24x24 NEMA Enclosure Provide a new stand along PC with VT SCADA to monitor, trend and store all data Program PLC's to match existing temperature/humidity control Install new control panels and interface to existing equipment Startup/Training of new control system",
+  "contacts": [
+    "wanda.k.little.civ@army.mil"
+  ]
+}

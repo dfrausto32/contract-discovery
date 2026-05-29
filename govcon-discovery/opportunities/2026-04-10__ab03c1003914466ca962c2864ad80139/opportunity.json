@@ -1,0 +1,16 @@
+{
+  "notice_id": "9c3e5e9a2cee4c7caf17820efbc1bf52",
+  "title": "Joint Simulation Environment (JSE) Contractor Logistics Support (CLS)",
+  "solicitation_number": "A060291",
+  "agency": "DEPT OF DEFENSE",
+  "posted_date": "2026-04-02",
+  "type": "Sources Sought",
+  "set_aside": null,
+  "naics": null,
+  "response_deadline": "2026-04-11",
+  "ui_link": "https://sam.gov/workspace/contract/opp/9c3e5e9a2cee4c7caf17820efbc1bf52/view",
+  "description_text": "The Joint Simulation Environment (JSE) is a software acquisition program, originally developed by the US Navy for F-35 testing, and is now an Air Force program of record. Its purpose is to create a digital test and training range for 4th, 5th, and 6th generation aircraft. The program's goals are to continuously deliver the core software, integrate high-fidelity simulator training systems, and field the capability at designated sites. The JSE Program requires a contractor to manage training and product support at its Joint Integrated Test and Training Centers (JITTCs), currently located at Nellis AFB, NV, and Joint Base Elmendorf-Richardson, AK, with the potential for future expansion. These sites will house a mix of JSE and non-JSE compliant training systems from various manufacturers, all supported by commercial off-the-shelf (COTS) components. The facilities will feature server farms, complex audio/visual systems for mission briefings, and will operate on secure networks up to the TS/SCI and SAP levels. Ultimately, JSE will provide warfighters with a secure virtual battlespace to train for future conflicts.",
+  "contacts": [
+    "matthew.mercer.5@us.af.mil"
+  ]
+}

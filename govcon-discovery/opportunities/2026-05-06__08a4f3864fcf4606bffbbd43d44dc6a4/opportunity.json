@@ -1,0 +1,16 @@
+{
+  "notice_id": "08a4f3864fcf4606bffbbd43d44dc6a4",
+  "title": "SonarQube Alternate Sources",
+  "solicitation_number": "FA830726RB030",
+  "agency": "DEPT OF DEFENSE.DEPT OF THE AIR FORCE.AIR FORCE MATERIEL COMMAND.AIR FORCE LIFE CYCLE MANAGEMENT CENTER.COMMAND, CONTROL, COMMUNICATIONS & BATTLE MANAGEMENT.FA8307  AFLCMC HNCK C3IN",
+  "posted_date": "2026-05-06",
+  "type": "Sources Sought",
+  "set_aside": null,
+  "naics": "['513210']",
+  "response_deadline": "2026-05-12",
+  "ui_link": "https://sam.gov/workspace/contract/opp/08a4f3864fcf4606bffbbd43d44dc6a4/view",
+  "description_text": "The Government is conducting market research to identify and assess commercially available alternatives to SonarQube in support of Platform One (P1) mission requirements. This Request for Information (RFI) is issued solely for market research and acquisition planning purposes to evaluate industry capabilities and available solutions that provide enterprise software code quality analysis, static application security testing (SAST), code vulnerability detection, technical debt analysis, and software compliance support within a Government security-compliant DevSecOps environment. The Government seeks to identify solutions capable of supporting secure software development lifecycle (SDLC) practices, automated code inspection, vulnerability identification, coding standards enforcement, quality gate management, developer workflow integration, and enterprise scalability across Platform One value streams and software delivery pipelines. Responses to this RFI will assist the Government in identifying qualified sources, evaluating alternative technical capabilities, and informing future acquisition strategy decisions. This RFI is for informational and planning purposes only and does not constitute a solicitation, request for proposal, or a commitment by the Government to award a contract. The Government encourages responses from all capable vendors and seeks to maximize practicable competition while evaluating solutions that meet or exceed operational, technical, security, and enterprise integration requirements in support of Platform One mission execution.",
+  "contacts": [
+    "aflcmc.hncx.p1licensemanagement@us.af.mil"
+  ]
+}

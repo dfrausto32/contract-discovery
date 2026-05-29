@@ -1,0 +1,16 @@
+{
+  "notice_id": "947cc0811ea542ac802bbabe931e36bf",
+  "title": "Retirement Calculator",
+  "solicitation_number": "DOC-PS-26-0001",
+  "agency": "COMMERCE, DEPARTMENT OF.OFFICE OF THE SECRETARY.DEPT OF COMMERCE SSPO",
+  "posted_date": "2026-03-30",
+  "type": "Sources Sought",
+  "set_aside": "SBA",
+  "naics": "['541612']",
+  "response_deadline": "2026-04-03",
+  "ui_link": "https://sam.gov/workspace/contract/opp/947cc0811ea542ac802bbabe931e36bf/view",
+  "description_text": "The United States Department of Commerce - has the need of a comprehensive commercial retirement benefits calculator platform for up to 45,000 unique employee profiles that is web-based with capabilities to obtain data from the National Finance Center or any third party to accurately compute various complex estimates needed in assisting employees with their retirement decisions. The purpose of the calculator is to electronically calculate various types of employee retirement benefits, retirement case management, and provide metrics/reports on benefits under the Civil Service Retirement System (CSRS), Civil Service Retirement System Offset (CSRS-Offset), Federal Employees Retirement System (FERS/FERS-RAE/FERS-FRAE), the Federal Thrift Savings Plan (TSP) and the Social Security Administration (SSA) program. The software must provide pre-populated forms, provide financial/retirement planning, provide retirement and benefits educational tools via videos, downloadable documents or other media. The software will include internal tools for TSP calculations, SSA calculations and for HR Specialist to make retirement coverage determinations and Federal Erroneous Retirement Coverage Corrections Act (FERCCA) determinations. HR Specialists must be able to view a Federal employee\u2019s record to assist employees inquiring about their Federal retirement and benefits. The calculator must be customizable to direct employees to a third party contactor. Additionally, the application generates approved versions of forms required for processing retirements and benefits that meet standards and guidance set forth by the Office of Personnel Management (OPM), Department of Labor - Office of Workers\u2019 Compensation Program, Federal Employee Group Life Insurance (FEGLI), Thrift Savings Plan, National Finance Center (NFC) and Internal Revenue Service (IRS).",
+  "contacts": [
+    "cbrooks1@doc.gov"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "notice_id": "e936d6515aeb45f7bf7a208cc239c601",
+  "title": "6525--NMIS/Biodose Nuclear Medicine Dose Tracking Software",
+  "solicitation_number": "36C26126Q0693",
+  "agency": "VETERANS AFFAIRS, DEPARTMENT OF.VETERANS AFFAIRS, DEPARTMENT OF.261-NETWORK CONTRACT OFFICE 21 (36C261)",
+  "posted_date": "2026-05-21",
+  "type": "Solicitation",
+  "set_aside": null,
+  "naics": "['541511']",
+  "response_deadline": "2026-05-28",
+  "ui_link": "https://sam.gov/workspace/contract/opp/e936d6515aeb45f7bf7a208cc239c601/view",
+  "description_text": "Question and Answer: Does the customer want the dose caliber interface. This eliminates possible type errors into system EMR. Yes, requesting the Dose Calibrator is: Capintec CRC-55tW",
+  "contacts": [
+    "jason.olliff@va.gov"
+  ]
+}

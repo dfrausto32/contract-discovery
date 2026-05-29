@@ -1,0 +1,16 @@
+{
+  "notice_id": "bf3317c7afcc4185b2f31fcf21ac6745",
+  "title": "Request for Information - F-15 Flow Control Valve",
+  "solicitation_number": "FA8634-22-F-0035-05",
+  "agency": "DEPT OF DEFENSE.DEPT OF THE AIR FORCE.AIR FORCE MATERIEL COMMAND.AIR FORCE LIFE CYCLE MANAGEMENT CENTER.FIGHTER AND ADVANCED AIRCRAFT.FA8634 AFLCMC WAQK F15",
+  "posted_date": "2026-05-05",
+  "type": "Sources Sought",
+  "set_aside": null,
+  "naics": "['336413']",
+  "response_deadline": "2026-05-12",
+  "ui_link": "https://sam.gov/workspace/contract/opp/bf3317c7afcc4185b2f31fcf21ac6745/view",
+  "description_text": "This request for information is for Flow Control Valves which manage, regulate, and shut off fuel, hydraulic, pneumatic, and coolant fluids in aircraft systems. They provide high-reliability, low-weight solutions designed for severe operating conditions. They regulate the flow rate of compressed air in pneumatic systems or fluids, directly affecting the speed of actuators. Flow control valves are used in fluid systems, including fuel pumps and brake controls, to maintain consistent pressure. These valves are designed to withstand high pressure, high heat, and EMI (electromagnetic interference), often utilizing aluminum or stainless steel materials.",
+  "contacts": [
+    "laura.harr@us.af.mil"
+  ]
+}
