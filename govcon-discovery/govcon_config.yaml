@@ -157,6 +157,23 @@ relevance:
     - "hvac"
     - "plumbing"
     - "electrical contractor"
+    # Hardware / parts procurement (title signals only — NAICS filter handles most)
+    - "spare parts"
+    - "repair parts"
+    - "replacement parts"
+    - "national stock number"
+    - "aircraft parts"
+    - "vehicle parts"
+    - "spare part"
+    - "repair part"
+    - "forklift"
+    - "generator maintenance"
+    - "fire alarm"
+    - "airfield lighting"
+    - "floor scrubber"
+    - "dental"
+    - "lodging"
+    - "lodging services"
   boost_weight: 25
   include_weight: 6
   naics_weight: 20

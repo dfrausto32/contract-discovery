@@ -17,6 +17,11 @@ Four signal categories:
 import re
 
 
+def _match(kw: str, text: str) -> bool:
+    """Word-boundary safe match — prevents 'sso' hitting 'associated', etc."""
+    return bool(re.search(r'\b' + re.escape(kw) + r'\b', text))
+
+
 # ---------------------------------------------------------------------------
 # Signal tables
 # ---------------------------------------------------------------------------
@@ -65,6 +70,12 @@ _DISQUALIFIERS = [
     "janitorial", "custodial",
     "medical device", "surgical", "laboratory equipment",
     "fire suppression", "hvac system",
+    # Hardware / spare parts procurement
+    "national stock number", "individual repair part", "irpod",
+    "repair part ordering data", "spare part", "spare parts",
+    "replacement part", "replacement parts",
+    "hull, mechanical and electrical", "propulsion system",
+    "airframe", "aircraft component",
 ]
 
 _CLEARANCE_HIGH = [
@@ -103,27 +114,27 @@ def scan(description: str) -> dict:
     signals: list[str] = []
 
     for kw in _TECH_STACK:
-        if kw in text:
+        if _match(kw, text):
             score += _TECH_WEIGHT
             signals.append(f"tech:{kw}")
 
     for kw in _CONTRACT_SIGNALS:
-        if kw in text:
+        if _match(kw, text):
             score += _CONTRACT_WEIGHT
             signals.append(f"contract:{kw}")
 
     for kw in _DISQUALIFIERS:
-        if kw in text:
+        if _match(kw, text):
             score += _DISQUALIFY_WEIGHT
             signals.append(f"DISQUALIFY:{kw}")
 
     for kw in _CLEARANCE_HIGH:
-        if kw in text:
+        if _match(kw, text):
             score += _CLEARANCE_HI_WEIGHT
             signals.append(f"CLEARANCE_HIGH:{kw}")
 
     for kw in _CLEARANCE_LOW:
-        if kw in text:
+        if _match(kw, text):
             score += _CLEARANCE_LO_WEIGHT
             signals.append(f"clearance_ok:{kw}")
 
