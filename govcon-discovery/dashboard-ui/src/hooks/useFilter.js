@@ -7,6 +7,7 @@ const INITIAL = {
   minScore: 0,
   barrier: '',
   showLowSignal: false,
+  hideExpired: true,
   sortKey: 'posted_date',
   sortDir: -1,
 };
@@ -40,6 +41,7 @@ export function useFilter(opportunities) {
     setMinScore: (v) => setState(s => ({ ...s, minScore: Number(v) })),
     setBarrier:      (v) => setState(s => ({ ...s, barrier: v })),
     setShowLowSignal:(v) => setState(s => ({ ...s, showLowSignal: v })),
+    setHideExpired:  (v) => setState(s => ({ ...s, hideExpired: v })),
     setSort:     (key) => setState(s => ({
       ...s,
       sortKey: key,
@@ -56,6 +58,8 @@ export function useFilter(opportunities) {
       const effectiveScore = o.in_pending ? (o.combined_score ?? 0) : (o.score ?? 0);
       if (effectiveScore < state.minScore)                   return false;
       if (state.barrier && BARRIER_LABELS[o.notice_type] !== state.barrier) return false;
+      // Hide expired opps unless toggle is off
+      if (state.hideExpired && o.deadline_in_days != null && o.deadline_in_days < 0) return false;
       // Hide low-signal pending rows unless toggle is on
       if (!state.showLowSignal && o.pending_low)             return false;
       if (state.search) {
@@ -82,7 +86,7 @@ export function useFilter(opportunities) {
     });
   }, [opportunities, state]);
 
-  const isFiltered = !!(state.search || state.type || state.agency || state.minScore > 0 || state.barrier || state.showLowSignal);
+  const isFiltered = !!(state.search || state.type || state.agency || state.minScore > 0 || state.barrier || state.showLowSignal || !state.hideExpired);
   const activeCount = [state.search, state.type, state.agency, state.minScore > 0 ? '_' : '', state.barrier, state.showLowSignal ? '_' : '']
     .filter(Boolean).length;
 

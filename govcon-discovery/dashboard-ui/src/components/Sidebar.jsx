@@ -209,6 +209,38 @@ export default function Sidebar({ opportunities, state, actions, isFiltered, act
         </div>
       </div>
 
+      {/* Hide Expired toggle */}
+      <FilterSection label="VISIBILITY">
+        <button
+          onClick={() => actions.setHideExpired(!state.hideExpired)}
+          style={{
+            display: 'flex', alignItems: 'center', gap: 8,
+            background: state.hideExpired ? 'rgba(255,0,85,0.06)' : 'none',
+            border: `1px solid ${state.hideExpired ? 'rgba(255,0,85,0.35)' : 'rgba(255,255,255,0.06)'}`,
+            cursor: 'pointer', padding: '5px 8px', textAlign: 'left', width: '100%',
+            clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 0 100%)',
+            transition: 'all 0.1s ease', marginBottom: 5,
+          }}
+          onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(255,0,85,0.35)'; }}
+          onMouseLeave={e => { e.currentTarget.style.borderColor = state.hideExpired ? 'rgba(255,0,85,0.35)' : 'rgba(255,255,255,0.06)'; }}
+        >
+          <div style={{
+            width: 6, height: 6, flexShrink: 0,
+            background: state.hideExpired ? '#FF0055' : 'var(--text-subtle)',
+            boxShadow: state.hideExpired ? '0 0 6px rgba(255,0,85,0.6)' : 'none',
+            transition: 'all 0.1s ease',
+          }} />
+          <div>
+            <div style={{ fontFamily: "'Rajdhani', sans-serif", fontWeight: 700, fontSize: 10, letterSpacing: '0.08em', color: state.hideExpired ? '#FF0055' : 'var(--text-muted)' }}>
+              HIDE EXPIRED
+            </div>
+            <div style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: 9, color: 'var(--text-subtle)', letterSpacing: '0.04em' }}>
+              past response deadline
+            </div>
+          </div>
+        </button>
+      </FilterSection>
+
       {/* Show Low Signal toggle */}
       <FilterSection label="PENDING OPPS">
         <button

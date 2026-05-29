@@ -148,8 +148,19 @@ def run(dry_run: bool, since: str, full: bool, limit: int):
 
     allowed_types = set(config["govcon"]["notice_types"])
     records = [r for r in records if r["type"] in allowed_types]
+
+    # Drop past-deadline records immediately — expired opps are useless to pursue.
+    today = datetime.date.today().isoformat()
+    before = len(records)
+    records = [
+        r for r in records
+        if not r.get("response_deadline") or r["response_deadline"][:10] >= today
+    ]
+    expired_dropped = before - len(records)
+
     records.sort(key=lambda r: r["posted_date"] or "", reverse=True)
-    click.echo(f"  {len(records)} after notice-type filter (newest first)")
+    click.echo(f"  {len(records)} after notice-type + expired filter "
+               f"({expired_dropped} expired dropped, newest first)")
 
     out_dir = Path(__file__).parent / config["output"]["dir"]
     out_dir.mkdir(parents=True, exist_ok=True)
