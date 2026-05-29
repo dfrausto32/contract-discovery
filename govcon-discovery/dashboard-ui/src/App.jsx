@@ -105,7 +105,7 @@ export default function App() {
       flexDirection: 'column',
       overflow: isMobile ? 'visible' : 'hidden',
     }}>
-      <Header summary={summary} loaded onSettings={() => setShowTokenModal(true)} />
+      <Header summary={summary} loaded onSettings={() => setShowTokenModal(true)} onNeedToken={() => setShowTokenModal(true)} />
 
       {/* Summary strip */}
       <div style={{ flexShrink: 0, borderBottom: '1px solid var(--border-dim)' }}>
