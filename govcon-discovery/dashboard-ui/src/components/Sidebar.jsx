@@ -123,10 +123,10 @@ export default function Sidebar({ opportunities, state, actions, isFiltered, act
       {/* Deadline Band */}
       <FilterSection label="DEADLINE">
         {[
-          { value: '7',   label: '≤ 7 DAYS',   color: '#FF0055', desc: 'Urgent' },
-          { value: '14',  label: '≤ 14 DAYS',  color: '#FF6B00', desc: 'Soon' },
-          { value: '30',  label: '≤ 30 DAYS',  color: '#FCE300', desc: 'This month' },
-          { value: '30+', label: '30+ DAYS',   color: '#39FF14', desc: 'Plenty of time' },
+          { value: '0-7',   label: '0 – 7 DAYS',   color: '#FF0055', desc: 'Urgent' },
+          { value: '8-14',  label: '8 – 14 DAYS',  color: '#FF6B00', desc: 'Soon' },
+          { value: '15-30', label: '15 – 30 DAYS', color: '#FCE300', desc: 'This month' },
+          { value: '30+',   label: '30+ DAYS',     color: '#39FF14', desc: 'Plenty of time' },
         ].map(opt => {
           const active = state.deadlineBand === opt.value;
           return (

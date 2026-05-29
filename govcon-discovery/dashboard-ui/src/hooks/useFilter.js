@@ -62,13 +62,13 @@ export function useFilter(opportunities) {
       if (state.barrier && BARRIER_LABELS[o.notice_type] !== state.barrier) return false;
       // Hide expired opps unless toggle is off
       if (state.hideExpired && o.deadline_in_days != null && o.deadline_in_days < 0) return false;
-      // Deadline band filter
+      // Deadline band filter (ranges, not cumulative ≤)
       if (state.deadlineBand) {
         const d = o.deadline_in_days;
-        if (state.deadlineBand === '7'    && !(d != null && d >= 0 && d <= 7))   return false;
-        if (state.deadlineBand === '14'   && !(d != null && d >= 0 && d <= 14))  return false;
-        if (state.deadlineBand === '30'   && !(d != null && d >= 0 && d <= 30))  return false;
-        if (state.deadlineBand === '30+'  && !(d == null || d > 30))             return false;
+        if (state.deadlineBand === '0-7'   && !(d != null && d >= 0 && d <= 7))   return false;
+        if (state.deadlineBand === '8-14'  && !(d != null && d >= 8 && d <= 14))  return false;
+        if (state.deadlineBand === '15-30' && !(d != null && d >= 15 && d <= 30)) return false;
+        if (state.deadlineBand === '30+'   && !(d == null || d > 30))             return false;
       }
       // Hide low-signal pending rows unless toggle is on
       if (!state.showLowSignal && o.pending_low)             return false;

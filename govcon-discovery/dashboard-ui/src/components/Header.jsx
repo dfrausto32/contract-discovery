@@ -128,7 +128,7 @@ function EnrichPanel({ pendingCount, onNeedToken, onClose }) {
   );
 }
 
-export default function Header({ summary, loaded, onSettings, onNeedToken }) {
+export default function Header({ summary, loaded, onSettings, onNeedToken, onTriage }) {
   const total        = summary.total_kept      ?? 0;
   const evaluated    = summary.evaluated_total ?? 0;
   const updated      = summary.last_updated    ?? '—';
@@ -187,6 +187,32 @@ export default function Header({ summary, loaded, onSettings, onNeedToken }) {
 
       {/* Right */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        {/* Triage button — shown when there are pending opps */}
+        {loaded && pendingCount > 0 && onTriage && (
+          <button
+            onClick={onTriage}
+            title="Swipe through pending opps to queue for AI or dismiss"
+            style={{
+              fontFamily: "'Rajdhani', sans-serif",
+              fontWeight: 700, fontSize: 10,
+              letterSpacing: '0.1em',
+              padding: '4px 10px',
+              background: 'none',
+              border: '1px solid rgba(0,229,255,0.25)',
+              color: 'var(--cyan)',
+              cursor: 'pointer',
+              clipPath: 'polygon(0 0, calc(100% - 7px) 0, 100% 7px, 100% 100%, 0 100%)',
+              transition: 'all 0.1s ease',
+              display: 'flex', alignItems: 'center', gap: 6,
+            }}
+            onMouseEnter={e => { e.currentTarget.style.background = 'rgba(0,229,255,0.08)'; e.currentTarget.style.borderColor = 'rgba(0,229,255,0.5)'; }}
+            onMouseLeave={e => { e.currentTarget.style.background = 'none'; e.currentTarget.style.borderColor = 'rgba(0,229,255,0.25)'; }}
+          >
+            <span style={{ fontSize: 9, opacity: 0.7 }}>▸</span>
+            TRIAGE
+          </button>
+        )}
+
         {/* Enrich button — shown when there are pending opps */}
         {loaded && pendingCount > 0 && (
           <div style={{ position: 'relative' }}>

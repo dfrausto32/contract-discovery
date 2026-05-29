@@ -9,11 +9,15 @@ on:
   workflow_dispatch:
     inputs:
       limit:
-        description: "Max records to enrich (default 30)"
+        description: "Max records to enrich by score (ignored when notice_ids is set)"
         required: false
         default: "30"
-      notice_id:
-        description: "Enrich a single specific notice_id (optional)"
+      notice_ids:
+        description: "Comma-separated notice_ids to enrich (leave blank to use limit)"
+        required: false
+        default: ""
+      dismiss_ids:
+        description: "Comma-separated notice_ids to permanently dismiss"
         required: false
         default: ""
 
@@ -25,7 +29,7 @@ permissions:
 jobs:
   enrich:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 180
 
     steps:
       - name: Checkout repo
@@ -48,11 +52,17 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           LIMIT: ${{ github.event.inputs.limit || '30' }}
-          NOTICE_ID: ${{ github.event.inputs.notice_id }}
+          NOTICE_IDS: ${{ github.event.inputs.notice_ids }}
+          DISMISS_IDS: ${{ github.event.inputs.dismiss_ids }}
         run: |
-          ARGS="--limit $LIMIT"
-          if [ -n "$NOTICE_ID" ]; then ARGS="$ARGS --id $NOTICE_ID"; fi
-          python govcon.py enrich $ARGS 2>&1 | tee govcon-enrich.log
+          if [ -n "$DISMISS_IDS" ]; then
+            python govcon.py dismiss --ids "$DISMISS_IDS" 2>&1 | tee -a govcon-enrich.log
+          fi
+          if [ -n "$NOTICE_IDS" ]; then
+            python govcon.py enrich --ids "$NOTICE_IDS" 2>&1 | tee govcon-enrich.log
+          else
+            python govcon.py enrich --limit "$LIMIT" 2>&1 | tee govcon-enrich.log
+          fi
 
       - name: Upload enrich log artifact
         if: always()

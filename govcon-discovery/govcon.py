@@ -311,10 +311,12 @@ def run(dry_run: bool, since: str, full: bool, limit: int):
 @cli.command("enrich")
 @click.option("--dry-run", is_flag=True, default=False)
 @click.option("--limit", default=20, type=int, show_default=True,
-              help="Max number of pending records to enrich.")
+              help="Max number of pending records to enrich (ignored when --ids is set).")
 @click.option("--id", "notice_id", default=None,
-              help="Enrich a specific notice_id only.")
-def enrich(dry_run: bool, limit: int, notice_id: str):
+              help="Enrich a single specific notice_id.")
+@click.option("--ids", "notice_ids", default=None,
+              help="Comma-separated list of notice_ids to enrich.")
+def enrich(dry_run: bool, limit: int, notice_id: str, notice_ids: str):
     """Run AI scoring on kept_pending records (deferred from the daily run)."""
     config = load_config()
 
@@ -323,7 +325,18 @@ def enrich(dry_run: bool, limit: int, notice_id: str):
     conn = store.get_db(DB_PATH)
     store.init_db(conn)
 
-    if notice_id:
+    if notice_ids:
+        id_list = [x.strip() for x in notice_ids.split(",") if x.strip()]
+        placeholders = ",".join("?" * len(id_list))
+        rows = conn.execute(
+            f"SELECT * FROM seen WHERE notice_id IN ({placeholders}) AND disposition='kept_pending'",
+            id_list
+        ).fetchall()
+        if not rows:
+            click.echo(f"No kept_pending records found for the given IDs.")
+            conn.close()
+            return
+    elif notice_id:
         rows = conn.execute(
             "SELECT * FROM seen WHERE notice_id=? AND disposition='kept_pending'",
             (notice_id,)
@@ -482,6 +495,36 @@ def enrich(dry_run: bool, limit: int, notice_id: str):
             discord_notify.post_run_summary(counts, kept_titles, review_titles, discord_url)
         except Exception:
             pass
+
+
+@cli.command("dismiss")
+@click.option("--ids", "notice_ids", required=True,
+              help="Comma-separated list of notice_ids to permanently dismiss.")
+@click.option("--dry-run", is_flag=True, default=False)
+def dismiss(notice_ids: str, dry_run: bool):
+    """Permanently dismiss pending opps so they never appear again."""
+    id_list = [x.strip() for x in notice_ids.split(",") if x.strip()]
+    if not id_list:
+        click.echo("No IDs provided.")
+        return
+
+    conn = store.get_db(DB_PATH)
+    store.init_db(conn)
+    dismissed = 0
+    for nid in id_list:
+        row = conn.execute("SELECT notice_id, title FROM seen WHERE notice_id=?", (nid,)).fetchone()
+        if row:
+            if not dry_run:
+                store.update_disposition(conn, nid, "skipped_user", None, False,
+                                          conn.execute("SELECT output_path FROM seen WHERE notice_id=?", (nid,)).fetchone()["output_path"])
+            click.echo(f"  dismissed  {(row['title'] or nid)[:60]}")
+            dismissed += 1
+        else:
+            click.echo(f"  not found  {nid}")
+    conn.close()
+    click.echo(f"Dismissed {dismissed} / {len(id_list)} records.")
+    if dry_run:
+        click.echo("(dry run — nothing written)")
 
 
 @cli.command("health")

@@ -5,6 +5,7 @@ import Sidebar from './components/Sidebar.jsx';
 import OpportunityTable from './components/OpportunityTable.jsx';
 import DetailModal from './components/DetailModal.jsx';
 import TokenModal from './components/TokenModal.jsx';
+import TriagePanel from './components/TriagePanel.jsx';
 import { useFilter } from './hooks/useFilter.js';
 
 function useIsMobile() {
@@ -77,6 +78,7 @@ export default function App() {
   const [selectedOpp,    setSelectedOpp]    = useState(null);
   const [sidebarOpen,    setSidebarOpen]    = useState(false);
   const [showTokenModal, setShowTokenModal] = useState(false);
+  const [showTriage,     setShowTriage]     = useState(false);
   const isMobile = useIsMobile();
 
   useEffect(() => {
@@ -105,7 +107,7 @@ export default function App() {
       flexDirection: 'column',
       overflow: isMobile ? 'visible' : 'hidden',
     }}>
-      <Header summary={summary} loaded onSettings={() => setShowTokenModal(true)} onNeedToken={() => setShowTokenModal(true)} />
+      <Header summary={summary} loaded onSettings={() => setShowTokenModal(true)} onNeedToken={() => setShowTokenModal(true)} onTriage={() => setShowTriage(true)} />
 
       {/* Summary strip */}
       <div style={{ flexShrink: 0, borderBottom: '1px solid var(--border-dim)' }}>
@@ -218,6 +220,14 @@ export default function App() {
 
       {showTokenModal && (
         <TokenModal onClose={() => setShowTokenModal(false)} />
+      )}
+
+      {showTriage && (
+        <TriagePanel
+          opportunities={opportunities}
+          onClose={() => setShowTriage(false)}
+          onNeedToken={() => { setShowTriage(false); setShowTokenModal(true); }}
+        />
       )}
     </div>
   );
