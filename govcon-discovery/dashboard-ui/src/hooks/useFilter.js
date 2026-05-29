@@ -6,6 +6,7 @@ const INITIAL = {
   agency: '',
   minScore: 0,
   barrier: '',
+  deadlineBand: '',
   showLowSignal: false,
   hideExpired: true,
   sortKey: 'posted_date',
@@ -39,9 +40,10 @@ export function useFilter(opportunities) {
     setType:     (v) => setState(s => ({ ...s, type: v })),
     setAgency:   (v) => setState(s => ({ ...s, agency: v })),
     setMinScore: (v) => setState(s => ({ ...s, minScore: Number(v) })),
-    setBarrier:      (v) => setState(s => ({ ...s, barrier: v })),
-    setShowLowSignal:(v) => setState(s => ({ ...s, showLowSignal: v })),
-    setHideExpired:  (v) => setState(s => ({ ...s, hideExpired: v })),
+    setBarrier:       (v) => setState(s => ({ ...s, barrier: v })),
+    setDeadlineBand:  (v) => setState(s => ({ ...s, deadlineBand: s.deadlineBand === v ? '' : v })),
+    setShowLowSignal: (v) => setState(s => ({ ...s, showLowSignal: v })),
+    setHideExpired:   (v) => setState(s => ({ ...s, hideExpired: v })),
     setSort:     (key) => setState(s => ({
       ...s,
       sortKey: key,
@@ -60,6 +62,14 @@ export function useFilter(opportunities) {
       if (state.barrier && BARRIER_LABELS[o.notice_type] !== state.barrier) return false;
       // Hide expired opps unless toggle is off
       if (state.hideExpired && o.deadline_in_days != null && o.deadline_in_days < 0) return false;
+      // Deadline band filter
+      if (state.deadlineBand) {
+        const d = o.deadline_in_days;
+        if (state.deadlineBand === '7'    && !(d != null && d >= 0 && d <= 7))   return false;
+        if (state.deadlineBand === '14'   && !(d != null && d >= 0 && d <= 14))  return false;
+        if (state.deadlineBand === '30'   && !(d != null && d >= 0 && d <= 30))  return false;
+        if (state.deadlineBand === '30+'  && !(d == null || d > 30))             return false;
+      }
       // Hide low-signal pending rows unless toggle is on
       if (!state.showLowSignal && o.pending_low)             return false;
       if (state.search) {
@@ -86,8 +96,8 @@ export function useFilter(opportunities) {
     });
   }, [opportunities, state]);
 
-  const isFiltered = !!(state.search || state.type || state.agency || state.minScore > 0 || state.barrier || state.showLowSignal || !state.hideExpired);
-  const activeCount = [state.search, state.type, state.agency, state.minScore > 0 ? '_' : '', state.barrier, state.showLowSignal ? '_' : '']
+  const isFiltered = !!(state.search || state.type || state.agency || state.minScore > 0 || state.barrier || state.deadlineBand || state.showLowSignal || !state.hideExpired);
+  const activeCount = [state.search, state.type, state.agency, state.minScore > 0 ? '_' : '', state.barrier, state.deadlineBand, state.showLowSignal ? '_' : '']
     .filter(Boolean).length;
 
   return { filtered, state, actions, isFiltered, activeCount };
