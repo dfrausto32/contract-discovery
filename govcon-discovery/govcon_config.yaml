@@ -160,9 +160,19 @@ relevance:
   boost_weight: 25
   include_weight: 6
   naics_weight: 20
-  # A candidate must reach this score to advance to the AI stage.
-  # Threshold of 45 = NAICS hit (20) + one strong keyword (25).
-  stage1_threshold: 45
+  # A candidate must reach this score to advance to Stage 2 description scan.
+  # Threshold of 25 = one strong keyword OR NAICS hit + one include keyword.
+  # Stage 2 does the real quality filtering; Stage 1 just cuts obvious noise.
+  stage1_threshold: 25
+
+stage2:
+  # combined_score (stage1 + desc_score) thresholds after the description deep-scan.
+  # Opportunities below desc_score_floor are silently dropped (skipped_stage2).
+  # Between floor and keep they land in the dashboard as low-signal rows.
+  # At or above keep they are kept_pending — high-priority for AI enrichment.
+  desc_score_keep: 65
+  desc_score_low: 35
+  desc_score_floor: 20
 
 ai:
   # Provider: "openai" (uses OPENAI_API_KEY) or "claude" (uses ANTHROPIC_API_KEY).

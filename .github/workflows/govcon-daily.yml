@@ -11,6 +11,7 @@ on:
       - 'govcon-discovery/store.py'
       - 'govcon-discovery/ai_fit.py'
       - 'govcon-discovery/relevance.py'
+      - 'govcon-discovery/description_scan.py'
       - 'govcon-discovery/govcon_config.yaml'
       - 'requirements.txt'
       - '.github/workflows/govcon-daily.yml'
@@ -38,7 +39,7 @@ permissions:
 jobs:
   discover:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 15
 
     steps:
       - name: Checkout repo
@@ -59,12 +60,10 @@ jobs:
         env:
           GOVCON_API_KEY: ${{ secrets.GOVCON_API_KEY }}
 
-      - name: Pull opportunities and generate docs
+      - name: Pull opportunities and score (Stage 1 + 2, no AI)
         working-directory: govcon-discovery
         env:
           GOVCON_API_KEY: ${{ secrets.GOVCON_API_KEY }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           SINCE: ${{ github.event.inputs.since }}
           FULL: ${{ github.event.inputs.full }}

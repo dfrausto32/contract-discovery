@@ -1,0 +1,103 @@
+name: GovCon AI Enrichment
+
+# Run AI scoring on kept_pending records discovered by the daily run.
+# Separate from govcon-daily.yml so AI timeouts never block discovery.
+
+on:
+  schedule:
+    - cron: '30 3 * * *'   # 03:30 UTC — 30 min after the daily discovery run
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: "Max records to enrich (default 30)"
+        required: false
+        default: "30"
+      notice_id:
+        description: "Enrich a single specific notice_id (optional)"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  enrich:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          ref: contract-discovery
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run AI enrichment
+        working-directory: govcon-discovery
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          LIMIT: ${{ github.event.inputs.limit || '30' }}
+          NOTICE_ID: ${{ github.event.inputs.notice_id }}
+        run: |
+          ARGS="--limit $LIMIT"
+          if [ -n "$NOTICE_ID" ]; then ARGS="$ARGS --id $NOTICE_ID"; fi
+          python govcon.py enrich $ARGS 2>&1 | tee govcon-enrich.log
+
+      - name: Upload enrich log artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: govcon-enrich-log-${{ github.run_number }}
+          path: govcon-discovery/govcon-enrich.log
+          retention-days: 30
+
+      - name: Commit enriched opportunities
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add govcon-discovery/opportunities govcon-discovery/data/govcon_seen.db
+          git diff --cached --quiet || git commit -m "chore: AI enrichment run [skip ci]"
+          git pull --rebase -X ours origin contract-discovery
+          git push
+
+      - name: Generate data.json
+        working-directory: govcon-discovery
+        run: python dashboard.py build
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: govcon-discovery/dashboard-ui/package-lock.json
+
+      - name: Build React dashboard
+        working-directory: govcon-discovery/dashboard-ui
+        run: npm ci && npm run build
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: govcon-discovery/site
+
+  deploy:
+    needs: enrich
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

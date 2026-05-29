@@ -100,8 +100,26 @@ def read_writeup(output_path: str) -> str:
     return md.markdown(body.strip(), extensions=["extra", "sane_lists"])
 
 
-def _row_to_record(row, in_review: bool = False) -> dict:
+def read_description_excerpt(output_path: str, max_chars: int = 500) -> str:
+    """Read description_text from opportunity.json for pending opps (no README yet)."""
+    if not output_path:
+        return ""
+    opp_json = HERE / output_path / "opportunity.json"
+    if not opp_json.exists():
+        return ""
+    try:
+        data = json.loads(opp_json.read_text())
+        text = (data.get("description_text") or "").strip()
+        if len(text) > max_chars:
+            text = text[:max_chars].rsplit(" ", 1)[0] + "…"
+        return text
+    except Exception:
+        return ""
+
+
+def _row_to_record(row, in_review: bool = False, in_pending: bool = False) -> dict:
     agency = short_agency(row["agency"])
+    keys   = row.keys()
     return {
         "notice_id": row["notice_id"],
         "title": row["title"] or "(untitled)",
@@ -115,25 +133,33 @@ def _row_to_record(row, in_review: bool = False) -> dict:
         "agency_group": agency["group_key"],
         "ui_link": row["ui_link"],
         "score": row["ai_score"],
-        "score_band": score_band(row["ai_score"]),
+        "combined_score": row["combined_score"] if "combined_score" in keys else None,
+        "desc_score": row["desc_score"] if "desc_score" in keys else None,
+        "score_band": score_band(row["ai_score"] if row["ai_score"] is not None else row["combined_score"]),
         "ai_generated": bool(row["ai_generated"]),
-        "writeup_html": read_writeup(row["output_path"]),
-        "gameplan_html": read_gameplan(row["output_path"]),
+        "writeup_html": read_writeup(row["output_path"]) if not in_pending else "",
+        "description_excerpt": read_description_excerpt(row["output_path"]) if in_pending else "",
+        "gameplan_html": read_gameplan(row["output_path"]) if not in_pending else "",
         "folder": Path(row["output_path"]).name if row["output_path"] else "",
         "in_review": in_review,
-        "review_flagged": bool(row["review_flagged"]) if "review_flagged" in row.keys() else False,
-        "human_verdict": row["human_verdict"] if "human_verdict" in row.keys() else None,
+        "in_pending": in_pending,
+        "pending_low": row["disposition"] == "pending_low" if "disposition" in keys else False,
+        "review_flagged": bool(row["review_flagged"]) if "review_flagged" in keys else False,
+        "human_verdict": row["human_verdict"] if "human_verdict" in keys else None,
     }
 
 
 def build_records(conn) -> list[dict]:
     records = [_row_to_record(row) for row in store.kept_opportunities(conn)]
-    # Include review-queue opps so the dashboard can surface them with REVIEW badges.
+    # Review-queue opps (AI scored, awaiting human verdict)
     review_rows = conn.execute("""
         SELECT * FROM seen WHERE disposition = 'review'
         ORDER BY posted_date DESC, first_seen DESC
     """).fetchall()
     records += [_row_to_record(row, in_review=True) for row in review_rows]
+    # Pending opps (Stage 1+2 passed, AI not yet run)
+    pending_rows = store.get_pending_display(conn)
+    records += [_row_to_record(row, in_pending=True) for row in pending_rows]
     return records
 
 
@@ -153,11 +179,13 @@ def build_summary(records: list[dict], conn) -> dict:
         for h in DEADLINE_HORIZONS
     }
     dispositions = store.disposition_counts(conn)
-    kept_records = [r for r in records if not r["in_review"]]
+    kept_records   = [r for r in records if not r["in_review"] and not r["in_pending"]]
     review_pending = sum(1 for r in records if r["in_review"] and not r["human_verdict"])
+    pending_count  = sum(1 for r in records if r["in_pending"] and not r["pending_low"])
     return {
         "total_kept": len(kept_records),
         "review_count": review_pending,
+        "pending_count": pending_count,
         "last_updated": datetime.date.today().isoformat(),
         "evaluated_total": sum(dispositions.values()),
         "by_notice_type": _counter([r["notice_type"] for r in kept_records]),

@@ -79,8 +79,54 @@ function MetaTile({ label, value, color, mono }) {
   );
 }
 
+const ENRICH_REPO     = 'dfrausto32/contract-discovery';
+const ENRICH_BRANCH   = 'contract-discovery';
+const ENRICH_WORKFLOW = 'govcon-enrich.yml';
+
 export default function DetailModal({ opportunity: o, onClose }) {
-  const [showTokenModal, setShowTokenModal] = useState(false);
+  const [showTokenModal,  setShowTokenModal]  = useState(false);
+  const [enrichSubmitted, setEnrichSubmitted] = useState(
+    () => !!localStorage.getItem(`enrich_${o?.notice_id}`)
+  );
+  const [enrichLoading,   setEnrichLoading]   = useState(false);
+  const [enrichError,     setEnrichError]     = useState(null);
+
+  const triggerEnrich = async () => {
+    const pat = localStorage.getItem('gh_pat');
+    if (!pat) { setShowTokenModal(true); return; }
+    setEnrichLoading(true);
+    setEnrichError(null);
+    try {
+      const res = await fetch(
+        `https://api.github.com/repos/${ENRICH_REPO}/actions/workflows/${ENRICH_WORKFLOW}/dispatches`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${pat}`,
+            'Content-Type': 'application/json',
+            Accept: 'application/vnd.github+json',
+          },
+          body: JSON.stringify({
+            ref: ENRICH_BRANCH,
+            inputs: { notice_id: o.notice_id, limit: '1' },
+          }),
+        }
+      );
+      if (res.status === 204) {
+        localStorage.setItem(`enrich_${o.notice_id}`, '1');
+        setEnrichSubmitted(true);
+      } else if (res.status === 401) {
+        setEnrichError('Token invalid — update via the ⚙ settings button.');
+      } else {
+        const body = await res.text();
+        setEnrichError(`GitHub API ${res.status}: ${body.slice(0, 100)}`);
+      }
+    } catch (e) {
+      setEnrichError(`Network error: ${e.message}`);
+    } finally {
+      setEnrichLoading(false);
+    }
+  };
 
   useEffect(() => {
     const h = e => { if (e.key === 'Escape') onClose(); };
@@ -90,9 +136,10 @@ export default function DetailModal({ opportunity: o, onClose }) {
 
   if (!o) return null;
 
-  const badge   = TYPE_BADGE[o.notice_type] ?? { bg: 'var(--surface-3)', text: 'var(--text-muted)', tip: '' };
-  const barrier = BARRIER[o.notice_type];
-  const sc      = scoreColor(o.score);
+  const badge        = TYPE_BADGE[o.notice_type] ?? { bg: 'var(--surface-3)', text: 'var(--text-muted)', tip: '' };
+  const barrier      = BARRIER[o.notice_type];
+  const displayScore = o.in_pending ? o.combined_score : o.score;
+  const sc           = scoreColor(displayScore);
   const naics   = (o.naics ?? []).join(', ') || '—';
   const dlDays  = o.deadline_in_days;
   const dlColor = deadlineColor(dlDays);
@@ -218,14 +265,14 @@ export default function DetailModal({ opportunity: o, onClose }) {
                 ▸ {barrier.label}
               </span>
             )}
-            {o.score != null && (
+            {displayScore != null && (
               <span style={{
                 fontFamily: "'Share Tech Mono', monospace",
                 fontSize: 10,
                 color: sc,
                 textShadow: `0 0 8px ${sc}80`,
               }}>
-                ◈ {o.score}/100 {o.ai_generated ? '[AI]' : '[KW]'}
+                ◈ {displayScore}/100 {o.in_pending ? '[S2]' : (o.ai_generated ? '[AI]' : '[KW]')}
               </span>
             )}
             {expired && (
@@ -300,12 +347,21 @@ export default function DetailModal({ opportunity: o, onClose }) {
             />
             <MetaTile label="NAICS"     value={naics}          mono />
             <MetaTile label="SOL. #"    value={o.solicitation_number ?? '—'} mono />
-            <MetaTile
-              label="RELEVANCE"
-              value={o.score != null ? `${o.score} / 100` : '—'}
-              color={o.score != null ? sc : undefined}
-              mono
-            />
+            {o.in_pending ? (
+              <MetaTile
+                label="SIGNAL SCORE"
+                value={o.combined_score != null ? `${o.combined_score} / 100` : '—'}
+                color={o.combined_score != null ? sc : undefined}
+                mono
+              />
+            ) : (
+              <MetaTile
+                label="RELEVANCE"
+                value={o.score != null ? `${o.score} / 100` : '—'}
+                color={o.score != null ? sc : undefined}
+                mono
+              />
+            )}
           </div>
 
           {/* Full agency path */}
@@ -368,24 +424,99 @@ export default function DetailModal({ opportunity: o, onClose }) {
 
           {/* Intel summary header */}
           <div className="cp-label" style={{ fontSize: 11, marginBottom: 12 }}>
-            INTEL SUMMARY
+            {o.in_pending ? 'RAW DESCRIPTION' : 'INTEL SUMMARY'}
           </div>
 
-          {/* Writeup */}
-          {o.writeup_html ? (
-            <div
-              className="writeup-content"
-              dangerouslySetInnerHTML={{ __html: o.writeup_html }}
-            />
+          {/* Pending — show description excerpt + enrich button */}
+          {o.in_pending ? (
+            <>
+              {o.description_excerpt ? (
+                <div style={{
+                  fontFamily: "'Barlow', sans-serif",
+                  fontSize: 13,
+                  color: 'var(--text-muted)',
+                  lineHeight: 1.65,
+                  marginBottom: '1.1rem',
+                  borderLeft: '2px solid var(--border)',
+                  paddingLeft: 12,
+                }}>
+                  {o.description_excerpt}
+                </div>
+              ) : (
+                <div style={{ fontFamily: "'Share Tech Mono'", fontSize: 11, color: 'var(--text-subtle)', marginBottom: '1.1rem' }}>
+                  // NO DESCRIPTION AVAILABLE
+                </div>
+              )}
+
+              <div style={{
+                height: 1,
+                background: 'linear-gradient(90deg, rgba(252,227,0,0.4) 0%, transparent 100%)',
+                margin: '1.1rem 0',
+              }} />
+              <div style={{ fontFamily: "'Rajdhani'", fontWeight: 700, fontSize: 11, letterSpacing: '0.1em', color: 'rgba(252,227,0,0.6)', marginBottom: 10 }}>
+                // AI ENRICHMENT
+              </div>
+
+              {enrichSubmitted ? (
+                <div style={{
+                  display: 'flex', alignItems: 'center', gap: 8,
+                  padding: '8px 12px',
+                  background: 'rgba(252,227,0,0.05)',
+                  border: '1px solid rgba(252,227,0,0.25)',
+                  clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%)',
+                }}>
+                  <span style={{ fontFamily: "'Share Tech Mono'", fontSize: 11, color: 'rgba(252,227,0,0.7)', letterSpacing: '0.08em' }}>
+                    ◈ ENRICHMENT QUEUED — dashboard updates in ~5 min
+                  </span>
+                </div>
+              ) : (
+                <>
+                  <button
+                    onClick={triggerEnrich}
+                    disabled={enrichLoading}
+                    style={{
+                      fontFamily: "'Rajdhani', sans-serif",
+                      fontWeight: 700, fontSize: 12,
+                      letterSpacing: '0.1em',
+                      padding: '7px 20px',
+                      background: 'var(--yellow-subtle)',
+                      border: '1px solid rgba(252,227,0,0.4)',
+                      color: 'var(--yellow)',
+                      cursor: enrichLoading ? 'wait' : 'pointer',
+                      clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%)',
+                      transition: 'all 0.1s ease',
+                      textShadow: '0 0 6px rgba(252,227,0,0.4)',
+                    }}
+                    onMouseEnter={e => { if (!enrichLoading) e.currentTarget.style.background = 'rgba(252,227,0,0.12)'; }}
+                    onMouseLeave={e => { e.currentTarget.style.background = 'var(--yellow-subtle)'; }}
+                  >
+                    {enrichLoading ? '…' : '[ ENRICH WITH AI → ]'}
+                  </button>
+                  {enrichError && (
+                    <div style={{ marginTop: 8, fontFamily: "'Share Tech Mono'", fontSize: 10, color: '#FF6B00' }}>
+                      ⚠ {enrichError}
+                    </div>
+                  )}
+                </>
+              )}
+            </>
           ) : (
-            <div style={{
-              fontFamily: "'Share Tech Mono', monospace",
-              fontSize: 11,
-              color: 'var(--text-subtle)',
-              letterSpacing: '0.06em',
-            }}>
-              // NO WRITEUP AVAILABLE
-            </div>
+            /* Enriched — show AI writeup */
+            o.writeup_html ? (
+              <div
+                className="writeup-content"
+                dangerouslySetInnerHTML={{ __html: o.writeup_html }}
+              />
+            ) : (
+              <div style={{
+                fontFamily: "'Share Tech Mono', monospace",
+                fontSize: 11,
+                color: 'var(--text-subtle)',
+                letterSpacing: '0.06em',
+              }}>
+                // NO WRITEUP AVAILABLE
+              </div>
+            )
           )}
 
           {/* Game plan section — only rendered when present */}

@@ -59,13 +59,16 @@ const TD = {
 export default function OpportunityRow({ opportunity: o, onSelect }) {
   const badge   = TYPE_BADGE[o.notice_type] ?? { bg: 'var(--surface-3)', text: 'var(--text-muted)', tip: '' };
   const barrier = BARRIER[o.notice_type];
-  const sc      = scoreColor(o.score);
-  const band    = scoreBand(o.score);
+  // For pending opps, use combined_score for color; for enriched use ai score
+  const displayScore = o.in_pending ? o.combined_score : o.score;
+  const sc      = scoreColor(displayScore);
+  const band    = scoreBand(displayScore);
   const dlColor = deadlineColor(o.deadline_in_days);
   const expired = o.deadline_in_days != null && o.deadline_in_days < 0;
 
   let rowStyle;
-  if (expired) rowStyle = { opacity: 0.55 };
+  if (o.pending_low)  rowStyle = { opacity: 0.5 };
+  else if (expired)   rowStyle = { opacity: 0.55 };
   else if (o.in_review) rowStyle = { borderLeft: '2px solid #FF9500' };
 
   return (
@@ -168,28 +171,52 @@ export default function OpportunityRow({ opportunity: o, onSelect }) {
 
       {/* Score hex */}
       <td style={TD}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-          <div
-            className="hex-score"
-            style={{
-              background: o.score != null ? `${sc}20` : 'var(--surface-2)',
-              color: sc,
-              textShadow: o.score != null ? `0 0 8px ${sc}` : 'none',
-              fontSize: o.score != null ? 11 : 10,
-            }}
-          >
-            {o.score ?? '—'}
+        {o.in_pending ? (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <div
+              className="hex-score"
+              style={{
+                background: displayScore != null ? `${sc}15` : 'var(--surface-2)',
+                color: 'var(--text-subtle)',
+                fontSize: 9,
+                border: `1px solid var(--border-dim)`,
+              }}
+            >
+              {displayScore ?? '—'}
+            </div>
+            <span style={{
+              fontFamily: "'Share Tech Mono', monospace",
+              fontSize: 9,
+              color: o.pending_low ? 'var(--text-subtle)' : 'rgba(252,227,0,0.5)',
+              letterSpacing: '0.04em',
+            }}>
+              {o.pending_low ? '//LOW' : '◈'}
+            </span>
           </div>
-          <span style={{
-            fontFamily: "'Share Tech Mono', monospace",
-            fontSize: 9,
-            letterSpacing: '0.04em',
-            color: o.ai_generated ? '#39FF14' : '#FF6B00',
-            textShadow: o.ai_generated ? '0 0 4px rgba(57,255,20,0.6)' : 'none',
-          }}>
-            [{o.ai_generated ? 'AI' : 'KW'}]
-          </span>
-        </div>
+        ) : (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+            <div
+              className="hex-score"
+              style={{
+                background: o.score != null ? `${sc}20` : 'var(--surface-2)',
+                color: sc,
+                textShadow: o.score != null ? `0 0 8px ${sc}` : 'none',
+                fontSize: o.score != null ? 11 : 10,
+              }}
+            >
+              {o.score ?? '—'}
+            </div>
+            <span style={{
+              fontFamily: "'Share Tech Mono', monospace",
+              fontSize: 9,
+              letterSpacing: '0.04em',
+              color: o.ai_generated ? '#39FF14' : '#FF6B00',
+              textShadow: o.ai_generated ? '0 0 4px rgba(57,255,20,0.6)' : 'none',
+            }}>
+              [{o.ai_generated ? 'AI' : 'KW'}]
+            </span>
+          </div>
+        )}
       </td>
 
       {/* Deadline */}

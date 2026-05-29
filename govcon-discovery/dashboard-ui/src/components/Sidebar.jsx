@@ -179,7 +179,7 @@ export default function Sidebar({ opportunities, state, actions, isFiltered, act
       </FilterSection>
 
       {/* Min Score */}
-      <div>
+      <div style={{ marginBottom: '1.1rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
           <div className="cp-label">MIN SCORE</div>
           <span style={{
@@ -208,6 +208,51 @@ export default function Sidebar({ opportunities, state, actions, isFiltered, act
           <span style={{ fontFamily: "'Share Tech Mono'", fontSize: 9, color: 'var(--text-subtle)' }}>100</span>
         </div>
       </div>
+
+      {/* Show Low Signal toggle */}
+      <FilterSection label="PENDING OPPS">
+        <button
+          onClick={() => actions.setShowLowSignal(!state.showLowSignal)}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 8,
+            background: state.showLowSignal ? 'rgba(252,227,0,0.06)' : 'none',
+            border: `1px solid ${state.showLowSignal ? 'rgba(252,227,0,0.3)' : 'rgba(255,255,255,0.06)'}`,
+            cursor: 'pointer',
+            padding: '5px 8px',
+            textAlign: 'left',
+            clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 0 100%)',
+            transition: 'all 0.1s ease',
+            width: '100%',
+          }}
+          onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(252,227,0,0.3)'; }}
+          onMouseLeave={e => { e.currentTarget.style.borderColor = state.showLowSignal ? 'rgba(252,227,0,0.3)' : 'rgba(255,255,255,0.06)'; }}
+        >
+          <div style={{
+            width: 6, height: 6,
+            background: state.showLowSignal ? 'var(--yellow)' : 'var(--text-subtle)',
+            flexShrink: 0,
+            boxShadow: state.showLowSignal ? '0 0 6px rgba(252,227,0,0.6)' : 'none',
+            transition: 'all 0.1s ease',
+          }} />
+          <div>
+            <div style={{
+              fontFamily: "'Rajdhani', sans-serif",
+              fontWeight: 700, fontSize: 10, letterSpacing: '0.08em',
+              color: state.showLowSignal ? 'var(--yellow)' : 'var(--text-muted)',
+            }}>
+              SHOW LOW SIGNAL
+            </div>
+            <div style={{
+              fontFamily: "'Share Tech Mono', monospace",
+              fontSize: 9, color: 'var(--text-subtle)', letterSpacing: '0.04em',
+            }}>
+              dims below combined score 65
+            </div>
+          </div>
+        </button>
+      </FilterSection>
     </div>
   );
 }
