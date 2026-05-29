@@ -128,11 +128,11 @@ export default function Sidebar({ opportunities, state, actions, isFiltered, act
           { value: '15-30', label: '15 – 30 DAYS', color: '#FCE300', desc: 'This month' },
           { value: '30+',   label: '30+ DAYS',     color: '#39FF14', desc: 'Plenty of time' },
         ].map(opt => {
-          const active = state.deadlineBand === opt.value;
+          const active = state.deadlineBands.has(opt.value);
           return (
             <button
               key={opt.value}
-              onClick={() => actions.setDeadlineBand(opt.value)}
+              onClick={() => actions.toggleDeadlineBand(opt.value)}
               style={{
                 display: 'flex', alignItems: 'center', gap: 8,
                 background: active ? `${opt.color}12` : 'none',
@@ -163,11 +163,11 @@ export default function Sidebar({ opportunities, state, actions, isFiltered, act
       <FilterSection label="ENTRY BARRIER">
         <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
           {BARRIER_OPTIONS.map(opt => {
-            const active = state.barrier === opt.value;
+            const active = state.barriers.has(opt.value);
             return (
               <button
                 key={opt.value}
-                onClick={() => actions.setBarrier(active ? '' : opt.value)}
+                onClick={() => actions.toggleBarrier(opt.value)}
                 style={{
                   display: 'flex',
                   alignItems: 'center',
