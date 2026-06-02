@@ -1,0 +1,10 @@
+# GovCon Opportunity Index
+
+_Last updated 2026-06-02 — 4 opportunities, newest posted first._
+
+| Posted | Title | Agency | Type | AI Score | Deadline | SAM.gov |
+|--------|-------|--------|------|---------:|----------|---------|
+| 2026-05-13 | [Home Equity Conversion Mortgage (HECM) Business Service Provider Solution that fully supports all functional requirements, processes, steps, timelines, and reports associated with FHA’s current HECM insurance program and regulatory changes.](2026-05-13__a068570161394904b09840bb8b805273) | HOUSING AND URBAN DEVELOPMENT, DEPARTMENT OF.HOUSING AND URBAN DEVELOPMENT, DEPARTMENT OF.CPO : FHA HOUSING SUPPORT DIVISION | Sources Sought | 58 | 2026-06-13 | [open](https://sam.gov/workspace/contract/opp/a068570161394904b09840bb8b805273/view) |
+| 2026-05-12 | [a. Command & Control Experimentation (C2X) and Modernization Software Engineering Services for Future Naval Operations](2026-05-12__e0e10aa48b3d4d7eb63c8b51500aef53) | DEPT OF DEFENSE | Presolicitation | 58 |  | [open](https://sam.gov/workspace/contract/opp/dfc236bf856e478993bc34b6c0712814/view) |
+| 2026-04-22 | [ANC OCIO CEAS Support Services](2026-05-19__1bd143941f084085aba2a1f99373e4ed) | DEPT OF DEFENSE.DEPT OF THE ARMY.AMC.ACC.MISSION INSTALLATION CONTRACTING COMMAND.FDO SAM HOUSTON.W6QM MICC-FT BELVOIR | Sources Sought | 64 | 2026-06-22 | [open](https://sam.gov/workspace/contract/opp/ea37ba4fa6bc4d5499c1dcbbbe4a4b0e/view) |
+| 2026-04-03 | [HUD Technology Transformation Next Generation](2026-04-06__a3b49e2d22994f9294e437f6a884e0cf) | HOUSING AND URBAN DEVELOPMENT, DEPARTMENT OF.HOUSING AND URBAN DEVELOPMENT, DEPARTMENT OF.CPO : RESEARCH AND COMMUNITY SUPPOR | Presolicitation | 88 | 2027-04-30 | [open](https://sam.gov/workspace/contract/opp/f75d6f9c143943f98405a8ee95789a7c/view) |
