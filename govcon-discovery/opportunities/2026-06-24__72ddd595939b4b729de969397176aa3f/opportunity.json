@@ -1,0 +1,16 @@
+{
+  "notice_id": "72ddd595939b4b729de969397176aa3f",
+  "title": "MapXtreme Software N6671526RCN6010",
+  "solicitation_number": "N0018926QZ624",
+  "agency": "DEPT OF DEFENSE.DEPT OF THE NAVY.NAVSUP.NAVSUP GLOBAL LOGISTICS SUPPORT.NAVSUP FLC NORFOLK.NAVSUP FLT LOG CTR NORFOLK",
+  "posted_date": "2026-06-24",
+  "type": "Solicitation",
+  "set_aside": "SBA",
+  "naics": "['541519']",
+  "response_deadline": "2026-07-01",
+  "ui_link": "https://sam.gov/workspace/contract/opp/72ddd595939b4b729de969397176aa3f/view",
+  "description_text": "The Navy Recruiting Command (NRC) Information Technology Department (N6) has an ongoing requirement for a suite of geospatial software to support, maintain, and develop mission-critical applications, including the WebSTEAM market analysis tool. The required components include a .NET Software Development Kit (SDK) for embedding mapping functions, a map rendering server, a geo-coding tool for data preparation, a desktop GIS application for advanced analysis, and quarterly 5-digit ZIP code data updates. This bundle of capabilities is currently met by the Precisely MapXtreme software suite.MapXtreme is a software toolkit for .NET developers to develop custom geospatial applications, integrate location-based insight into business operations and easily embed Location Intelligence in operating systems, analytical systems and the web. Another required software, MapMarker, allows users to geocode automatically and interactively, in real-time and batch, with this workstation-based U.S. application. The instant requirement for NRC is for the following MapXtreme Software Licenses: ? MapXtreme is the server application that renders the maps (3 copies)? MapXtreme SDK is the software development kit. (4 copies)? MapMarker is the desktop geo-coding tool used to provide latitude and longitude to data. (3 copies)? 5 Digit ZIP Code is the quarterly data subscription updates. (3 copies)? The contract would also include 1 copy of MapInfo Professional license and maintenance for the development team to simulate customized maps and perform break-fix maintenanceDelivery of the required software (and maintenance/support thereafter) is anticipated to be performed electronically. The applicable software usage and maintenance period will span 12-months and is anticipated to be from 13 July 2026 to 12 July 2027. It is also anticipated that the contract will contain option quantities for the same amounts as the base quantities listed above. One option year is anticipated to be included in the resultant contract. If all options are exercised, the software usage term and maintenance periods of the contract will have an ultimate expiration date of 12 July 2028. Per communications with the customer MapXtreme will be subsumed by another system / program by the end of the Base and one option year agreement. Additional option(s) will not be required after it?s subsumed.",
+  "contacts": [
+    "john.r.lavelle@navy.mil"
+  ]
+}
