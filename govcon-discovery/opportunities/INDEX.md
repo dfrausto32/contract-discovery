@@ -1,9 +1,11 @@
 # GovCon Opportunity Index
 
-_Last updated 2026-06-24 — 5 opportunities, newest posted first._
+_Last updated 2026-06-27 — 7 opportunities, newest posted first._
 
 | Posted | Title | Agency | Type | AI Score | Deadline | SAM.gov |
 |--------|-------|--------|------|---------:|----------|---------|
+| 2026-06-26 | [Request for Information (RFI) / Sources Sought Notice Product Support and Sustainment Integration for Air Base Air Defense for Missile Defense (ABAD MD) System](2026-06-26__79774fcfc5794124923e3f497eba3846) | DEPT OF DEFENSE.DEPT OF THE AIR FORCE.AIR FORCE MATERIEL COMMAND.AIR FORCE LIFE CYCLE MANAGEMENT CENTER.CYBER AND NETWORKS.FA8612  AFLCMC C3BM C3 | Sources Sought | 58 | 2026-07-06 | [open](https://sam.gov/workspace/contract/opp/79774fcfc5794124923e3f497eba3846/view) |
+| 2026-06-26 | [Enterprise Skills Assessment Platform - Sources Sought](2026-06-26__c4c1ac4ddcb44f7b96ffd5bf57260075) | DEPT OF DEFENSE.US SPECIAL OPERATIONS COMMAND (USSOCOM).HQ USSOCOM | Sources Sought | 68 | 2026-07-02 | [open](https://sam.gov/workspace/contract/opp/c4c1ac4ddcb44f7b96ffd5bf57260075/view) |
 | 2026-06-23 | [Protected Anti-Jam Tactical SATCOM Enterprise Mission Management (PATSEMM) Sources Sought Request for Information (RFI)](2026-06-23__0dc97215036f4135a78e5bf92305f3aa) | DEPT OF DEFENSE.DEPT OF THE AIR FORCE.SPACE SYSTEMS COMMAND.PEO MILITARY COMMUNICATION AND POSITION NAVIGATION TIMING.FA8807 MIL COMM AND PNT SSC/CGK | Sources Sought | 58 | 2026-07-13 | [open](https://sam.gov/workspace/contract/opp/0dc97215036f4135a78e5bf92305f3aa/view) |
 | 2026-05-13 | [Home Equity Conversion Mortgage (HECM) Business Service Provider Solution that fully supports all functional requirements, processes, steps, timelines, and reports associated with FHA’s current HECM insurance program and regulatory changes.](2026-05-13__a068570161394904b09840bb8b805273) | HOUSING AND URBAN DEVELOPMENT, DEPARTMENT OF.HOUSING AND URBAN DEVELOPMENT, DEPARTMENT OF.CPO : FHA HOUSING SUPPORT DIVISION | Sources Sought | 58 | 2026-06-13 | [open](https://sam.gov/workspace/contract/opp/a068570161394904b09840bb8b805273/view) |
 | 2026-05-12 | [a. Command & Control Experimentation (C2X) and Modernization Software Engineering Services for Future Naval Operations](2026-05-12__e0e10aa48b3d4d7eb63c8b51500aef53) | DEPT OF DEFENSE | Presolicitation | 58 |  | [open](https://sam.gov/workspace/contract/opp/dfc236bf856e478993bc34b6c0712814/view) |
