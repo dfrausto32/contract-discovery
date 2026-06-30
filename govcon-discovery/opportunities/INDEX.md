@@ -1,9 +1,11 @@
 # GovCon Opportunity Index
 
-_Last updated 2026-06-27 — 7 opportunities, newest posted first._
+_Last updated 2026-06-30 — 9 opportunities, newest posted first._
 
 | Posted | Title | Agency | Type | AI Score | Deadline | SAM.gov |
 |--------|-------|--------|------|---------:|----------|---------|
+| 2026-06-29 | [Persistent Cyber Training Environment (PCTE) Cyber Range Development Software Application Project (Simulated Internet for Cyber Range Training Events)](2026-06-29__3e19e138b4ba4e15bf2b86cd383255d4) | DEPT OF DEFENSE.DEPT OF THE ARMY.AMC.ACC.ACC-CTRS.ACC-ORLANDO.W6QK ACC-ORLANDO | Sources Sought | 78 | 2026-07-14 | [open](https://sam.gov/workspace/contract/opp/3e19e138b4ba4e15bf2b86cd383255d4/view) |
+| 2026-06-29 | [HHS AI Power User Advanced Models and Features Pilot](2026-06-26__b502944e30d9426db1d48968e86e9726) | HEALTH AND HUMAN SERVICES, DEPARTMENT OF.OFFICE OF THE ASSISTANT SECRETARY FOR ADMINISTRATION (ASA).PROGRAM SUPPORT CENTER ACQ MGMT SVC | Combined Synopsis/Solicitation | 61 | 2026-07-14 | [open](https://sam.gov/workspace/contract/opp/80aafb02b122457d924a7ed7e1269a89/view) |
 | 2026-06-26 | [Request for Information (RFI) / Sources Sought Notice Product Support and Sustainment Integration for Air Base Air Defense for Missile Defense (ABAD MD) System](2026-06-26__79774fcfc5794124923e3f497eba3846) | DEPT OF DEFENSE.DEPT OF THE AIR FORCE.AIR FORCE MATERIEL COMMAND.AIR FORCE LIFE CYCLE MANAGEMENT CENTER.CYBER AND NETWORKS.FA8612  AFLCMC C3BM C3 | Sources Sought | 58 | 2026-07-06 | [open](https://sam.gov/workspace/contract/opp/79774fcfc5794124923e3f497eba3846/view) |
 | 2026-06-26 | [Enterprise Skills Assessment Platform - Sources Sought](2026-06-26__c4c1ac4ddcb44f7b96ffd5bf57260075) | DEPT OF DEFENSE.US SPECIAL OPERATIONS COMMAND (USSOCOM).HQ USSOCOM | Sources Sought | 68 | 2026-07-02 | [open](https://sam.gov/workspace/contract/opp/c4c1ac4ddcb44f7b96ffd5bf57260075/view) |
 | 2026-06-23 | [Protected Anti-Jam Tactical SATCOM Enterprise Mission Management (PATSEMM) Sources Sought Request for Information (RFI)](2026-06-23__0dc97215036f4135a78e5bf92305f3aa) | DEPT OF DEFENSE.DEPT OF THE AIR FORCE.SPACE SYSTEMS COMMAND.PEO MILITARY COMMUNICATION AND POSITION NAVIGATION TIMING.FA8807 MIL COMM AND PNT SSC/CGK | Sources Sought | 58 | 2026-07-13 | [open](https://sam.gov/workspace/contract/opp/0dc97215036f4135a78e5bf92305f3aa/view) |
