@@ -1,0 +1,16 @@
+{
+  "notice_id": "c05a0a22a5104f8fbac739536a1ac4be",
+  "title": "System Advisor Model (SAM) Software Development",
+  "solicitation_number": "SS-2026030923",
+  "agency": "ENERGY, DEPARTMENT OF.ENERGY, DEPARTMENT OF.ALLIANCE FOR ENERGY INNOVATION, LLC - DOE CONTRACTOR",
+  "posted_date": "2026-06-30",
+  "type": "Sources Sought",
+  "set_aside": null,
+  "naics": "['541511']",
+  "response_deadline": "2026-07-10",
+  "ui_link": "https://sam.gov/workspace/contract/opp/c05a0a22a5104f8fbac739536a1ac4be/view",
+  "description_text": "This is a Sources Sought Notice (SSN) issued by the Alliance for Energy Innovation, LLC (Alliance). The purpose of this SSN is to conduct market research and gather information on the current capabilities of potential sources to provide support, maintenance, and expansion of the System Advisor Model (SAM).\n\nThe National Laboratory of the Rockies (NLR) develops and maintains SAM, an open-source software platform used by researchers, industry, utilities, and government organizations to evaluate the technical and economic performance of renewable energy technologies. SAM supports a wide range of energy technologies, including solar, wind, and geothermal systems, and provides performance, financial, and incentive modeling capabilities.\n\nThis effort includes software architecture improvements, implementation of new modeling capabilities, user interface enhancements, cross-platform software support, and troubleshooting of issues identified by users and development staff. The work supports annual software releases and ongoing modernization of the platform.",
+  "contacts": [
+    "asp.responses@nlr.gov"
+  ]
+}

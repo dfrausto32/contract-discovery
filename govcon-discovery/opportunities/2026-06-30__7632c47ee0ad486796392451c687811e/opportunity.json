@@ -1,0 +1,16 @@
+{
+  "notice_id": "7632c47ee0ad486796392451c687811e",
+  "title": "Zero Trust Post Quantum Cryptography (PQC) Roadmap AOI 26-A006 under RCC CSO N6523626S0001",
+  "solicitation_number": "26-A006",
+  "agency": "DEPT OF DEFENSE.DEPT OF THE NAVY.SPAWAR.SPAWAR LANT.NIWC ATLANTIC",
+  "posted_date": "2026-06-30",
+  "type": "Solicitation",
+  "set_aside": "NONE",
+  "naics": "['541715']",
+  "response_deadline": "2026-07-08",
+  "ui_link": "https://sam.gov/workspace/contract/opp/7632c47ee0ad486796392451c687811e/view",
+  "description_text": "The advent of cryptographically relevant quantum computers (CRQCs) poses a direct, existential threat to the security and operational integrity of Department of Navy (DoN) and Marine Corps systems. In accordance with National Security Memorandum 10 (NSM-10) and OMB Memorandum M-23-02, the DoN must execute a rapid, phased, and strategically coordinated migration to Post-Quantum Cryptography (PQC). To manage risk, coordinate migration, and optimize financial investments, the DoN must first establish a complete, authoritative, and continuous baseline inventory of all cryptographic algorithms, protocols, modules, and\n\nimplementations currently deployed. Currently, cryptographic baselines rely on resourceintensive, manual processes. The DoN requires an automated solution to accelerate discovery and improve enterprise-wide visibility.\n\nNIWC Atlantic seeks to prototype a rapidly deployable, integrated, and scalable commercial solution capable of automating the discovery, identification, and cataloging of cryptographic assets across all DoN and Marine Corps networks and systems. This includes enterprise IT (onpremise and cloud), mobile systems, operational technology (OT), and tactical/embedded weapon platforms. The ultimate objective is to automate the generation of a Cryptographic Bill of Materials (CBOM) to support central risk reporting, vulnerability assessments, and PQC migration prioritization.",
+  "contacts": [
+    "jessie.m.rehwoldt.civ@us.navy.mil"
+  ]
+}
