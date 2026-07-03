@@ -1,0 +1,16 @@
+{
+  "notice_id": "ad98854f82154cb39ac0cadc98790e6e",
+  "title": "Mathematical Gravity Modeling Advancement",
+  "solicitation_number": "HM0476_MaGMA",
+  "agency": "DEPT OF DEFENSE.NATIONAL GEOSPATIAL-INTELLIGENCE AGENCY (NGA).NATL GEOSPATIAL-INTELLIGENCE AGENCY",
+  "posted_date": "2026-07-02",
+  "type": "Solicitation",
+  "set_aside": "NONE",
+  "naics": "['541715']",
+  "response_deadline": "2026-07-23",
+  "ui_link": "https://sam.gov/workspace/contract/opp/ad98854f82154cb39ac0cadc98790e6e/view",
+  "description_text": "The National Geospatial-Intelligence Agency (NGA) requires specialized research and software development services to enhance advanced gravimetric and planetary modeling capabilities.\n\nThe prospective vendor will be required to provide supplies and services in the following core areas:\n\nPlanetary Modeling: Develop high-fidelity, variable-resolution planetary models (for Earth and other planetary bodies) with complex density variations to validate derived gravimetric quantities.\n\nSoftware Development & Optimization: Integrate, improve, and optimize NGA-provided analytic continuation code, evaluating it for parallel computation and operational use.\n\nAlgorithm Development: Research and implement memory-efficient computational techniques (e.g., out-of-core inverse methods) for estimating spherical harmonic expansion (SHE) model coefficients.\n\nExploratory Research: Collaborate with NGA Subject Matter Experts (SMEs) to evaluate and investigate new mathematical, modeling, and algorithmic techniques that align with the overall project goals.\n\nFor full technical specifications, baseline code parameters, and validation methodology requirements, please refer to the attached solicitation documents.",
+  "contacts": [
+    "nathan.g.huber@nga.mil"
+  ]
+}
