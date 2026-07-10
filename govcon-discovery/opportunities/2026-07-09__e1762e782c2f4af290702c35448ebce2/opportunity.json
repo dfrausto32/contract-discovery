@@ -1,0 +1,16 @@
+{
+  "notice_id": "e1762e782c2f4af290702c35448ebce2",
+  "title": "Software maintenance for DOFEMS",
+  "solicitation_number": "N0018926QB104",
+  "agency": "DEPT OF DEFENSE.DEPT OF THE NAVY.NAVSUP.NAVSUP GLOBAL LOGISTICS SUPPORT.NAVSUP FLC NORFOLK.NAVSUP FLT LOG CTR NORFOLK",
+  "posted_date": "2026-07-09",
+  "type": "Presolicitation",
+  "set_aside": "NONE",
+  "naics": "['541511']",
+  "response_deadline": "2026-07-24",
+  "ui_link": "https://sam.gov/workspace/contract/opp/e1762e782c2f4af290702c35448ebce2/view",
+  "description_text": "This service contract shall provide software maintenance, technical support services, and cyber security\n\nmaintenance of the system per Department of Defense (DoD) and Defense Health Agency (DHA)\n\nguidance's and Risk Management Framework (RMF) for the Lab Management System (LMS) and all\n\nassociated software packaged to operate with or in support of the product known to the government as\n\nDOFEMS as well as web services between the government's Spectacle Request Transmission System\n\n{SRTS) order entry system to ensure the DoD Optical Fabrication Enterprise maintains operational\n\nreadiness to its beneficiaries. The DOFEMS Production Environment is live operational environment\n\ninstalled on virtual servers located inside DoD Datacenters. The Test Virtual Machine Environment is a\n\nnon-production static environment installed and managed by DHA/DCOPS (Data Center Operations)\n\nand maintained and used by the vendor and NOSTRA personnel to test and validate the systems\n\noperational performance post modifications before deployment to the actual Production Environment.\n\nThe DOFEMS maintenance contract ensures system reliability, data integrity, cybersecurity compliance,\n\nand uninterrupted lab operations.",
+  "contacts": [
+    "nicholas.a.haas10.civ@us.navy.mil"
+  ]
+}
