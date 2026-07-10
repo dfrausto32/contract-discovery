@@ -1,9 +1,11 @@
 # GovCon Opportunity Index
 
-_Last updated 2026-07-02 — 10 opportunities, newest posted first._
+_Last updated 2026-07-10 — 12 opportunities, newest posted first._
 
 | Posted | Title | Agency | Type | AI Score | Deadline | SAM.gov |
 |--------|-------|--------|------|---------:|----------|---------|
+| 2026-07-09 | [H40 Battle Management Systems Engineering Services](2026-07-09__b4ebbe3319c540d199d1e915f9152a00) | DEPT OF DEFENSE.DEPT OF THE NAVY.NAVSEA.NAVSEA WARFARE CENTER.NSWC DAHLGREN | Sources Sought | 58 | 2026-08-13 | [open](https://sam.gov/workspace/contract/opp/b4ebbe3319c540d199d1e915f9152a00/view) |
+| 2026-07-09 | [Software maintenance for DOFEMS](2026-07-09__e1762e782c2f4af290702c35448ebce2) | DEPT OF DEFENSE.DEPT OF THE NAVY.NAVSUP.NAVSUP GLOBAL LOGISTICS SUPPORT.NAVSUP FLC NORFOLK.NAVSUP FLT LOG CTR NORFOLK | Presolicitation | 88 | 2026-07-24 | [open](https://sam.gov/workspace/contract/opp/e1762e782c2f4af290702c35448ebce2/view) |
 | 2026-07-01 | [USMMA - UCAS MANAGED SERVICES CONTRACT - RFI](2026-07-01__fcee1eef57d4417590823c0bd91d6bb7) | TRANSPORTATION, DEPARTMENT OF.MARITIME ADMINISTRATION.6923G2 DOT  MARITIME ADMINISTRATION | Sources Sought | 58 | 2026-07-15 | [open](https://sam.gov/workspace/contract/opp/fcee1eef57d4417590823c0bd91d6bb7/view) |
 | 2026-06-30 | [Arctic Submarine Laboratory (ASL) - Cyber Security Engineering, test and evaluation, and Risk Management Framework (RMF)](2026-06-30__6872dcef89174a8e98ca64786a286b99) | DEPT OF DEFENSE.DEPT OF THE NAVY.NAVSUP.NAVSUP GLOBAL LOGISTICS SUPPORT.NAVSUP FLC PEARL HARBOR.NAVSUP FLT LOG CTR PEARL HARBOR | Solicitation | 62 | 2026-07-03 | [open](https://sam.gov/workspace/contract/opp/6872dcef89174a8e98ca64786a286b99/view) |
 | 2026-06-30 | [Request for Information (RFI) / Sources Sought Notice Product Support and Sustainment Integration for Air Base Air Defense for Missile Defense (ABAD MD) System](2026-06-26__79774fcfc5794124923e3f497eba3846) | DEPT OF DEFENSE.DEPT OF THE AIR FORCE.AIR FORCE MATERIEL COMMAND.AIR FORCE LIFE CYCLE MANAGEMENT CENTER.CYBER AND NETWORKS.FA8612  AFLCMC C3BM C3 | Sources Sought | 61 | 2026-07-09 | [open](https://sam.gov/workspace/contract/opp/fb5964a8810b47868b21ef3ec4f79e28/view) |

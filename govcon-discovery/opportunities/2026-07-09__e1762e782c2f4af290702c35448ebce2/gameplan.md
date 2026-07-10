@@ -1,0 +1,149 @@
+## Go / No-Go
+- **Go, if you can credibly show DoD production sustainment + RMF/cybersecurity support.** The scope aligns well with software maintenance, web service/API support, DevSecOps, and federal cyber compliance experience.
+- **Biggest deciding factors:** whether this is set aside, whether an incumbent has a strong advantage, and whether you can demonstrate relevant past performance in **operational DoD environments** rather than only cloud-native greenfield builds.
+- **Urgent pursuit recommended.** The response deadline is **2026-07-24**, giving a short runway to validate eligibility, collect attachments, and start shaping a response/team.
+
+## Immediate Actions (First 48–72 Hours)
+- **Log into SAM.gov and follow/save the opportunity**
+  - Track amendments, attachments, and any updates to the presolicitation.
+  - Confirm whether interested-vendor functionality or an interested parties list is available.
+- **Download every available attachment from the SAM.gov notice**
+  - Save the notice PDF/HTML.
+  - Download any draft PWS/SOW/SOO, attachment list, market research docs, security exhibits, pricing templates, and clauses.
+- **Identify and capture the contracting points of contact**
+  - Contracting Officer
+  - Contract Specialist
+  - Technical POC, if listed
+  - Record email, phone, and any office identifiers.
+- **Send a concise capability/interest email**
+  - Introduce the company/candidate.
+  - State interest in the DOFEMS software maintenance opportunity.
+  - Highlight relevant strengths: DoD software sustainment, API/web services, RMF/ATO support, cybersecurity maintenance, test/prod release discipline, and support for systems hosted in government-managed environments.
+  - Ask whether additional draft documents, an industry day, or a Q&A window will be released.
+- **Check for pre-solicitation engagement mechanisms**
+  - Sources sought history
+  - Q&A instructions
+  - Request for capability statements
+  - Industry day / site visit / demo session
+  - Responses requested prior to formal RFQ/RFP release
+- **Review the NAICS fit and business status**
+  - Confirm eligibility under **541511**.
+  - Determine whether your small business status aligns if the final solicitation becomes set aside.
+- **Start an incumbent and ecosystem scan**
+  - Search SAM.gov, USASpending, and FPDS for prior DOFEMS/LMS/SRTS awards.
+  - Identify likely incumbent vendors, subcontractors, and DHA/Navy optical or health IT contractors.
+- **Make a bid/no-bid checkpoint**
+  - Within 72 hours, decide whether to pursue as:
+    - prime,
+    - subcontractor to a stronger incumbent-like prime,
+    - or teaming lead with a compliance-heavy partner.
+
+## Preliminary Work
+- **Draft a tailored capability statement**
+  - **Software maintenance & sustainment:** corrective, adaptive, perfective maintenance for operational systems.
+  - **Backend/web services support:** REST/API integration, interface troubleshooting, data integrity controls, service reliability.
+  - **Cybersecurity maintenance:** RMF package updates, POA&M support, STIG remediation coordination, vulnerability management, audit artifacts.
+  - **DevSecOps/release management:** test-to-prod promotion, regression testing, controlled deployments, rollback planning.
+  - **Infrastructure/hosting support:** experience operating within government-managed virtualized environments and coordinating with enterprise hosting teams.
+  - **Help desk/technical support:** incident triage, root cause analysis, SLA-oriented support.
+- **Prepare 2–4 past performance narratives**
+  - One for a **DoD or federal production system sustainment** effort.
+  - One for **cybersecurity/RMF/ATO support**.
+  - One for **system integration/web services between enterprise systems**.
+  - One for **maintenance in a constrained government environment** with change control and testing requirements.
+  - Each narrative should include: customer, scope, environment, security/compliance demands, uptime/mission impact, and outcomes.
+- **Build a compliance matrix shell now**
+  - Columns: requirement, evidence, resume/past performance source, partner source, risk, owner.
+  - Populate from the presolicitation language even before the final RFQ/RFP is released.
+- **Research teaming partners**
+  - Consider a partner with:
+    - direct DHA/Navy medical or optical domain experience,
+    - incumbent adjacency,
+    - help desk/operations center capability,
+    - stronger RMF/cyber documentation bench,
+    - access to any required facility/clearance posture if later specified.
+- **Verify entity readiness**
+  - UEI active
+  - CAGE active
+  - SAM registration current through the expected award window
+  - Reps and certs complete
+  - NAICS codes correctly listed
+  - Points of contact up to date
+- **Check contract vehicle and certification posture**
+  - Determine whether the buy is likely open market under FAR Part 12/13/15 or tied to an existing vehicle.
+  - Check if any of the following may matter:
+    - SBA socioeconomic status
+    - ISO/CMMI references in future solicitation
+    - cybersecurity certifications or documented DevSecOps processes
+    - facility clearance or personnel clearance requirements
+- **Assemble likely proposal artifacts in advance**
+  - Staffing approach for maintenance/support
+  - Sample transition-in plan
+  - Configuration/change management approach
+  - Vulnerability management workflow
+  - Test and validation approach for non-prod VM before production release
+  - Sample monthly status/reporting outline
+
+## Documents to Obtain
+- **From the SAM.gov opportunity page**
+  - Full presolicitation notice text
+  - All posted attachments
+  - Any draft or final:
+    - Performance Work Statement (PWS)
+    - Statement of Work (SOW)
+    - Statement of Objectives (SOO)
+    - Quality Assurance Surveillance Plan (QASP)
+    - Technical exhibits/appendices
+    - Security requirements documentation
+    - CDRLs/data deliverables list
+    - Pricing schedule or CLIN structure
+    - Wage determination, if service labor categories apply
+    - Questions and answers file
+    - Amendment notices
+- **Forms and solicitation documents to watch for**
+  - **SF-1449** if issued as a commercial services RFQ/RFP
+  - **SF-33** if issued as a negotiated procurement under FAR Part 15
+  - Section L/M instructions, if released
+  - FAR/DFARS clauses and provisions package
+  - Representations/certifications references
+- **Documents to independently collect**
+  - Prior award/contract information for DOFEMS, LMS, SRTS support
+  - USASpending/FPDS history for the program
+  - Any publicly available DHA or DoD guidance references cited in the notice
+  - Company resumes and project sheets aligned to:
+    - RMF
+    - sustainment engineering
+    - web services integration
+    - DoD cybersecurity maintenance
+
+## Key Dates & Timeline
+- **Posted:** 2026-07-09
+- **Response deadline:** 2026-07-24
+- **Time remaining:** approximately **14 days or less**, so treat this as an accelerated capture effort.
+- **Pre-solicitation Q&A / industry engagement:** **not stated in the provided description**; must verify on SAM.gov immediately.
+- **Recommended internal timeline**
+  - **Day 1–2:** download attachments, identify POCs, send interest email, confirm set-aside status.
+  - **Day 2–4:** complete incumbent research, draft capability statement, outline past performance.
+  - **Day 4–7:** decide prime vs subcontract/teaming approach; contact potential partners.
+  - **Day 7–10:** build compliance matrix and draft technical response framework.
+  - **Day 10–deadline:** refine response based on any released solicitation, amendments, or Q&A.
+
+## Risks & Unknowns
+- **Set-aside status unknown.**
+  - This is the first gating item. If restricted to a socioeconomic category you do not qualify for, prime pursuit may be blocked.
+- **Incumbent advantage is likely.**
+  - This is a classic sustainment contract for a live operational system with specialized domain context, which often favors the current support contractor.
+- **Domain-specific knowledge gap may matter.**
+  - DOFEMS/LMS/SRTS and optical fabrication workflow knowledge may be expected even if not explicit in the brief description.
+- **Environment is not standard commercial cloud.**
+  - The system runs on virtual servers in DoD datacenters and a DHA-managed test VM environment, so experience in government-controlled hosting and release coordination is important.
+- **Cyber scope may be heavier than the title suggests.**
+  - “Cyber security maintenance,” RMF alignment, and DHA/DoD compliance could require substantial documentation, artifact generation, and continuous remediation support.
+- **Unclear contract structure.**
+  - Unknowns include period of performance, staffing model, service levels, on-site requirements, labor categories, and whether this is fixed-price, T&M, or hybrid.
+- **Clearance/access requirements not yet stated.**
+  - Personnel clearance, CAC/PIV access, privileged user onboarding, or facility access constraints may emerge later.
+- **Competition level likely moderate to high.**
+  - NAICS 541511 is broad, and many federal IT sustainment vendors can compete unless the program’s niche domain and incumbent positioning narrow the field.
+- **Candidate fit is strong but must be framed correctly.**
+  - Emphasize production sustainment, integration support, RMF/cyber maintenance, and operating in regulated DoD environments; de-emphasize purely greenfield microservices/cloud modernization messaging unless tied to sustainment outcomes.
