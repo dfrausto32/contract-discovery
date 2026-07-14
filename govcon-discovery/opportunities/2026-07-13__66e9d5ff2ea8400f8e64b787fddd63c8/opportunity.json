@@ -1,0 +1,16 @@
+{
+  "notice_id": "66e9d5ff2ea8400f8e64b787fddd63c8",
+  "title": "IDEA Data Analysis Software Acquisition",
+  "solicitation_number": "HHM40226Q0036",
+  "agency": "DEPT OF DEFENSE.DEFENSE INTELLIGENCE AGENCY (DIA).VIRGINIA CONTRACTING ACTIVITY",
+  "posted_date": "2026-07-13",
+  "type": "Solicitation",
+  "set_aside": null,
+  "naics": "['541511']",
+  "response_deadline": "2026-07-15",
+  "ui_link": "https://sam.gov/workspace/contract/opp/66e9d5ff2ea8400f8e64b787fddd63c8/view",
+  "description_text": "This requirement is to provide IDEA Data Analysis Software licenses, maintenance, and support. \n\nThis is an immediate operational need requiring a proven, production-ready solution. The Government requires a \"plug and play\" capability that can be deployed within our existing network architecture without modification. Our current IDEA application has recieved CIO Security approval and an Authority to Operate (ATO). We cannot accommodate customized or boutique solutions tht require significant integration time, as any delay in implementation will directly impact mission effectiveness. Proposed solutions must demonstrate compatibility with our approved security posture and existing network infrastructure to ensure rapid deployment and operational capability.",
+  "contacts": [
+    "kaitlyn.kroner@dodiis.mil"
+  ]
+}
