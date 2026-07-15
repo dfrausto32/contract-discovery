@@ -1,9 +1,11 @@
 # GovCon Opportunity Index
 
-_Last updated 2026-07-14 — 12 opportunities, newest posted first._
+_Last updated 2026-07-15 — 14 opportunities, newest posted first._
 
 | Posted | Title | Agency | Type | AI Score | Deadline | SAM.gov |
 |--------|-------|--------|------|---------:|----------|---------|
+| 2026-07-14 | [Request for Information (RFI) for Army Enterprise Identity, Credential, and Access Management (E-ICAM) Services Delivery Contract](2026-07-14__5da029b043a64740a058a5543687c326) | DEPT OF DEFENSE.DEPT OF THE ARMY.AMC.ACC.ACC-CTRS.ACC-APG.W6QK ACC-APG | Sources Sought | 64 | 2026-08-04 | [open](https://sam.gov/workspace/contract/opp/5da029b043a64740a058a5543687c326/view) |
+| 2026-07-14 | [INTEGRATED TEST LABORATORY (ITL) SUPPORT](2026-07-14__a294c4c6b0954bb5bdeccdec4f014b9d) | HOMELAND SECURITY, DEPARTMENT OF.US COAST GUARD.HQ CONTRACT OPERATIONS (CG-912)(000 | Sources Sought | 78 | 2026-07-22 | [open](https://sam.gov/workspace/contract/opp/a294c4c6b0954bb5bdeccdec4f014b9d/view) |
 | 2026-07-13 | [Persistent Cyber Training Environment (PCTE) Cyber Range Development Software Application Project (Simulated Internet for Cyber Range Training Events)](2026-06-29__3e19e138b4ba4e15bf2b86cd383255d4) | DEPT OF DEFENSE.DEPT OF THE ARMY.AMC.ACC.ACC-CTRS.ACC-ORLANDO.W6QK ACC-ORLANDO | Sources Sought | 78 | 2026-07-21 | [open](https://sam.gov/workspace/contract/opp/445cc251b3e343a995619b7f2cfedf71/view) |
 | 2026-07-09 | [H40 Battle Management Systems Engineering Services](2026-07-09__b4ebbe3319c540d199d1e915f9152a00) | DEPT OF DEFENSE.DEPT OF THE NAVY.NAVSEA.NAVSEA WARFARE CENTER.NSWC DAHLGREN | Sources Sought | 58 | 2026-08-13 | [open](https://sam.gov/workspace/contract/opp/b4ebbe3319c540d199d1e915f9152a00/view) |
 | 2026-07-09 | [Software maintenance for DOFEMS](2026-07-09__e1762e782c2f4af290702c35448ebce2) | DEPT OF DEFENSE.DEPT OF THE NAVY.NAVSUP.NAVSUP GLOBAL LOGISTICS SUPPORT.NAVSUP FLC NORFOLK.NAVSUP FLT LOG CTR NORFOLK | Presolicitation | 88 | 2026-07-24 | [open](https://sam.gov/workspace/contract/opp/e1762e782c2f4af290702c35448ebce2/view) |
