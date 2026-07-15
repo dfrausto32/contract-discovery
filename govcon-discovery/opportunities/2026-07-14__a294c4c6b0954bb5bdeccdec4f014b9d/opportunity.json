@@ -1,0 +1,16 @@
+{
+  "notice_id": "a294c4c6b0954bb5bdeccdec4f014b9d",
+  "title": "INTEGRATED TEST LABORATORY (ITL) SUPPORT",
+  "solicitation_number": "70Z02326RCGC5I001",
+  "agency": "HOMELAND SECURITY, DEPARTMENT OF.US COAST GUARD.HQ CONTRACT OPERATIONS (CG-912)(000",
+  "posted_date": "2026-07-14",
+  "type": "Sources Sought",
+  "set_aside": null,
+  "naics": "['541513']",
+  "response_deadline": "2026-07-22",
+  "ui_link": "https://sam.gov/workspace/contract/opp/a294c4c6b0954bb5bdeccdec4f014b9d/view",
+  "description_text": "The ITL services being acquired are in support of Sea Commander and MCC systems aboard NSCs #1 through #10 and TRACEN Petaluma and include the following:\n\nSupport multiple USCG environments used for Engineering Services and Sustainment baselines which include:\n\nProviding the infrastructure and build environment to all required development C2CI systems.\n\nProviding the infrastructure to replicate fleet issues and remotely support issue resolution.\n\nMaintaining the Sea Commander, MCC and SBU systems across the fleet.\n\nCommon Source Library (CSL) development\n\nUSCG program LM-developed Software\n\nCybersecurity engineering & Data Analysis\n\nProvide a US government compliant Defense Counterintelligence and Security Agency (DCSA) processing environment using Risk Management Framework (RMF) policies:\n\nAllows ITL to operate a Secret environment under an Authority to Operate (ATO).\n\nSupport continuous cybersecurity monitoring for the System Security Plan (SSP).\n\nEnsure that ITL Vendor Service Agreements (VSAs) are compliant.\n\nMaintain the ITL GFE equipment and perform a yearly inventory",
+  "contacts": [
+    "andrew.gordon@uscg.mil"
+  ]
+}

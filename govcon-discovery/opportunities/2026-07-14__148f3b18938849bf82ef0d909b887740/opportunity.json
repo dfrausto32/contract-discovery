@@ -1,0 +1,16 @@
+{
+  "notice_id": "148f3b18938849bf82ef0d909b887740",
+  "title": "D--NEIC AI/ML AND DATA STREAMING DEVELOP",
+  "solicitation_number": "140G0226Q0049",
+  "agency": "INTERIOR, DEPARTMENT OF THE.US GEOLOGICAL SURVEY.OFC OF ACQUISITION  GRANTS-DENVER",
+  "posted_date": "2026-07-14",
+  "type": "Sources Sought",
+  "set_aside": null,
+  "naics": "['541511']",
+  "response_deadline": "2026-07-24",
+  "ui_link": "https://sam.gov/workspace/contract/opp/148f3b18938849bf82ef0d909b887740/view",
+  "description_text": "This Sources Sought Notice is being published for the purpose of conducting Market Research to obtain information regarding the availability and capability of all qualified sources to perform a potential requirement. This is not a solicitation. \n\nThe NEIC operates near-real-time detection algorithms on various types of streamed seismic data to improve the timeliness and accuracy of derived earthquake information products. The rapid detection algorithms are a mix of AI-driven algorithms and standard (non-AI driven) algorithms. These operational systems heavily integrate with each other to enhance derived scientific data products, with continuous seismic data acquisition systems, rapid data distribution systems, data analysis systems, data quality tools, and overall system health and monitoring systems. \nAdditionally, with the rapid advancements of AI technologies and approaches, these detection algorithms and along with new approaches developed by seismic researchers need to be improved, modernized, and implemented to perform on continuous seismic data in 24/7 operational environments to address NEIC\u00bfs mission critical requirements of timeliness and accuracy. \nNEIC Software needs focused on artificial intelligence/machine learning (AI/ML) enhancements for real-time, continuous, seismic data streams and detections and algorithmic monitoring include the following software development tasks:\n1. Develop and Maintain Real-Time Seismic Data Streaming and Detection Systems\n2. Modernize and Optimize Detection Algorithms\n3. Integrate and Advance AI/ML Capabilities\n4. Build and Integrate Monitoring, Archiving, and Distribution Systems\n5. Support Scientific Research and Innovation\nAll responses must be submitted NLT 0724/2026 at 2:30pm MST via e-mail to: yvette_sornberger@ios.doi.gov.\n\nThis is NOT a Request for Quotation (RFQ), Request for Proposal (RFP), or Invitation for Bid (IFB) and does not constitute any commitment by the Government. Responses to this sources sought notice will be used by the Government to make appropriate acquisition decisions. All interested sources must respond to future solicitation announcements separately from responses to this market survey. Any solicitation that may be issued will be posted on the SAM/FBO website and no paper copies will be provided.",
+  "contacts": [
+    "yvette_sornberger@ios.doi.gov"
+  ]
+}
