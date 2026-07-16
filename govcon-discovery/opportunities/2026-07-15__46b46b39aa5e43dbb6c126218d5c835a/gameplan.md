@@ -1,0 +1,227 @@
+## Go / No-Go
+- **Go, but likely as a teammate/sub or JV partner rather than solo prime.** The scope is broad enterprise IT operations across a global DoD education environment, and the candidate fits strongly in **cloud, DevSecOps, cybersecurity, platform engineering, and modernization**.
+- **Decisive factor:** confirm whether the candidate’s company can credibly cover or partner for **24x7 global ops, network operations, endpoint/device management, service desk/field support, and program management** at enterprise scale.
+- **Pursue immediately because the timeline is short.** This is a **presolicitation posted 2026-07-15 with a 2026-07-30 response deadline**, so market positioning, document collection, and teaming outreach need to happen now.
+
+## Immediate Actions (First 48–72 Hours)
+- **Log into SAM.gov and follow/save the opportunity**
+  - Register interest internally and assign an owner.
+  - Turn on updates/watch notifications for amendments and attachments.
+- **Open and download everything on the SAM.gov notice**
+  - Save the notice PDF/HTML.
+  - Download all attachments, draft PWS/SOW/SOO, pricing templates, draft instructions, attachment index, and any industry day or Q&A documents if available.
+  - Capture the procurement metadata in a bid tracker: NAICS 541519, solicitation number, agency, set-aside status, posted date, due date.
+- **Identify and record the government points of contact**
+  - Contracting Officer
+  - Contract Specialist
+  - Technical/Program POC if listed
+  - Verify email addresses and phone numbers from the SAM notice/attachments.
+- **Check whether the notice requests capability statements, comments, or feedback**
+  - Determine whether this presolicitation is informational only or whether industry responses are invited.
+  - Check for any **sources sought-style questions, capability package instructions, page limits, or Q&A windows**.
+- **Send a targeted capability statement if contact is appropriate**
+  - Tailor it to:
+    - global IT operations support
+    - DevSecOps
+    - cloud modernization
+    - cybersecurity / Zero Trust
+    - enterprise systems integration
+    - DoD delivery experience
+  - Include a concise note that the firm is interested in teaming or supporting as a specialized technical lead.
+- **Start teaming outreach immediately**
+  - Build a short list of likely primes/small businesses with:
+    - enterprise service desk/NOC/SOC experience
+    - DoDEA/DoD education footprint
+    - endpoint/device management
+    - global field support
+    - large IDIQ operations background
+  - Reach out with a one-page partner positioning brief.
+- **Review internal qualifications/compliance posture**
+  - Confirm **UEI, CAGE, SAM registration, reps and certs**, and any small business designations are active.
+  - Confirm whether the firm has or can access personnel with:
+    - Security+ / DoD 8140/8570-aligned certs
+    - ITIL
+    - PMP / agile PM
+    - cloud certifications
+- **Create a capture folder and response tracker**
+  - Store all files, deadlines, action owners, partner contacts, and open questions.
+  - Begin a compliance matrix as soon as scope documents are downloaded.
+
+## Preliminary Work
+- **Draft a DoWEA-relevant capability statement**
+  - Core sections should emphasize:
+    - enterprise IT operations support
+    - DevSecOps and CI/CD pipeline engineering
+    - cloud infrastructure and IaC
+    - cybersecurity integration and RMF/FedRAMP-style support
+    - systems integration and modernization of legacy environments
+    - technical documentation and process maturity
+  - Add a “how we fit this requirement” section tailored to:
+    - worldwide operations support
+    - mission-critical education systems
+    - secure, resilient, distributed environments
+- **Prepare 3–5 past performance narratives**
+  - Prioritize examples that show:
+    - production support for complex federal/DoD systems
+    - cloud migration or cloud-native operations
+    - DevSecOps pipeline implementation
+    - cybersecurity tooling integration
+    - enterprise integration across multiple systems/users
+    - support for geographically distributed users or organizations
+  - Draft each in a reusable format:
+    - customer/problem
+    - scope/scale
+    - technologies
+    - security/compliance context
+    - measurable outcomes
+- **Develop a partner gap analysis**
+  - Candidate likely covers well:
+    - cloud/platform engineering
+    - DevSecOps
+    - backend/API services
+    - cybersecurity engineering support
+    - automation
+    - technical architecture
+  - Likely partner gaps to fill:
+    - service desk/help desk at scale
+    - NOC/SOC operations
+    - endpoint/device lifecycle management
+    - global onsite support
+    - telecom/network operations
+    - large-program PMO staffing
+- **Research teaming partners**
+  - Focus on:
+    - small businesses already performing enterprise managed services for DoD/civilian agencies
+    - firms with DoDEA, Army, Air Force, DISA, or education-enterprise support past performance
+    - OEM/channel partners for endpoint management, MDM, networking, identity, and security platforms
+  - Prepare outreach language that positions the candidate as a **technical modernization/DevSecOps/cloud/cyber lead**.
+- **Verify entity and contract-readiness items**
+  - UEI and CAGE active
+  - NAICS 541519 listed in SAM
+  - Small business size status confirmed under 541519
+  - Representations and certifications current
+  - Banking and WOSB/HUBZone/8(a)/SDVOSB status, if any, current and documented
+- **Check likely vehicle/eligibility requirements**
+  - This appears to be a **small business set-aside** rather than a vehicle-limited task order, but confirm whether the final RFP will require:
+    - a specific agency vehicle
+    - facility clearance
+    - security clearances for staff
+    - 24x7 CONUS/OCONUS support capability
+- **Prepare staffing assumptions**
+  - Build a rough labor map for:
+    - PM/program control
+    - cloud engineers
+    - DevSecOps engineers
+    - cybersecurity analysts/engineers
+    - systems admins
+    - network engineers
+    - endpoint/device management specialists
+    - business analysts
+    - technical writers
+  - Identify which roles are internal vs. partner-supplied.
+
+## Documents to Obtain
+- **From the SAM.gov opportunity page**
+  - Full presolicitation notice text
+  - Any attached **draft PWS/SOW/SOO**
+  - Draft **instructions to offerors**
+  - Draft **evaluation criteria**
+  - Draft **pricing template or CLIN structure**
+  - Attachment list / exhibit list
+  - Q&A documents
+  - Industry day / site visit / conference materials, if posted
+  - Any incumbent or transition-related attachments
+- **Key requirement documents to look for specifically**
+  - Performance Work Statement (PWS)
+  - Statement of Work (SOW)
+  - Statement of Objectives (SOO)
+  - Labor category descriptions
+  - Technical environment overview
+  - Transition-in / phase-in requirements
+  - Security requirements / DD254 if classified or clearance-related work is involved
+  - Service level agreements / performance metrics
+  - CDRLs / deliverables list
+  - Staffing or key personnel requirements
+  - Place of performance details, including OCONUS locations
+- **Forms likely to appear later or in draft form**
+  - **SF-33** (common for negotiated procurements)
+  - **SF-1449** (if structured as a commercial item solicitation/order package)
+  - Section L/M instructions/evaluation criteria if FAR Part 15-style
+  - FAR/DFARS provision and clause attachments
+  - Pricing workbook in Excel
+  - Subcontracting or OCI representations if required
+- **Administrative and compliance documents to save**
+  - Amendment notices
+  - Questions and answers
+  - Contact lists
+  - Due-date updates
+  - Any small business coordination record if posted
+
+## Key Dates & Timeline
+- **Posted:** 2026-07-15
+- **Current response deadline shown:** 2026-07-30
+- **Deadline urgency:** **Yes — within 14 days.** This requires immediate capture action.
+- **Pre-solicitation Q&A window:** **Unknown from the summary.** Must verify on SAM.gov and in attachments within the first 24 hours.
+- **Industry day / site visit:** **Not mentioned in the summary.** Check attachments and amendment history.
+- **Likely near-term timeline**
+  - **Day 1:** download documents, identify POCs, confirm whether responses/comments are requested
+  - **Day 1–2:** capability statement tailoring, teaming outreach, gap analysis
+  - **Day 2–3:** submit any permitted expression of interest/capability package/questions
+  - **Before 2026-07-30:** monitor for amendments and refine teaming strategy for the final solicitation
+- **Longer-term contract timeline**
+  - Anticipated vehicle: **competitive IDIQ**
+  - Ordering structure: **1-year base + nine 1-year options** per notice description
+
+## Risks & Unknowns
+- **Set-aside risk**
+  - The notice says **anticipated Small Business Set-Aside**. Confirm:
+    - exact set-aside type
+    - whether the candidate’s entity qualifies under NAICS 541519
+    - whether teaming/JV arrangements are needed for eligibility
+- **Breadth-of-scope risk**
+  - This is broader than a pure software/platform effort and includes:
+    - enterprise IT operations
+    - cybersecurity
+    - cloud
+    - network ops
+    - device management
+    - PM/business analysis/documentation
+  - The candidate is strong technically but may need partners for **managed operations at global scale**.
+- **Operational scale risk**
+  - Supporting **~160 schools, 69,000+ students, and 11,800 employees across CONUS and OCONUS** implies:
+    - large user support footprint
+    - after-hours coverage
+    - logistics/device support complexity
+    - multilingual/time-zone/field support considerations
+- **Incumbent advantage**
+  - Global operations contracts often favor incumbents or firms with directly adjacent education/DoD managed services past performance.
+  - Need to identify likely incumbents and assess whether they are recompeting, subcontracting, or vulnerable due to modernization gaps.
+- **Security/compliance unknowns**
+  - Need clarity on:
+    - clearance requirements
+    - DD254 applicability
+    - RMF/ATO support depth
+    - Zero Trust maturity expectations
+    - required certifications for personnel
+- **Contract structure unknowns**
+  - Unknown at this stage:
+    - IDIQ ceiling
+    - task areas and CLINs
+    - labor categories
+    - contract type(s) by CLIN
+    - on-site vs remote percentage
+    - key personnel requirements
+- **Past performance positioning risk**
+  - Candidate has strong technical delivery experience, including DoD production systems, but may need to frame past performance carefully to show:
+    - enterprise support maturity
+    - operational continuity
+    - user support outcomes
+    - secure global infrastructure support
+- **NAICS and size-standard check required**
+  - Confirm the company’s size status under **541519** and whether SAM/profile records match.
+- **Possible OCI or partner conflict risk**
+  - If pursuing as a subcontractor, screen potential partners for:
+    - OCI concerns
+    - incumbent lock-in
+    - exclusivity demands
+    - weak technical fit where the candidate could be used only as resume support rather than meaningful delivery lead.
