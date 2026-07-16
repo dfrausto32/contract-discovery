@@ -1,0 +1,16 @@
+{
+  "notice_id": "73c0d39a6d84476396ff2fac2087b04d",
+  "title": "Intent to Sole Source CNAP Aviation Cost Evaluation System (ACES) Support",
+  "solicitation_number": "1301383174",
+  "agency": "DEPT OF DEFENSE.DEPT OF THE NAVY.NAVSUP.NAVSUP GLOBAL LOGISTICS SUPPORT.NAVSUP FLC SAN DIEGO.NAVSUP FLT LOG CTR  SAN DIEGO",
+  "posted_date": "2026-07-15",
+  "type": "Presolicitation",
+  "set_aside": "NONE",
+  "naics": "['541330']",
+  "response_deadline": "2026-07-30",
+  "ui_link": "https://sam.gov/workspace/contract/opp/73c0d39a6d84476396ff2fac2087b04d/view",
+  "description_text": "NAVSUP Fleet Logistics San Diego (FLCSD) intents to award a Sole Source contract to CACI, INC. FEDERAL 14370 Newbrook Drive, Chantilly, Virginia 20151 in accordance with Revolutionary Far Overhaul (RFO) 6.103-1 Only one responsible source and this notice is posted in accordance with RFO 5.101 Presolicitation Notice.\n\nCommander, Naval Air Forces, U. S. Pacific Fleet (CNAP) requires non-personal technical and analytical support services for the Aviation Cost Evaluation System (ACES) to sustain and enhance ACES, which is the authoritative system used by Commander, Naval Air Forces (CNAF) for calculating and defending the Flying Hour Program (FHP) budget.\n\nThis sole source requirement is for a 6-month base and 2-month option to allow for the transition of the ACES database to the GOVCLOUD and migrating the ASKIT and ACE reporter systems from a contractor-hosted commercial domain to an approved .mil domain.\n\nThe limited period of performance is the minimum timeframe required to complete the GOVCLOUD transition, secure the necessary ATO, migrate the systems to the .mil domain, and stabilize the system under the Navy ERP data structures. This short-term requirement is intended solely to allow for an uninterrupted transition, mitigating unacceptable risk to critical fleet operations and financial data reporting, with a competitive SeaPort-NxG solicitation to follow for long-term sustainment.\n\nThis Notice of Intent is not a request for competitive quotes or proposals. No solicitation or RFQ will be forthcoming. All responsible sources may submit a capability statement, quotation, bid, or proposal, as appropriate, which will be considered by the agency. Information received will be considered for the sole purpose of determining whether to conduct a competitive procurement. A determination by the Government not to compete this proposed contract is entirely at the discretion of the Government.\n\nSpecial Note to Interested Parties: The ACES, ASKIT, and ACE reporter systems currently reside on the incumbent contractor's commercial domain. Any capability statement or submission must explicitly demonstrate how a third party could legally, technically, and securely access, extract, and migrate this data from a competitor's hosted environment to the GOVCLOUD without causing an unacceptable delay or disruption to the Navy's FHP budget cycle.",
+  "contacts": [
+    "christine.jordan@navy.mil"
+  ]
+}
