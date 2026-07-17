@@ -1,0 +1,204 @@
+## Go / No-Go
+- **Go.** Strong technical alignment: cloud modernization, platform transition, DevSecOps, backend/API engineering, IaC, and secure automation all map directly to the DGIB modernization themes.
+- **Go with a teaming mindset.** This is a large, mission-critical VA benefits platform; unless the candidate already has strong VA/VBA prime past performance and federal capture infrastructure, best path is likely as a **subcontractor/teaming partner** to a prime pursuing VA digital modernization.
+- **Decisive factors:** relevance of production modernization experience, ability to speak to **claims/workflow automation + secure cloud transition**, and whether the candidate can quickly package federal-ready past performance and compliance credibility.
+
+## Immediate Actions (First 48–72 Hours)
+- **Register interest / track the notice on SAM.gov**
+  - Log in to SAM.gov and add the opportunity to followed/saved items.
+  - Enable notifications for amendments, attachments, and Q&A updates.
+- **Download all available solicitation materials**
+  - Download the full RFI notice text and every attachment from the SAM.gov listing.
+  - Save file names, versions, and posting dates in a tracking folder.
+- **Identify the government points of contact**
+  - Capture the contracting officer, contract specialist, and any technical POC listed in the notice or attachments.
+  - Record email, phone, office, and any submission instructions exactly as written.
+- **Review submission instructions carefully**
+  - Confirm page limits, response format, due date/time zone, attachment naming, and whether capability narratives or questionnaire responses are requested.
+  - Verify whether responses must address NAICS feedback, acquisition strategy, contract type, or technical architecture questions.
+- **Check for pre-solicitation engagement windows**
+  - Look for:
+    - industry day / vendor engagement session
+    - written Q&A window
+    - capability briefing request option
+    - one-on-one meetings
+  - If none are listed, note that and monitor SAM.gov for amendments.
+- **Send a short capability introduction**
+  - Prepare a concise 1-page email intro to the listed POC highlighting:
+    - cloud/platform modernization experience
+    - migration from vendor-managed to agency-managed environments
+    - DevSecOps and ATO/FedRAMP support
+    - claims/process automation and systems integration experience
+  - Do **not** send pricing or a proposal.
+- **Assess whether to respond directly, team, or both**
+  - If the candidate is a solo consultant/small firm, immediately identify likely primes with VA/VBA presence and send a targeted teaming note with the opportunity number and capability fit.
+- **Build an internal response matrix**
+  - Create a compliance sheet with:
+    - all RFI questions
+    - requested artifacts
+    - page limits
+    - due date
+    - owner per section
+
+## Preliminary Work
+- **Draft a DGIB-relevant capability statement**
+  - Tailor sections specifically to:
+    - digital claims processing modernization
+    - backend/API and microservices engineering
+    - workflow automation
+    - cloud migration and landing zone buildout
+    - Kubernetes/Docker platform operations
+    - Terraform/Ansible infrastructure automation
+    - CI/CD and automated testing
+    - Zero Trust, IAM, logging, SIEM integration, vulnerability management
+    - ATO/RMF/STIG/FedRAMP support
+    - data integration, ETL/ELT, and reporting/analytics
+- **Prepare 2–4 past performance narratives**
+  - Draft concise narratives emphasizing:
+    - modernization of legacy or mission-critical systems
+    - migration from contractor-hosted/managed to customer-owned cloud infrastructure
+    - secure platform engineering in regulated environments
+    - automation of manual workflows or adjudication-like processes
+    - integration with multiple enterprise systems and data sources
+  - For each narrative include:
+    - client/mission context
+    - challenge
+    - technical solution
+    - tools/stack
+    - measurable outcomes
+    - security/compliance elements
+- **Develop a response position on likely RFI topics**
+  - Be ready to address:
+    - recommended target architecture for DGIB
+    - phased migration strategy
+    - transition risk controls
+    - automation opportunities in claims lifecycle
+    - product delivery model / agile release approach
+    - contract structure recommendations
+    - NAICS appropriateness for 541512
+- **Research likely teaming partners/primes**
+  - Target firms with:
+    - existing VA/VBA footprint
+    - T4NG2 / VA digital modernization experience
+    - benefits systems transformation experience
+    - strong capture teams for civilian health/benefits agencies
+  - Build a shortlist of 10–15 and send tailored outreach.
+- **Verify entity readiness**
+  - Confirm:
+    - UEI active
+    - CAGE active
+    - SAM registration current
+    - reps/certs up to date
+    - small business socioeconomic status accurately listed
+- **Check contract vehicle positioning**
+  - Identify whether the candidate or target primes hold relevant vehicles such as:
+    - VA/TAC or successor vehicles if applicable
+    - GSA MAS SINs aligned to IT services
+    - 8(a) STARS III
+    - CIO-SP4 status if relevant
+    - other agency BPAs/IDIQs with VA access
+  - Even though this is an RFI, vehicle access may shape teaming strategy later.
+- **Assemble compliance/security evidence**
+  - Prepare reusable material on:
+    - secure SDLC / DevSecOps
+    - ATO support experience
+    - vulnerability scanning and remediation workflow
+    - IaC guardrails
+    - IAM and least privilege patterns
+    - audit logging and monitoring architecture
+- **Create a civilian-agency relevance crosswalk**
+  - Translate DoD experience into language VA will value:
+    - mission-critical service delivery
+    - high-volume transaction processing
+    - beneficiary/customer experience
+    - continuity, resiliency, and auditability
+    - legislative/policy-driven change management
+
+## Documents to Obtain
+- **From the SAM.gov opportunity page**
+  - Full RFI notice text
+  - All attachments associated with solicitation **36C10D26Q0163**
+  - Any:
+    - draft PWS / SOW / SOO
+    - performance requirements summary
+    - response template
+    - questionnaire
+    - architecture overview
+    - current-state environment description
+    - transition objectives
+    - capability matrix
+    - questions for industry
+    - attachment describing submission instructions
+- **Specifically look for documents covering**
+  - DGIB current architecture
+  - claims processing workflows
+  - current managed service/vendor environment
+  - desired end-state cloud/hosting model
+  - integration touchpoints with VA enterprise systems
+  - cybersecurity/compliance requirements
+  - data/reporting requirements
+  - incumbent transition expectations
+- **Standard forms**
+  - Because this is an **RFI / Sources Sought**, standard proposal forms like **SF-1449** or **SF-33** may **not** be included yet.
+  - If present, download them, but do not expect them to control this response.
+- **Version control**
+  - Save PDFs/screenshots of the original listing and each amendment in case the notice changes before the deadline.
+
+## Key Dates & Timeline
+- **Posted:** 2026-07-16
+- **Response deadline:** 2026-08-28
+- **Urgency flag:** Deadline is **not within 14 days**.
+- **Known pre-solicitation/Q&A dates:** Not identified in the provided text; must be confirmed from the SAM.gov listing and attachments.
+- **Recommended internal timeline**
+  - **Day 1–3:** download materials, identify POCs, create response matrix, launch teaming outreach
+  - **Day 4–7:** draft tailored capability statement and past performance summaries
+  - **Week 2:** refine technical viewpoint on architecture, transition, and automation strategy
+  - **Week 3–4:** submit RFI response and parallel capability package to likely primes
+  - **Before 2026-08-28:** confirm final submission format/time zone and submit with receipt confirmation
+
+## Risks & Unknowns
+- **Incumbent advantage likely**
+  - The notice references transition from a **current Managed Service Vendor**, which strongly suggests an incumbent or entrenched vendor environment.
+- **May favor larger integrators or established VA primes**
+  - The scope appears enterprise-scale, mission-critical, and potentially broad enough that the eventual procurement may prefer firms with strong VA/VBA past performance and delivery capacity.
+- **RFI only—procurement path unknown**
+  - Unknowns include:
+    - set-aside status
+    - contract type
+    - ceiling/value
+    - period of performance
+    - on-site vs remote expectations
+    - required labor categories
+    - security clearance/public trust requirements
+- **Need to clarify acquisition strategy**
+  - Could become:
+    - full and open
+    - small business set-aside
+    - task order under existing IDIQ/GWAC
+    - VA-specific vehicle action
+  - This directly affects bid strategy.
+- **Domain depth risk**
+  - Technical fit is strong, but **VA education benefits / GI Bill claims domain knowledge** may be a gap versus competitors with direct VBA benefits systems experience.
+- **Past performance framing risk**
+  - If most prior work is DoD-focused, narratives must be reframed around **citizen services, benefits processing, enterprise modernization, and compliant cloud operations**.
+- **Scope ambiguity**
+  - The provided description suggests multiple possible workstreams:
+    - remaining platform development
+    - infrastructure transition
+    - claims automation
+    - legacy decoupling
+    - user experience improvement
+    - analytics/reporting
+  - Need the full attachments to know whether the opportunity is a single integrated effort or multiple support areas.
+- **Compliance burden may be substantial**
+  - Potential requirements may include:
+    - VA security controls
+    - RMF/ATO artifacts
+    - Section 508
+    - records management
+    - privacy/PII/PHI-adjacent controls
+    - integration with VA enterprise tooling
+- **Competition level likely high**
+  - VA digital modernization + benefits mission + 541512 generally attracts major federal IT firms, especially those with health/benefits transformation credentials.
+- **Prime/sub strategy must be decided early**
+  - If the candidate lacks direct VA access, contract vehicles, or business development bandwidth, pursuing as a **specialized technical subcontractor** may be the highest-probability path.
