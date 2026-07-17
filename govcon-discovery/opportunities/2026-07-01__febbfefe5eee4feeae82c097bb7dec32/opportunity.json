@@ -1,15 +1,15 @@
 {
-  "notice_id": "febbfefe5eee4feeae82c097bb7dec32",
+  "notice_id": "9e5be45785a048a8896cdee40e5337c0",
   "title": "Davis Barracks Chiller Plant Control System Integration, U.S. Military Academy, West Point, NY",
   "solicitation_number": "W912WJ26QA137",
   "agency": "DEPT OF DEFENSE.DEPT OF THE ARMY.US ARMY CORPS OF ENGINEERS.ENGINEER DIVISION NORTH ATLANTIC.ENDIST NEW ENGLAND.W2SD ENDIST NEW ENGLAND",
-  "posted_date": "2026-07-01",
-  "type": "Presolicitation",
+  "posted_date": "2026-07-16",
+  "type": "Solicitation",
   "set_aside": "SBA",
   "naics": "['238210']",
-  "response_deadline": null,
-  "ui_link": "https://sam.gov/workspace/contract/opp/febbfefe5eee4feeae82c097bb7dec32/view",
-  "description_text": "The U.S. Army Corps of Engineers \u2013 New England District is issuing a Presolicitation Notice for Davis Barracks Chiller Plant Control System Integration, U.S. Military Academy, West Point, NY.\n\nQUESTIONS REGARDING THE PROCUREMENT WILL NOT BE ANSWERED DURING THE PRESOLICITATION PHASE. SUBMIT QUESTIONS TO THE CONTRACT SPECIALIST AFTER THE SOLICITATION AND ASSOCIATED DOCUMENTS HAVE BEEN POSTED.\n\nTHE WORK CONSISTS OF: Contractor shall provide all software engineering, programming, labor, materials, and equipment necessary to migrate the existing Davis Chiller Plant Building Automation System (BAS) from its current proprietary, compiled-code architecture to a fully native, open, and editable Niagara 4 (N4) format. This work includes the full integration of new plant equipment (Chiller-7, Cooling Tower-7, Primary Chilled Water Pumps CHWP-6/7, Condenser Water Pumps CWP-6/7, Heat Trace and Secondary Chilled Water Pumps SCHWP-3/4) to create a single, cohesive, and maintainable 7-chiller plant control system.\n\nThe magnitude of construction is between $100,000 and $250,000. For additional information on construction contracts awarded to small businesses please visit: Partnering With Us (army.mil).\n\nThis is not a request for quotes at this time. The solicitation requirements and contract documents, to include instructions for submission, and the response date will be available on or about July 16, 2026. Neither telephonic, mailed nor faxed requests for hard copies of this solicitation will be accepted. The solicitation will only be available online; in order to download the solicitation offerors must access the Contract Opportunities website (www.SAM.gov). \n\nThis procurement is set-aside for small business vendors. The applicable NAICS code is 238210 with a Small Business Size Standard of $19 Million.\n\nALL VENDORS MUST HAVE AN ACTIVE REGISTRATION IN SAM.GOV AT THE TIME OF SUBMISSION IN ORDER TO BE CONSIDERED. ANY VENDOR THAT DOES NOT HAVE AN ACTIVE SAM.GOV REGISTRATION WILL BE REJECTED AS NON RESPONSIVE.",
+  "response_deadline": "2026-07-30",
+  "ui_link": "https://sam.gov/workspace/contract/opp/9e5be45785a048a8896cdee40e5337c0/view",
+  "description_text": "The U.S. Army Corps of Engineers \u2013 New England District is issuing a Solicitation Notice for Davis Barracks Chiller Plant Control System Integration, U.S. Military Academy, West Point, NY.\n\nTHE WORK CONSISTS OF: Contractor shall provide all software engineering, programming, labor, materials, and equipment necessary to migrate the existing Davis Chiller Plant Building Automation System (BAS) from its current proprietary, compiled-code architecture to a fully native, open, and editable Niagara 4 (N4) format. This work includes the full integration of new plant equipment (Chiller-7, Cooling Tower-7, Primary Chilled Water Pumps CHWP-6/7, Condenser Water Pumps CWP-6/7, Heat Trace and Secondary Chilled Water Pumps SCHWP-3/4) to create a single, cohesive, and maintainable 7-chiller plant control system.\n\nThe magnitude of construction is between $100,000 and $250,000. For additional information on construction contracts awarded to small businesses please visit: Partnering With Us (army.mil).\n\nThis procurement is set-aside for small business vendors. The applicable NAICS code is 238210 with a Small Business Size Standard of $19 Million.\n\nALL VENDORS MUST HAVE AN ACTIVE REGISTRATION IN SAM.GOV AT THE TIME OF SUBMISSION IN ORDER TO BE CONSIDERED. ANY VENDOR THAT DOES NOT HAVE AN ACTIVE SAM.GOV REGISTRATION WILL BE REJECTED AS NON RESPONSIVE.",
   "contacts": [
     "alicia.n.lacrosse@usace.army.mil"
   ]

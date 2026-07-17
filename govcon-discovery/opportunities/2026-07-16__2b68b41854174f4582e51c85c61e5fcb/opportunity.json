@@ -1,0 +1,16 @@
+{
+  "notice_id": "2b68b41854174f4582e51c85c61e5fcb",
+  "title": "Cooperative Driving Automation (CDA) Small-Scale Industry Prototype",
+  "solicitation_number": "693JJ3-26-BAA-0005",
+  "agency": "TRANSPORTATION, DEPARTMENT OF.FEDERAL HIGHWAY ADMINISTRATION.693JJ3 ACQUISITION AND GRANTS MGT",
+  "posted_date": "2026-07-16",
+  "type": "Presolicitation",
+  "set_aside": "NONE",
+  "naics": "['541715']",
+  "response_deadline": null,
+  "ui_link": "https://sam.gov/workspace/contract/opp/2b68b41854174f4582e51c85c61e5fcb/view",
+  "description_text": "This is a presolicitation for the Broad Agency Announcement (BAA) that will be issued in late July 2026.\n\nBACKGROUND:\n\nThe United States Department of Transportation (USDOT) envisions a future transportation ecosystem where Cooperative Driving Automation (CDA) complements both human-driven and automated vehicles to improve roadway safety, mobility, and operational efficiency. While standalone vehicle automation has advanced, it continues to struggle with complex edge cases such as occlusion, complex merging, or identifying pedestrians hidden behind buildings at corners, and vehicle sensors alone cannot adequately resolve these issues.\n\nPrior USDOT-supported research projects have successfully demonstrated the technical proof-of-concept at technology readiness levels (TRL) of 3-5 for CDA applications in laboratory and closed environments. However, most new vehicles are not equipped with CDA capabilities and Original Equipment Manufacturers (OEMs) remain reluctant to integrate these technologies into production lines due to a lack of consumer awareness and unclear regulatory, policy, and institutional frameworks.\n\nThis acquisition seeks to build on foundational CDA research by bridging the gap between research concepts and commercial viability. There is a critical need to develop and test pre-production, industry-led prototypes at a TRL of 6-7, to validate that the data shared between vehicles and roadside infrastructure is accurate, secure, and reliable enough to support functional safety. By demonstrating CDA technologies in operational conditions, researchers will gain a better understanding of cooperative systems and if they are more valuable in terms of improving roadway safety, than standalone automation or vehicle-to-everything (V2X) technologies alone.\n\nPURPOSE:\n\nThe purpose of this requirement is to demonstrate industry-led CDA prototypes in controlled and real-world conditions in order to generate data-driven insights that will support the development of a national strategy to deploy CDA across rural, suburban, and urban roadway systems. This effort prioritizes industry-ready CDA technology for use cases with clear safety and/or mobility benefit potential, specifically focusing on: (1) Work Zone Management, (2) Traffic Incident Management, (3) Cooperative Perception, and/or (4) Emergency/Transit Vehicle Awareness.\n\nContractors will first validate the prototype's interoperability, functional safety, and cybersecurity in a relevant, controlled testbed environment. Following successful controlled testing, the effort will progress into a small scale real-world demonstration on public roads with mixed traffic to validate operational readiness and generate data-driven insights.",
+  "contacts": [
+    "jessica.prutz@dot.gov"
+  ]
+}

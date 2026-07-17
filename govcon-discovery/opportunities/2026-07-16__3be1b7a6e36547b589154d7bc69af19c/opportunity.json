@@ -1,0 +1,16 @@
+{
+  "notice_id": "3be1b7a6e36547b589154d7bc69af19c",
+  "title": "CCTV Refresh",
+  "solicitation_number": "FA560626QA054",
+  "agency": "DEPT OF DEFENSE.DEPT OF THE AIR FORCE.U.S. AIR FORCES IN EUROPE.FA5606  52 CONS DA LGC",
+  "posted_date": "2026-07-16",
+  "type": "Presolicitation",
+  "set_aside": "NONE",
+  "naics": "['561621']",
+  "response_deadline": "2026-07-23",
+  "ui_link": "https://sam.gov/workspace/contract/opp/3be1b7a6e36547b589154d7bc69af19c/view",
+  "description_text": "This presolicitation notice is being issued in accordance with Revolutionary FAR Overhaul Part 10, Market Research. It is for information, planning and market research purposes only and shall not be construed as either a solicitation or obligation on the part of the Air Force. The US Air Force will use this market research information to assess the market's capability to successfully meet the Air Force's requirements for the update of the CCTV Surveillance System.\n\nThe Contractor shall design, acquire, install, integrate, test, and deliver a complete CCTV surveillance system capable of supporting Security Forces operations throughout Spangdahlem Air Base. The Contractor shall be responsible for ensuring compatibility between all hardware, software, network infrastructure, and cybersecurity requirements necessary to install a fully operational system.\n\nThe CCTV surveillance system shall provide continuous monitoring capability and support both fixed and pan-tilt-zoom camera configurations. The system shall be capable of operating during both daytime and nighttime conditions and shall provide live viewing, recording, playback, export, and archival functions. The system shall be designed to accommodate additional monitoring stations and up to 2,000 cameras in order to support future requirements. The Contractor shall provide sufficient storage capacity to maintain a minimum of 30 days of recorded video while ensuring authorized users can readily access, review, and export recorded footage. The system shall support geospatial camera mapping, role-based user access controls, and centralized monitoring functions required to support Security Forces operations.\n\nCompliance with: DAFI 31-101, UFC 4-022-01, UFCD 4-021-02, Configuration Management Database, DISA Secuirty Technical Implementation Guides.\n\nThe upgrade requires the cameras and support equipment to be the same brand as the ones currently installed, BRAND NAME BOSCH. \n\nPlease see attachments for further information.",
+  "contacts": [
+    "katrin.arnoldy.de@us.af.mil"
+  ]
+}
