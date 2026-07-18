@@ -1,9 +1,10 @@
 # GovCon Opportunity Index
 
-_Last updated 2026-07-17 — 18 opportunities, newest posted first._
+_Last updated 2026-07-18 — 19 opportunities, newest posted first._
 
 | Posted | Title | Agency | Type | AI Score | Deadline | SAM.gov |
 |--------|-------|--------|------|---------:|----------|---------|
+| 2026-07-17 | [Title: Electronic Lab Notebook Software Workflow Integration](2026-07-17__2b191381eceb495dbe479d9d92956ebe) | HEALTH AND HUMAN SERVICES, DEPARTMENT OF.OFFICE OF THE ASSISTANT SECRETARY FOR FINANCIAL RESOURCES (ASFR).OMAS STRATEGIC BUYING CENTER - INFORMATION TECHNOLOGY | Presolicitation | 66 | 2026-07-28 | [open](https://sam.gov/workspace/contract/opp/2b191381eceb495dbe479d9d92956ebe/view) |
 | 2026-07-16 | [R499--Request for Information  Digital GI Bill Automation and Modernization](2026-07-16__eb77c56b92894dd1ad830bca6659ef6a) | VETERANS AFFAIRS, DEPARTMENT OF.VETERANS AFFAIRS, DEPARTMENT OF.VETERANS BENEFITS ADMIN (36C10D) | Sources Sought | 88 | 2026-08-28 | [open](https://sam.gov/workspace/contract/opp/eb77c56b92894dd1ad830bca6659ef6a/view) |
 | 2026-07-15 | [IT Global Operation Support Services (DOWEA)](2026-07-15__46b46b39aa5e43dbb6c126218d5c835a) | DEPT OF DEFENSE.DEPT OF DEFENSE EDUCATION ACTIVITY (DODEA).DOD EDUCATION ACTIVITY | Presolicitation | 88 | 2026-07-30 | [open](https://sam.gov/workspace/contract/opp/46b46b39aa5e43dbb6c126218d5c835a/view) |
 | 2026-07-15 | [INTEGRATED LIBRARY SYSTEM](2026-07-15__6ceea8e1c11f4d61b2bd9bc0d682437e) | ADMINISTRATIVE OFFICE OF THE US COURTS.ADMINISTRATIVE OFFICE OF THE US COURTS.AOUSC-PROCUREMENT MANAGEMENT DIV | Sources Sought | 62 | 2026-08-17 | [open](https://sam.gov/workspace/contract/opp/6ceea8e1c11f4d61b2bd9bc0d682437e/view) |
