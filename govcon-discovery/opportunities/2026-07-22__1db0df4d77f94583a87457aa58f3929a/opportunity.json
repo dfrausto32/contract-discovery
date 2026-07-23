@@ -1,0 +1,16 @@
+{
+  "notice_id": "1db0df4d77f94583a87457aa58f3929a",
+  "title": "Benchtop Spectroradiometer System with Flexible Microscope Probes and SDK",
+  "solicitation_number": "CDRH-OSEL-26-C-D718",
+  "agency": "HEALTH AND HUMAN SERVICES, DEPARTMENT OF.FOOD AND DRUG ADMINISTRATION.FOOD AND DRUG ADMINISTRATION",
+  "posted_date": "2026-07-22",
+  "type": "Combined Synopsis/Solicitation",
+  "set_aside": "NONE",
+  "naics": "['423450']",
+  "response_deadline": "2026-07-29",
+  "ui_link": "https://sam.gov/workspace/contract/opp/1db0df4d77f94583a87457aa58f3929a/view",
+  "description_text": "This is a combined synopsis/solicitation for commercial products prepared in accordance with the format in FAR Subpart 12.6, as supplemented with additional information included in this notice. This announcement constitutes the only solicitation; quotations are being requested, and a separate written solicitation will not be issued. The solicitation number is CDRH-OSEL-26-C-D718, issued as a Request for Quotations (RFQ).\n\nThe U.S. Food and Drug Administration (FDA), Center for Devices and Radiological Health (CDRH), Office of Science and Engineering Laboratories (OSEL), requires a high-precision benchtop spectroradiometer system for acquiring spectral data from a microscope: (1) a benchtop spectroradiometer (wavelength range at least 380-780 nm, back-thinned cooled CCD with at least 512 elements, spectral bandwidth under 5 nm, wavelength accuracy under 0.5 nm, variable internal apertures of 2, 1, and 0.1-0.25 degrees); (2) flexible probes (4 ft or longer) for luminance/radiance measurement of a light microscope; and (3) a fully documented Software Development Kit with command-line control (Python/MATLAB) and raw-data export, compatible with Windows 10 or later. Full salient characteristics are in the attached Statement of Work. Equipment shall be new and non-refurbished, calibrated prior to delivery with certificate, with a minimum 1-year warranty.\n\nThis acquisition is unrestricted (full and open competition) under FAR Parts 12 and 13; NAICS 423450 (size standard 200 employees); PSC 6650. A single firm-fixed-price purchase order will be awarded on a Lowest-Priced Technically Acceptable (LPTA) basis. Delivery is required within 60 days after award, FOB Destination, Silver Spring, MD.\n\nVendor questions are due July 24, 2026, 12:00 PM ET by email. Quotes are due July 29, 2026, 12:00 PM ET by email to james.jenretteiii@fda.hhs.gov. Quotes shall include itemized all-inclusive pricing for CLINs 0001-0003 (any tariff/surcharge identified separately), a point-by-point statement of compliance against the SOW salient characteristics with supporting literature, delivery confirmation, warranty and recalibration-support terms, UEI/CAGE/business size, and 60-day quote validity. Quoters must be actively registered in SAM.gov. FAR 52.212-1, 52.212-3, 52.212-4, and 52.212-5 apply. See the attached combined synopsis/solicitation document and Statement of Work for full terms.",
+  "contacts": [
+    "james.jenretteiii@fda.hhs.gov"
+  ]
+}
