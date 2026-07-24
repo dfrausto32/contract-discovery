@@ -1,0 +1,16 @@
+{
+  "notice_id": "f0f03457af5040f19a9192112ce5c2e7",
+  "title": "Translation and Interpretation Services (BAMC)",
+  "solicitation_number": "W81K0026RA042",
+  "agency": "DEPT OF DEFENSE.DEPT OF THE ARMY.US ARMY MEDICAL COMMAND.US ARMY HEALTH CONTRACTING ACTIVITY.W40M MRC0 WEST",
+  "posted_date": "2026-07-23",
+  "type": "Solicitation",
+  "set_aside": "SBA",
+  "naics": "['541930']",
+  "response_deadline": "2026-08-03",
+  "ui_link": "https://sam.gov/workspace/contract/opp/f0f03457af5040f19a9192112ce5c2e7/view",
+  "description_text": "This is a Request for Proposal (RFP) for non-personal services contract to provide Medical and Legal Interpretation and Translation Services (verbal & written), on-site American Sign Language (ASL) and Video Remote Interpretation (VRI) at Brooke Army Medical Center (BAMC), Fort Sam Houston, Texas which shall contribute to a stable workforce tasked with providing quality health care services to a diverse beneficiary population. The contractor shall provide Certification Commission for Healthcare Interpreters (CCHI) and/or National Board of Certification for Medical and Legal Interpreters (NBCMI) certified personnel to perform interpreter and translation service to include sign language services for the Medical Treatment Facility (MTF), at BAMC and outlying clinics as required by this Performance Work Statement (PWS).\n\nThe contractor shall provide Medical and Legal Interpretation and Translation Services to the standards as defined within this PWS. Languages include, but not limited to: American Sign Language, Amharic, Arabic, Cantonese, Chilean, Dari, Farsi, French, German, Hindi, Italian, Japanese, Korean, Laotian, Mandarin, Mongolian, Nepali, Pashto, Portuguese, Romanian, Russian, Spanish, Swahili, Tagalog, Taiwanese, Thai, Turkish, and Vietnamese.\n\nNOTE THE FOLLOWING REQUIREMENTS:\n\nThe service must be capable of being run from a standard web browser with no client software to be installed. Any solution that requires the installation of local client software or applications on government computers will require the vendor to possess a current, valid, and active Authority to Operate (ATO) for that software.\n\nFor browser-based Video Remote Interpretation (VRI) services, the Government requires that utilize standard web protocols (TCP 80/443). Due to the real-time protocols (like WebRTC or RTP) an active ATO from another DoD facility (excluding the VA) ensures their software, network ports, and streaming protocols have already been cyber-tested and that those specific streaming channels are safe.\n\nOfferor Questions Due: Tuesday, 28 July, 2026\n\nTime: 2:00 P.M. CST\n\nProposal Due: Monday, 3 August, 2026\n\nList of Attachments:\n\nAttachment 1 - Past Performance Information (PPI)\n\nAttachment 2 - Pricing Worksheet\n\nAttachment 3 - Medical Device Risk Assessment Form (MDRA)\n\nAttachment 4 - DHA Cyber Security\n\nAttachment 5 - Performance Work Statement (PWS)",
+  "contacts": [
+    "dulce.i.bares.civ@health.mil"
+  ]
+}
