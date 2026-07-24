@@ -1,9 +1,10 @@
 # GovCon Opportunity Index
 
-_Last updated 2026-07-23 — 20 opportunities, newest posted first._
+_Last updated 2026-07-24 — 21 opportunities, newest posted first._
 
 | Posted | Title | Agency | Type | AI Score | Deadline | SAM.gov |
 |--------|-------|--------|------|---------:|----------|---------|
+| 2026-07-23 | [Sources Sought Notice – Project Argos Agentic AI Proof of Concept (PPC)](2026-07-23__062cef11f5384443bfd84bf123404026) | HEALTH AND HUMAN SERVICES, DEPARTMENT OF.OFFICE OF THE ASSISTANT SECRETARY FOR FINANCIAL RESOURCES (ASFR).OMAS STRATEGIC BUYING CENTER - HHS MISSION | Sources Sought | 72 | 2026-07-30 | [open](https://sam.gov/workspace/contract/opp/062cef11f5384443bfd84bf123404026/view) |
 | 2026-07-22 | [Strategic Defense Industrial Base (SDIB) Software-as-a-Service (SaaS) and Analytical Support Services](2026-07-22__6ba89d0956d54c9185ce8d46f7665865) | DEPT OF DEFENSE.DEPT OF THE NAVY.SSP.PAE STRATEGIC SYSTEMS PROGRAMS | Sources Sought | 58 | 2026-08-03 | [open](https://sam.gov/workspace/contract/opp/6ba89d0956d54c9185ce8d46f7665865/view) |
 | 2026-07-17 | [Title: Electronic Lab Notebook Software Workflow Integration](2026-07-17__2b191381eceb495dbe479d9d92956ebe) | HEALTH AND HUMAN SERVICES, DEPARTMENT OF.OFFICE OF THE ASSISTANT SECRETARY FOR FINANCIAL RESOURCES (ASFR).OMAS STRATEGIC BUYING CENTER - INFORMATION TECHNOLOGY | Presolicitation | 66 | 2026-07-28 | [open](https://sam.gov/workspace/contract/opp/2b191381eceb495dbe479d9d92956ebe/view) |
 | 2026-07-16 | [R499--Request for Information  Digital GI Bill Automation and Modernization](2026-07-16__eb77c56b92894dd1ad830bca6659ef6a) | VETERANS AFFAIRS, DEPARTMENT OF.VETERANS AFFAIRS, DEPARTMENT OF.VETERANS BENEFITS ADMIN (36C10D) | Sources Sought | 88 | 2026-08-28 | [open](https://sam.gov/workspace/contract/opp/eb77c56b92894dd1ad830bca6659ef6a/view) |
